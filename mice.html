@@ -465,7 +465,7 @@
         <div id="soc-cards" class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           <!-- Card 1 -->
-          <div onclick="openDetailModal('지역·소상공인 ESG 협업존', '지역 로컬 농특산물 벤더 및 청년 창업가를 위한 전용 로컬 부스를 무상 지원하고 비즈니스 매칭을 알선합니다.')" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openLocalFoodModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=300" alt="Local Biz" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
@@ -478,12 +478,12 @@
               <div>
                 <div class="border-t border-slate-100 my-2"></div>
                 <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-650 font-black">
-                    <i data-lucide="store" class="w-4 h-4"></i>
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-local-food-icon-container">
+                    <i data-lucide="store" class="w-4 h-4" id="badge-local-food-icon"></i>
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">협력 모델</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">소상공인 연계</span>
+                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-local-food-label">협력 모델</span>
+                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-local-food-value">소상공인 연계</span>
                   </div>
                 </div>
               </div>
@@ -1148,6 +1148,40 @@
                 <div id="kpi-local-economy-details-box" class="hidden bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px] text-slate-600">
                   <span class="font-bold text-slate-700 block mb-0.5">기여 분야 / 세부 내역:</span>
                   <p id="kpi-local-economy-details-text" class="leading-relaxed"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diagram 11-2: 로컬푸드 구매 기여 파급효과 (기대효과) -->
+          <div id="kpi-local-food-card" class="hidden transition-all duration-300 mt-4">
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+              <div class="flex justify-between items-center pb-2 border-b border-slate-50">
+                <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
+                  <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i> 로컬푸드 협력 탄소 감축
+                </span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">로컬푸드 실천</span>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between bg-emerald-50/40 p-3 rounded-xl border border-emerald-100/60">
+                  <div>
+                    <span class="text-[9px] text-emerald-600 block font-bold">로컬푸드 탄소 감축량</span>
+                    <span id="kpi-local-food-reduced-carbon" class="text-sm font-black text-emerald-700">0.00 kgCO2eq</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[9px] text-slate-400 block font-bold">구매 금액 (원)</span>
+                    <span id="kpi-local-food-amount-text" class="text-xs font-bold text-slate-700">0원</span>
+                  </div>
+                </div>
+                <div id="kpi-local-food-details-box" class="hidden bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px] text-slate-600 space-y-1">
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-700">구매 매장 / 업체명:</span>
+                    <span id="kpi-local-food-store-text" class="font-semibold text-slate-800"></span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-700">구매 실천자:</span>
+                    <span id="kpi-local-food-username-text" class="font-semibold text-slate-800"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2494,6 +2528,93 @@
   </div>
 
   <!-- ==========================================
+       MODAL POPUP FOR LOCAL FOOD (로컬푸드 구매 탄소감축 계산기)
+       ========================================== -->
+  <div id="localFoodModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="leaf" class="w-5 h-5 text-emerald-600"></i>
+            로컬푸드 구매 탄소감축 계산기
+          </h3>
+          <p class="text-[10px] text-slate-500">소상공인 매장에서 로컬푸드를 구매한 내역을 등록하여 탄소감축을 실천하세요.</p>
+        </div>
+        <button onclick="closeLocalFoodModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-4">
+        <!-- Nickname/Submitter Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">구매자명 (선택)</label>
+          <input type="text" id="local-food-username" placeholder="이름 또는 기관명을 입력하세요" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium">
+        </div>
+
+        <!-- Store Name Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">구매 매장 / 소상공인 업체명 (필수)</label>
+          <input type="text" id="local-food-store" oninput="calculateLocalFood()" placeholder="예: 동문시장 올레 농산물, 삼다 청과" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium">
+        </div>
+
+        <!-- Purchase Amount Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">구매 금액 (원 - 필수)</label>
+          <div class="relative">
+            <input type="number" id="local-food-amount" oninput="calculateLocalFood()" min="0" placeholder="예: 50000" 
+                   class="w-full text-sm font-extrabold text-slate-800 px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all pr-14">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">원</span>
+          </div>
+        </div>
+
+        <!-- Live Calculation Box -->
+        <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100 text-xs text-indigo-950 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="font-medium text-slate-500">기본 식품 탄소배출량:</span>
+            <span id="local-food-basic-emission" class="font-bold text-slate-700">0.00 kgCO2eq</span>
+          </div>
+          <div class="flex justify-between items-center border-t border-indigo-100/50 pt-2">
+            <span class="font-bold text-indigo-900 flex items-center gap-1">
+              <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> 로컬푸드 탄소감축량 (50%):
+            </span>
+            <span id="local-food-reduction" class="text-sm font-black text-emerald-600">0.00 kgCO2eq</span>
+          </div>
+        </div>
+
+        <div class="bg-emerald-50/60 p-3 rounded-2xl border border-emerald-100 text-[10px] text-emerald-800 space-y-1">
+          <div class="flex items-center gap-1.5 font-bold">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-emerald-600"></i>
+            산정 기준 참고
+          </div>
+          <p class="text-[9px] text-slate-650 leading-relaxed">
+            로컬푸드 구매에 따른 푸드 마일리지 절감 및 물류 수송 과정 탄소 감축(지출액 1만원당 0.00034445 tCO2eq 감축) 공식을 반영한 결과입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button id="btn-cancel-submit-local-food" class="hidden px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-xl transition-all mr-auto active:scale-98" onclick="cancelLocalFoodSubmit()">
+          등록 취소
+        </button>
+        <button onclick="closeLocalFoodModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all active:scale-98">
+          취소
+        </button>
+        <button id="btn-submit-local-food" disabled onclick="submitLocalFood()" class="bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          실천 등록하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
        MODAL POPUP FOR LOCAL ECONOMY (지역경제 기여)
        ========================================== -->
   <div id="localEconomyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
@@ -3485,6 +3606,210 @@
     window.handleEsgReportFileChange = handleEsgReportFileChange;
     window.submitEsgReport = submitEsgReport;
     window.cancelEsgReportSubmit = cancelEsgReportSubmit;
+
+    // ==========================================
+    // LOCAL FOOD CALCULATOR JS (로컬푸드 구매 탄소감축 계산기)
+    // ==========================================
+    let localFoodState = {
+      submitted: false,
+      username: '',
+      store: '',
+      amount: 0, // in Won
+      reductionGrams: 0
+    };
+
+    function openLocalFoodModal() {
+      try {
+        const modal = document.getElementById('localFoodModal');
+        if (!modal) {
+          console.error('localFoodModal element not found');
+          return;
+        }
+
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          const innerDiv = modal.querySelector('div');
+          if (innerDiv) innerDiv.classList.remove('scale-95');
+        }, 10);
+
+        const cancelBtn = document.getElementById('btn-cancel-submit-local-food');
+        if (cancelBtn) {
+          if (localFoodState.submitted) {
+            cancelBtn.classList.remove('hidden');
+          } else {
+            cancelBtn.classList.add('hidden');
+          }
+        }
+
+        try {
+          const userEl = document.getElementById('local-food-username');
+          const storeEl = document.getElementById('local-food-store');
+          const amountEl = document.getElementById('local-food-amount');
+
+          if (userEl) userEl.value = localFoodState.username || (typeof sessionStats !== 'undefined' ? sessionStats.username : '') || '';
+          if (storeEl) storeEl.value = localFoodState.store || '';
+          if (amountEl) amountEl.value = localFoodState.amount > 0 ? localFoodState.amount : '';
+          
+          calculateLocalFood();
+        } catch (e) {
+          console.warn('Local food modal populating warning:', e);
+        }
+      } catch (err) {
+        console.error('Error opening Local Food modal:', err);
+      }
+    }
+
+    function closeLocalFoodModal() {
+      const modal = document.getElementById('localFoodModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const innerDiv = modal.querySelector('div');
+      if (innerDiv) innerDiv.classList.add('scale-95');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function calculateLocalFood() {
+      const storeVal = (document.getElementById('local-food-store')?.value || '').trim();
+      const amountVal = parseFloat(document.getElementById('local-food-amount')?.value) || 0;
+      const btn = document.getElementById('btn-submit-local-food');
+
+      const amountManWon = amountVal / 10000;
+      const basicEmissionKg = amountManWon * 0.6889;
+      const reductionKg = amountManWon * 0.34445;
+
+      const basicEl = document.getElementById('local-food-basic-emission');
+      const reductionEl = document.getElementById('local-food-reduction');
+
+      if (basicEl) basicEl.textContent = `${basicEmissionKg.toFixed(3)} kgCO2eq`;
+      if (reductionEl) reductionEl.textContent = `${reductionKg.toFixed(3)} kgCO2eq`;
+
+      if (btn) {
+        if (storeVal && amountVal > 0) {
+          btn.disabled = false;
+          btn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+          btn.classList.add('bg-[#0f2042]', 'hover:bg-blue-900', 'text-white');
+        } else {
+          btn.disabled = true;
+          btn.classList.remove('bg-[#0f2042]', 'hover:bg-blue-900', 'text-white');
+          btn.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+        }
+      }
+    }
+
+    function submitLocalFood() {
+      const storeVal = document.getElementById('local-food-store').value.trim();
+      const amountVal = parseFloat(document.getElementById('local-food-amount').value) || 0;
+      const username = document.getElementById('local-food-username').value.trim();
+
+      if (!storeVal || amountVal <= 0) {
+        showToast('구매 매장과 구매 금액을 정확하게 입력해 주세요.', true);
+        return;
+      }
+
+      const amountManWon = amountVal / 10000;
+      // Formula 2: reduction tCO2eq = 만원 * 0.00034445.
+      // 0.00034445 tCO2eq = 0.34445 kgCO2eq = 344.45 gCO2eq.
+      // So reductionGrams = amountManWon * 344.45 gCO2eq.
+      const reductionGrams = amountManWon * 344.45;
+
+      // Deduct previous amount first if editing/re-submitting
+      if (localFoodState.submitted && typeof sessionStats !== 'undefined') {
+        sessionStats.totalReducedCarbonGrams = Math.max(0, sessionStats.totalReducedCarbonGrams - localFoodState.reductionGrams);
+      } else if (typeof sessionStats !== 'undefined') {
+        sessionStats.totalActions += 1;
+      }
+
+      localFoodState.submitted = true;
+      localFoodState.username = username;
+      localFoodState.store = storeVal;
+      localFoodState.amount = amountVal;
+      localFoodState.reductionGrams = reductionGrams;
+      
+      if (username && typeof sessionStats !== 'undefined') sessionStats.username = username;
+
+      // Update Card 01 Badge
+      const label = document.getElementById('badge-local-food-label');
+      const val = document.getElementById('badge-local-food-value');
+      const iconContainer = document.getElementById('badge-local-food-icon-container');
+      const icon = document.getElementById('badge-local-food-icon');
+
+      if (label && val) {
+        label.textContent = '로컬푸드 구매';
+        val.textContent = `${storeVal} (${(localFoodState.reductionGrams / 1000).toFixed(2)}kg 감축)`;
+        val.classList.remove('text-slate-800');
+        val.classList.add('text-emerald-600');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.remove('bg-blue-50', 'text-blue-655');
+        iconContainer.classList.add('bg-emerald-600', 'text-white');
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        try { if (window.lucide) window.lucide.createIcons(); } catch(e) {}
+      }
+
+      // Add to session statistics to update the cumulative dashboard
+      if (typeof sessionStats !== 'undefined') {
+        sessionStats.totalReducedCarbonGrams += localFoodState.reductionGrams;
+      }
+
+      closeLocalFoodModal();
+      if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+      showToast('로컬푸드 구매에 따른 탄소감축 실천이 등록되었습니다.');
+    }
+
+    function cancelLocalFoodSubmit() {
+      // Deduct from session statistics if it was already submitted
+      if (localFoodState.submitted && typeof sessionStats !== 'undefined') {
+        sessionStats.totalReducedCarbonGrams = Math.max(0, sessionStats.totalReducedCarbonGrams - localFoodState.reductionGrams);
+        sessionStats.totalActions = Math.max(0, sessionStats.totalActions - 1);
+      }
+
+      localFoodState.submitted = false;
+      localFoodState.username = '';
+      localFoodState.store = '';
+      localFoodState.amount = 0;
+      localFoodState.reductionGrams = 0;
+
+      const userEl = document.getElementById('local-food-username');
+      const storeEl = document.getElementById('local-food-store');
+      const amountEl = document.getElementById('local-food-amount');
+      if (userEl) userEl.value = '';
+      if (storeEl) storeEl.value = '';
+      if (amountEl) amountEl.value = '';
+
+      const label = document.getElementById('badge-local-food-label');
+      const val = document.getElementById('badge-local-food-value');
+      const iconContainer = document.getElementById('badge-local-food-icon-container');
+      const icon = document.getElementById('badge-local-food-icon');
+
+      if (label && val) {
+        label.textContent = '협력 모델';
+        val.textContent = '소상공인 연계';
+        val.classList.remove('text-emerald-600');
+        val.classList.add('text-slate-800');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.add('bg-blue-50', 'text-blue-655');
+        iconContainer.classList.remove('bg-emerald-600', 'text-white');
+        icon.setAttribute('data-lucide', 'store');
+        try { if (window.lucide) window.lucide.createIcons(); } catch(e) {}
+      }
+
+      calculateLocalFood();
+      closeLocalFoodModal();
+      if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+      showToast('로컬푸드 실천 등록이 취소되었습니다.');
+    }
+
+    window.openLocalFoodModal = openLocalFoodModal;
+    window.closeLocalFoodModal = closeLocalFoodModal;
+    window.calculateLocalFood = calculateLocalFood;
+    window.submitLocalFood = submitLocalFood;
+    window.cancelLocalFoodSubmit = cancelLocalFoodSubmit;
 
     // ==========================================
     // ISO 20121 MODAL JS (ISO 20121 인증서 파일 첨부)
@@ -4878,7 +5203,7 @@
     }
 
     function updateDashboardUI(stats) {
-      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || venueEcologyState.submitted || barrierFreeState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
+      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || venueEcologyState.submitted || barrierFreeState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
 
       // 1. Show Floating dashboard bar
       const floatBar = document.getElementById('floatingDashboard');
@@ -4971,6 +5296,28 @@
           }
         } else {
           localEconomyCard.classList.add('hidden');
+        }
+      }
+
+      // Update Local Food Outcome Card
+      const localFoodCard = document.getElementById('kpi-local-food-card');
+      if (localFoodCard) {
+        if (localFoodState.submitted) {
+          localFoodCard.classList.remove('hidden');
+          const carbonText = document.getElementById('kpi-local-food-reduced-carbon');
+          const amtText = document.getElementById('kpi-local-food-amount-text');
+          const storeText = document.getElementById('kpi-local-food-store-text');
+          const userText = document.getElementById('kpi-local-food-username-text');
+          const detailsBox = document.getElementById('kpi-local-food-details-box');
+
+          if (carbonText) carbonText.textContent = `${(localFoodState.reductionGrams / 1000).toFixed(3)} kgCO2eq`;
+          if (amtText) amtText.textContent = `${localFoodState.amount.toLocaleString()}원`;
+          if (storeText) storeText.textContent = localFoodState.store;
+          if (userText) userText.textContent = localFoodState.username || sessionStats.username || '익명 실천자';
+          
+          if (detailsBox) detailsBox.classList.remove('hidden');
+        } else {
+          localFoodCard.classList.add('hidden');
         }
       }
 
