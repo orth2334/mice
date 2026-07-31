@@ -148,45 +148,12 @@
         </button>
 
         <div id="env-cards" class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <!-- Card 1 -->
-          <div onclick="openDetailModal('탄소발자국 측정·공개', '교통, 전력 에너지, 행사 인쇄물 및 폐기물 전 과정의 탄소 배출량을 계량화하여 지속가능한 친환경 컨퍼런스 규격을 설정합니다.')" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
-            <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=300" alt="Carbon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
-            </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
-              <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">탄소발자국 측정 · 공개</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">행사 전 과정 탄소 발생 유발 요인을 면밀히 측정하고 공시</p>
-              </div>
-              <div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center justify-between pb-1">
-                  <div class="flex items-center space-x-2">
-                    <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                      <i data-lucide="cloud" class="w-4 h-4"></i>
-                    </div>
-                    <div class="flex flex-col">
-                      <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">(2023년 대비)</span>
-                      <span class="text-[11px] font-bold text-slate-800 leading-none">탄소량 감축 측정</span>
-                    </div>
-                  </div>
-                  <!-- Custom sparkline chart -->
-                  <svg class="w-6 h-5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="6" y1="20" x2="6" y2="14" />
-                    <line x1="12" y1="20" x2="12" y2="8" />
-                    <line x1="18" y1="20" x2="18" y2="4" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Card 2 -->
+          <!-- Card 01 -->
           <div onclick="openEcoSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=300" alt="Reusable" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">02</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -208,11 +175,11 @@
             </div>
           </div>
 
-          <!-- Card 3 -->
+          <!-- Card 02 -->
           <div onclick="openEnergySimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=300" alt="Solar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">03</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">02</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -234,11 +201,11 @@
             </div>
           </div>
 
-          <!-- Card 4 -->
+          <!-- Card 03 -->
           <div onclick="openTransportSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80&w=300" alt="Eco Bus" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">03</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -260,11 +227,11 @@
             </div>
           </div>
 
-          <!-- Card 05: 업사이클링 굿즈(ESG 기념품) 제작 -->
+          <!-- Card 04: 업사이클링 굿즈(ESG 기념품) 제작 -->
           <div onclick="openUpcycleSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300" alt="Upcycling Goods" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -286,11 +253,11 @@
             </div>
           </div>
 
-          <!-- Card 06: 친환경 행사장 조성 · 관리 -->
+          <!-- Card 05: 친환경 행사장 조성 · 관리 -->
           <div onclick="openVenueEcologyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=300" alt="Jeju Ecology" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -312,11 +279,11 @@
             </div>
           </div>
 
-          <!-- Card 07: 디지털 페이퍼리스 및 사이니지 시스템 -->
+          <!-- Card 06: 디지털 페이퍼리스 및 사이니지 시스템 -->
           <div onclick="openSignageSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=300" alt="Digital Signage & Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -338,11 +305,11 @@
             </div>
           </div>
 
-          <!-- Card 08: 친환경 부스 자재 의무화 -->
+          <!-- Card 07: 친환경 부스 자재 의무화 -->
           <div onclick="openPaperBoothSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=300" alt="Eco Booth" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
@@ -779,34 +746,34 @@
             </div>
           </div>
 
-          <!-- Card 4 -->
-          <div onclick="openDetailModal('로컬 고유성 연계', '개최지 및 로컬 고유 문화의 미학적 핵심 가치를 인포그래픽 및 굿즈, 공간 기획 요소에 전적으로 반영합니다.')" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 4: 행사 ESG 통합 정보공개 페이지 구축 -->
+          <div id="card-esg-disclosure" onclick="openEsgDisclosureModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=300" alt="Jeju Heritage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=300" alt="ESG Integrated Disclosure Page" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">로컬 고유성 연계</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">개최 지역의 자연·문화 가치를 보존하고 지속가능한 모델로 발전</p>
+                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">행사 ESG 통합 정보공개 페이지 구축</h3>
+                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">행사별 운영 정보와 ESG 실천 현황을 일관되게 제공하는 도민 통합 누리집 구축</p>
               </div>
               <div>
                 <div class="border-t border-slate-100 my-2"></div>
                 <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black">
-                    <i data-lucide="map" class="w-4 h-4"></i>
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-esg-disclosure-icon-container">
+                    <i data-lucide="globe" class="w-4 h-4" id="badge-esg-disclosure-icon"></i>
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">지역 문화 가치</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">100% 반영 보존</span>
+                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-esg-disclosure-label">통합 누리집</span>
+                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-esg-disclosure-value">상시 공개 운영</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Card 5: 이해관계자 의견 수렴 플랫폼 -->
-          <div onclick="openDetailModal('이해관계자 의견 수렴 플랫폼', '행사 전 과정에 걸쳐 참가자와 협력사로부터 ESG 운영에 대한 피드백을 실시간으로 받는 ESG 소통 채널을 운영하고, 그 결과를 다음 행사 운영에 어떻게 반영했는지 공개합니다.')" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 5: 이해관계자 의견 수렴 플랫폼 (자문단 회의록 첨부 증명) -->
+          <div id="card-stakeholder-feedback" onclick="openStakeholderFeedbackModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=300" alt="Feedback Channel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
@@ -814,17 +781,17 @@
             <div class="flex-grow flex flex-col justify-between pt-2.5">
               <div>
                 <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">이해관계자 의견 수렴 플랫폼</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">참가자와 협력사의 ESG 피드백을 실시간 수렴하는 소통 채널 운영</p>
+                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">자문단 회의록 및 ESG 의견 수렴 결과 보고서를 공식 첨부하여 실천 증명</p>
               </div>
               <div>
                 <div class="border-t border-slate-100 my-2"></div>
                 <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black">
-                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-stakeholder-icon-container">
+                    <i data-lucide="message-square" class="w-4 h-4" id="badge-stakeholder-icon"></i>
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">실시간 피드백</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">ESG 소통 채널</span>
+                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-stakeholder-label">자문단 회의록</span>
+                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-stakeholder-value">결과 보고서 첨부</span>
                   </div>
                 </div>
               </div>
@@ -3180,7 +3147,194 @@
     </div>
   </div>
 
-  <!-- Setup Lucide and Modal scripts -->
+  <!-- ==========================================
+       MODAL POPUP FOR STAKEHOLDER FEEDBACK & MEETING MINUTES
+       ========================================== -->
+  <div id="stakeholderFeedbackModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <div class="flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2 py-0.5 rounded-full">지배구조 (G) 실천 증명</span>
+            <span class="text-[10px] text-slate-400 font-bold">자문단 회의록 공시</span>
+          </div>
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2 mt-1">
+            <i data-lucide="message-square" class="w-5 h-5 text-indigo-600"></i>
+            이해관계자 의견 수렴 & 자문단 회의 증명
+          </h3>
+        </div>
+        <button onclick="closeStakeholderFeedbackModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Content Body -->
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        
+        <!-- Explanation Banner -->
+        <div class="bg-indigo-50/60 p-3.5 rounded-2xl border border-indigo-100 space-y-1.5">
+          <p class="font-extrabold text-indigo-900 flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600"></i>
+            실천 증명 방식 안내
+          </p>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            이해관계자 자문단이 개최한 회의록 및 ESG 의견 수렴 결과 보고서를 공식 문서(PDF, HWP, DOCX)로 첨부하여 피드백 반영 현황을 증명합니다.
+          </p>
+        </div>
+
+        <!-- Meeting Summary Details Form -->
+        <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-150">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">회의 개최 일시</label>
+              <input type="text" id="stakeholder-date" value="2026년 7월 20일 (월)" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+            </div>
+            <div class="space-y-1">
+              <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">참석 이해관계자</label>
+              <input type="text" id="stakeholder-members" value="도민위원, 협력사 대표, 외부 ESG전문가 (총 12명)" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">주요 수렴 의견 및 반영 계획 요약</label>
+            <textarea id="stakeholder-summary" rows="3" class="w-full text-xs p-3 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 leading-normal">행사 내 다회용기 회수율 제고를 위한 수거함 확대 배치 요청 건 및 장애인 참가자 무장애(Barrier-Free) 동선 안내요원 전담 배치건 의결 및 즉시 반영 조치함.</textarea>
+          </div>
+
+          <!-- File Upload Zone -->
+          <div class="space-y-1.5 pt-1">
+            <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">자문단 회의록 및 증빙 문서 첨부 *</span>
+            <label for="stakeholder-file-upload" class="flex flex-col items-center justify-center w-full min-h-[95px] p-3 border-2 border-dashed border-indigo-200 rounded-2xl cursor-pointer hover:bg-indigo-50/50 hover:border-indigo-400 transition-colors">
+              <div id="stakeholder-preview-container" class="flex flex-col items-center justify-center text-center">
+                <i data-lucide="file-text" id="stakeholder-upload-icon" class="w-7 h-7 text-indigo-500 mb-1"></i>
+                <p class="text-[11px] text-indigo-950 font-bold mb-0.5" id="stakeholder-filename">2026_MICE_이해관계자_자문단_회의록_및_의견수렴보고서.pdf</p>
+                <p class="text-[9px] text-slate-400">클릭하여 다른 첨부문서(PDF, HWP, DOCX)로 교체 가능 (최대 30MB)</p>
+              </div>
+              <input id="stakeholder-file-upload" type="file" accept=".pdf,.hwp,.docx,.doc,image/*" class="hidden" onchange="handleStakeholderFileChange(event)">
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeStakeholderFeedbackModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all">
+          닫기
+        </button>
+        <button id="btn-submit-stakeholder" onclick="submitStakeholderFeedback()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+          회의록 문서 첨부 및 증명 제출
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR EVENT ESG INTEGRATED INFORMATION DISCLOSURE PAGE
+       ========================================== -->
+  <div id="esgDisclosureModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <div class="flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2 py-0.5 rounded-full">지배구조 (G) ③-2-6</span>
+            <span class="text-[10px] text-slate-400 font-bold">투명 공시 프로젝트</span>
+          </div>
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2 mt-1">
+            <i data-lucide="globe" class="w-5 h-5 text-indigo-600"></i>
+            행사 ESG 통합 정보공개 페이지 구축
+          </h3>
+        </div>
+        <button onclick="closeEsgDisclosureModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Content Body -->
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        
+
+
+        <!-- 실천프로그램 수행방안 (3가지) -->
+        <div class="bg-indigo-50/40 p-4 rounded-2xl border border-indigo-100 space-y-2">
+          <span class="text-[11px] font-extrabold text-indigo-950 block flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i> 실천프로그램 수행방안
+          </span>
+          <ul class="space-y-1.5 text-[11px] text-slate-700 font-medium">
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+              <span><strong>표준 공개 항목 설정:</strong> 행사 개요, 운영 주체, 예산 규모, ESG 실천 항목을 포함한 표준 공개 항목 설정</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+              <span><strong>단계적 공개 확대:</strong> 정기행사와 공공지원 행사를 중심으로 단계적 공개 확대</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+              <span><strong>상시 열람 가능 운영:</strong> 도 누리집 또는 전용 페이지와 연계하여 상시 열람 가능하도록 운영</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 기대효과 -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+            <span class="text-[9px] text-emerald-600 font-bold block">효과 1</span>
+            <span class="text-[11px] font-bold text-slate-800">행사 운영 투명성 제고</span>
+          </div>
+          <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100">
+            <span class="text-[9px] text-blue-600 font-bold block">효과 2</span>
+            <span class="text-[11px] font-bold text-slate-800">도민 정보 접근성 강화</span>
+          </div>
+          <div class="bg-indigo-50 p-2.5 rounded-xl border border-indigo-100">
+            <span class="text-[9px] text-indigo-600 font-bold block">효과 3</span>
+            <span class="text-[11px] font-bold text-slate-800">공공 행사 신뢰도 향상</span>
+          </div>
+        </div>
+
+        <!-- ★ 핵심: 실천 증명 방안 안내 및 등록 -->
+        <div class="border-t border-slate-200/80 pt-3 space-y-3">
+
+
+          <!-- URL and File Submission Form -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-3">
+            <div class="space-y-1">
+              <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">통합 정보공개 누리집 URL *</label>
+              <input type="text" id="esg-disclosure-url" value="https://www.gg.go.kr/esg-mice-integrated-info" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium">
+            </div>
+
+            <div class="space-y-1.5">
+              <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">통합 정보공개 이행 확인서 (PDF/이미지) *</span>
+              <label for="disclosure-file-upload" class="flex flex-col items-center justify-center w-full min-h-[85px] p-2.5 border-2 border-dashed border-indigo-200 rounded-2xl cursor-pointer hover:bg-indigo-50/50 transition-colors">
+                <div id="disclosure-preview-container" class="flex flex-col items-center justify-center text-center">
+                  <i data-lucide="file-check" id="disclosure-upload-icon" class="w-6 h-6 text-indigo-500 mb-1"></i>
+                  <p class="text-[11px] text-indigo-950 font-bold mb-0.5" id="disclosure-filename">경기도_행사_ESG_통합정보공개_이행확인서.pdf</p>
+                  <p class="text-[9px] text-slate-400">클릭하여 이행 확인서 PDF 또는 캡처본 증빙 첨부</p>
+                </div>
+                <input id="disclosure-file-upload" type="file" accept=".pdf,image/*" class="hidden" onchange="handleDisclosureFileChange(event)">
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeEsgDisclosureModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all">
+          닫기
+        </button>
+        <button id="btn-submit-disclosure" onclick="submitEsgDisclosure()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          통합 정보공개 페이지 등록 & 증명 제출
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script src="js/app.js"></script>
 </body>

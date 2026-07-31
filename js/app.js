@@ -1061,6 +1061,14 @@
         openIso20121Modal();
         return;
       }
+      if (title && (title.includes('의견 수렴') || title.includes('이해관계자'))) {
+        openStakeholderFeedbackModal();
+        return;
+      }
+      if (title && (title.includes('정보공개') || title.includes('통합 정보'))) {
+        openEsgDisclosureModal();
+        return;
+      }
 
       const modal = document.getElementById('detailModal');
       const mTitle = document.getElementById('modalTitle');
@@ -1095,6 +1103,130 @@
         modal.classList.add('hidden');
       }, 300);
     }
+
+    // 이해관계자 의견 수렴 플랫폼 모달
+    function openStakeholderFeedbackModal() {
+      const modal = document.getElementById('stakeholderFeedbackModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const innerDiv = modal.querySelector('div');
+        if (innerDiv) innerDiv.classList.remove('scale-95');
+      }, 10);
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeStakeholderFeedbackModal() {
+      const modal = document.getElementById('stakeholderFeedbackModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const innerDiv = modal.querySelector('div');
+      if (innerDiv) innerDiv.classList.add('scale-95');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function handleStakeholderFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const fileNameEl = document.getElementById('stakeholder-filename');
+        if (fileNameEl) fileNameEl.textContent = file.name;
+      }
+    }
+
+    function submitStakeholderFeedback() {
+      const iconContainer = document.getElementById('badge-stakeholder-icon-container');
+      const label = document.getElementById('badge-stakeholder-label');
+      const value = document.getElementById('badge-stakeholder-value');
+      
+      if (iconContainer) {
+        iconContainer.classList.remove('bg-indigo-50', 'text-indigo-655');
+        iconContainer.classList.add('bg-emerald-100', 'text-emerald-700');
+      }
+      if (label) label.textContent = '자문단 회의록';
+      if (value) {
+        value.textContent = '증명 제출 완료';
+        value.classList.add('text-emerald-600');
+      }
+
+      closeStakeholderFeedbackModal();
+      if (typeof showToast === 'function') {
+        showToast('이해관계자 자문단 회의록 및 의견 수렴 보고서 첨부가 성공적으로 증명되었습니다.');
+      } else {
+        alert('이해관계자 자문단 회의록 및 의견 수렴 보고서 첨부가 성공적으로 증명되었습니다.');
+      }
+    }
+
+    // 행사 ESG 통합 정보공개 페이지 구축 모달
+    function openEsgDisclosureModal() {
+      const modal = document.getElementById('esgDisclosureModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const innerDiv = modal.querySelector('div');
+        if (innerDiv) innerDiv.classList.remove('scale-95');
+      }, 10);
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeEsgDisclosureModal() {
+      const modal = document.getElementById('esgDisclosureModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const innerDiv = modal.querySelector('div');
+      if (innerDiv) innerDiv.classList.add('scale-95');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function handleDisclosureFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const fileNameEl = document.getElementById('disclosure-filename');
+        if (fileNameEl) fileNameEl.textContent = file.name;
+      }
+    }
+
+    function submitEsgDisclosure() {
+      const iconContainer = document.getElementById('badge-esg-disclosure-icon-container');
+      const label = document.getElementById('badge-esg-disclosure-label');
+      const value = document.getElementById('badge-esg-disclosure-value');
+      
+      if (iconContainer) {
+        iconContainer.classList.remove('bg-indigo-50', 'text-indigo-655');
+        iconContainer.classList.add('bg-emerald-100', 'text-emerald-700');
+      }
+      if (label) label.textContent = '통합 정보공개';
+      if (value) {
+        value.textContent = '누리집 구축·공시완료';
+        value.classList.add('text-emerald-600');
+      }
+
+      closeEsgDisclosureModal();
+      if (typeof showToast === 'function') {
+        showToast('행사 ESG 통합 정보공개 페이지 URL 및 이행 확인서 증명이 등록되었습니다.');
+      } else {
+        alert('행사 ESG 통합 정보공개 페이지 URL 및 이행 확인서 증명이 등록되었습니다.');
+      }
+    }
+
+    window.openStakeholderFeedbackModal = openStakeholderFeedbackModal;
+    window.closeStakeholderFeedbackModal = closeStakeholderFeedbackModal;
+    window.handleStakeholderFileChange = handleStakeholderFileChange;
+    window.submitStakeholderFeedback = submitStakeholderFeedback;
+
+    window.openEsgDisclosureModal = openEsgDisclosureModal;
+    window.closeEsgDisclosureModal = closeEsgDisclosureModal;
+    window.handleDisclosureFileChange = handleDisclosureFileChange;
+    window.submitEsgDisclosure = submitEsgDisclosure;
 
     // 친환경 행사장 조성 · 관리 인증서 제출 상태 변수 및 모달 처리
     let venueEcologyState = {
