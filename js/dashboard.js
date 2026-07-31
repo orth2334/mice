@@ -1,18 +1,511 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ESG로 완성하는 지속가능한 MICE EVENT</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+// Dashboard Rendering & Animations
+    function updateDashboardUI(stats) {
+      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || venueEcologyState.submitted || barrierFreeState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
+
+      // 1. Show Floating dashboard bar
+      const floatBar = document.getElementById('floatingDashboard');
+      if (floatBar && hasAnyActionSubmitted) {
+        floatBar.classList.remove('translate-y-20', 'opacity-0');
+      }
+
+      // 2. Toggle Left Column Action Card vs Guide Card
+      const guideCard = document.getElementById('eco-guide-card');
+      const wasteCard = document.getElementById('kpi-waste-card');
+      const transportCard = document.getElementById('kpi-transport-card');
+      const energyCard = document.getElementById('kpi-energy-card');
+      const upcycleCard = document.getElementById('kpi-upcycle-card');
+      const venueEcologyCard = document.getElementById('kpi-venue-ecology-card');
+      const venueEcologyList = document.getElementById('kpi-venue-ecology-list');
+      const venueEcologyFilename = document.getElementById('kpi-venue-ecology-filename');
+      const barrierFreeCard = document.getElementById('kpi-barrier-free-card');
+      const barrierFreeList = document.getElementById('kpi-barrier-free-list');
+
+      if (venueEcologyState.submitted) {
+        if (venueEcologyCard) venueEcologyCard.classList.remove('hidden');
+        if (venueEcologyFilename) {
+          venueEcologyFilename.textContent = venueEcologyState.fileName;
+        }
+        if (venueEcologyList) {
+          venueEcologyList.innerHTML = '';
+          const certLabels = {
+            gseed: 'G-SEED (녹색건축)',
+            leed: 'LEED (미국 친환경)',
+            earthcheck: 'EarthCheck (마이스)',
+            iso14001: 'ISO 14001 (환경경영)',
+            iso20121: 'ISO 20121 (지속가능이벤트)',
+            forest: '산림탄소상쇄 (행사형)'
+          };
+          venueEcologyState.checkedCerts.forEach(cert => {
+            const badge = document.createElement('span');
+            badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+            const iconName = cert === 'forest' ? 'trees' : 'award';
+            const colorClass = cert === 'forest' ? 'text-blue-500' : 'text-emerald-500';
+            badge.innerHTML = `<i data-lucide="${iconName}" class="w-3 h-3 ${colorClass}"></i> ${certLabels[cert]}`;
+            venueEcologyList.appendChild(badge);
+          });
+          lucide.createIcons();
+        }
+      } else {
+        if (venueEcologyCard) venueEcologyCard.classList.add('hidden');
+      }
+
+      if (barrierFreeState.submitted) {
+        if (barrierFreeCard) barrierFreeCard.classList.remove('hidden');
+        if (barrierFreeList) {
+          barrierFreeList.innerHTML = '';
+          const bfLabels = {
+            ramp: '무장애 이동 동선',
+            desk: '저단 데스크 운영',
+            facility: '장애인 편의시설',
+            sign: '수어 및 실시간 자막',
+            easy: '쉬운 언어 안내서',
+            braille: '점자/음성 QR',
+            helper: '보조요원/안내견'
+          };
+          barrierFreeState.checkedItems.forEach(item => {
+            const badge = document.createElement('span');
+            badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+            badge.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-blue-500"></i> ${bfLabels[item]}`;
+            barrierFreeList.appendChild(badge);
+          });
+          lucide.createIcons();
+        }
+      } else {
+        if (barrierFreeCard) barrierFreeCard.classList.add('hidden');
+      }
+
+      // Update Local Economy Outcome Card
+      const localEconomyCard = document.getElementById('kpi-local-economy-card');
+      if (localEconomyCard) {
+        if (localEconomyState.submitted) {
+          localEconomyCard.classList.remove('hidden');
+          const amtText = document.getElementById('kpi-local-economy-amount-text');
+          const userText = document.getElementById('kpi-local-economy-username-text');
+          const detailsBox = document.getElementById('kpi-local-economy-details-box');
+          const detailsText = document.getElementById('kpi-local-economy-details-text');
+          if (amtText) amtText.textContent = `${localEconomyState.amount.toLocaleString()} 만원`;
+          if (userText) userText.textContent = localEconomyState.username || sessionStats.username || '익명 참관객';
+          if (detailsText && localEconomyState.details) {
+            detailsText.textContent = localEconomyState.details;
+            if (detailsBox) detailsBox.classList.remove('hidden');
+          } else if (detailsBox) {
+            detailsBox.classList.add('hidden');
+          }
+        } else {
+          localEconomyCard.classList.add('hidden');
+        }
+      }
+
+      // Update Local Food Outcome Card
+      const localFoodCard = document.getElementById('kpi-local-food-card');
+      if (localFoodCard) {
+        if (localFoodState.submitted) {
+          localFoodCard.classList.remove('hidden');
+          const carbonText = document.getElementById('kpi-local-food-reduced-carbon');
+          const amtText = document.getElementById('kpi-local-food-amount-text');
+          const storeText = document.getElementById('kpi-local-food-store-text');
+          const userText = document.getElementById('kpi-local-food-username-text');
+          const detailsBox = document.getElementById('kpi-local-food-details-box');
+
+          if (carbonText) carbonText.textContent = `${(localFoodState.reductionGrams / 1000).toFixed(3)} kgCO2eq`;
+          if (amtText) amtText.textContent = `${localFoodState.amount.toLocaleString()}원`;
+          if (storeText) storeText.textContent = localFoodState.store;
+          if (userText) userText.textContent = localFoodState.username || sessionStats.username || '익명 실천자';
+          
+          if (detailsBox) detailsBox.classList.remove('hidden');
+        } else {
+          localFoodCard.classList.add('hidden');
+        }
+      }
+
+      // Update Inclusion Outcome Card
+      const inclusionCard = document.getElementById('kpi-inclusion-card');
+      if (inclusionCard) {
+        if (inclusionState.submitted) {
+          inclusionCard.classList.remove('hidden');
+          let totalP = 0;
+          let count = 0;
+          const tagsContainer = document.getElementById('kpi-inclusion-program-tags');
+          if (tagsContainer) tagsContainer.innerHTML = '';
+          inclusionState.programs.forEach(p => {
+            if (p.name.trim() !== '') {
+              count++;
+              const pCount = parseInt(p.participants) || 0;
+              totalP += pCount;
+              if (tagsContainer) {
+                const badge = document.createElement('span');
+                badge.className = 'bg-blue-50 border border-blue-100 text-blue-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+                badge.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-blue-500"></i> ${p.name.trim()} (${pCount.toLocaleString()}명)`;
+                tagsContainer.appendChild(badge);
+              }
+            }
+          });
+          const partText = document.getElementById('kpi-inclusion-participants-text');
+          const countText = document.getElementById('kpi-inclusion-count-text');
+          if (partText) partText.textContent = `${totalP.toLocaleString()}명`;
+          if (countText) countText.textContent = `${count}개 활동`;
+          lucide.createIcons();
+        } else {
+          inclusionCard.classList.add('hidden');
+        }
+      }
+
+      // Update ESG Education Outcome Card
+      const esgEduCard = document.getElementById('kpi-esg-edu-card');
+      if (esgEduCard) {
+        if (esgEduState.submitted) {
+          esgEduCard.classList.remove('hidden');
+          let totalP = 0;
+          let count = 0;
+          const tagsContainer = document.getElementById('kpi-esg-edu-program-tags');
+          if (tagsContainer) tagsContainer.innerHTML = '';
+          esgEduState.programs.forEach(p => {
+            if (p.name.trim() !== '') {
+              count++;
+              const pCount = parseInt(p.participants) || 0;
+              totalP += pCount;
+              if (tagsContainer) {
+                const badge = document.createElement('span');
+                badge.className = 'bg-blue-50 border border-blue-100 text-blue-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+                badge.innerHTML = `<i data-lucide="graduation-cap" class="w-3 h-3 text-blue-500"></i> ${p.name.trim()} (${pCount.toLocaleString()}명)`;
+                tagsContainer.appendChild(badge);
+              }
+            }
+          });
+          const partText = document.getElementById('kpi-esg-edu-participants-text');
+          const countText = document.getElementById('kpi-esg-edu-count-text');
+          if (partText) partText.textContent = `${totalP.toLocaleString()}명`;
+          if (countText) countText.textContent = `${count}회 세션`;
+          lucide.createIcons();
+        } else {
+          esgEduCard.classList.add('hidden');
+        }
+      }
+
+      // Update Supporters Outcome Card
+      const supportersCard = document.getElementById('kpi-supporters-card');
+      if (supportersCard) {
+        if (supportersState.submitted) {
+          supportersCard.classList.remove('hidden');
+          const userText = document.getElementById('kpi-supporters-username-text');
+          const fileText = document.getElementById('kpi-supporters-filename-text');
+          const detailsBox = document.getElementById('kpi-supporters-details-box');
+          const detailsText = document.getElementById('kpi-supporters-details-text');
+          if (userText) userText.textContent = supportersState.username || sessionStats.username || '청년 서포터즈';
+          if (fileText) fileText.textContent = supportersState.fileName ? `${supportersState.fileName} (${supportersState.fileType.toUpperCase()})` : '파일 첨부됨';
+          if (detailsText && supportersState.role) {
+            detailsText.textContent = supportersState.role;
+            if (detailsBox) detailsBox.classList.remove('hidden');
+          } else if (detailsBox) {
+            detailsBox.classList.add('hidden');
+          }
+        } else {
+          supportersCard.classList.add('hidden');
+        }
+      }
+
+      // Update Donation Outcome Card
+      const donationCard = document.getElementById('kpi-donation-card');
+      if (donationCard) {
+        if (donationState.submitted) {
+          donationCard.classList.remove('hidden');
+          const amtText = document.getElementById('kpi-donation-amount-text');
+          const targetText = document.getElementById('kpi-donation-target-text');
+          const detailsBox = document.getElementById('kpi-donation-details-box');
+          const detailsText = document.getElementById('kpi-donation-details-text');
+          if (amtText) amtText.textContent = `${donationState.amount.toLocaleString()} 만원`;
+          if (targetText) targetText.textContent = donationState.target || '미지정 기부처';
+          if (detailsText && donationState.details) {
+            detailsText.textContent = donationState.details;
+            if (detailsBox) detailsBox.classList.remove('hidden');
+          } else if (detailsBox) {
+            detailsBox.classList.add('hidden');
+          }
+        } else {
+          donationCard.classList.add('hidden');
+        }
+      }
+
+      // Update Knowledge Sharing Outcome Card
+      const knowledgeCard = document.getElementById('kpi-knowledge-sharing-card');
+      if (knowledgeCard) {
+        if (knowledgeState.submitted) {
+          knowledgeCard.classList.remove('hidden');
+          let totalP = 0;
+          let count = 0;
+          const tagsContainer = document.getElementById('kpi-knowledge-program-tags');
+          if (tagsContainer) tagsContainer.innerHTML = '';
+          knowledgeState.programs.forEach(p => {
+            if (p.name.trim() !== '') {
+              count++;
+              const pCount = parseInt(p.participants) || 0;
+              totalP += pCount;
+              if (tagsContainer) {
+                const badge = document.createElement('span');
+                badge.className = 'bg-blue-50 border border-blue-100 text-blue-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+                const speakerStr = p.speaker.trim() ? ` (${p.speaker.trim()})` : '';
+                badge.innerHTML = `<i data-lucide="heart-handshake" class="w-3 h-3 text-blue-500"></i> ${p.name.trim()}${speakerStr} [${pCount.toLocaleString()}명]`;
+                tagsContainer.appendChild(badge);
+              }
+            }
+          });
+          const partText = document.getElementById('kpi-knowledge-participants-text');
+          const countText = document.getElementById('kpi-knowledge-count-text');
+          if (partText) partText.textContent = `${totalP.toLocaleString()}명`;
+          if (countText) countText.textContent = `${count}개 강연`;
+          lucide.createIcons();
+        } else {
+          knowledgeCard.classList.add('hidden');
+        }
+      }
+
+      // Update ISO 20121 Outcome Card
+      const iso20121Card = document.getElementById('kpi-iso20121-card');
+      if (iso20121Card) {
+        if (iso20121State.submitted) {
+          iso20121Card.classList.remove('hidden');
+          const fileText = document.getElementById('kpi-iso20121-filename');
+          const typeText = document.getElementById('kpi-iso20121-filetype');
+          const detailsBox = document.getElementById('kpi-iso20121-details-box');
+          const certOrgText = document.getElementById('kpi-iso20121-cert-org-text');
+          const userText = document.getElementById('kpi-iso20121-username-text');
+          if (fileText) fileText.textContent = iso20121State.fileName || 'ISO_20121_Certificate.pdf';
+          if (typeText) typeText.textContent = iso20121State.fileType ? `${iso20121State.fileType.toUpperCase()} 제출 완료` : '인증서 파일 제출';
+          if (certOrgText) certOrgText.textContent = iso20121State.certOrg || '공식 인증 기관';
+          if (userText) userText.textContent = iso20121State.username || sessionStats.username || '담당자';
+          if (detailsBox) detailsBox.classList.remove('hidden');
+        } else {
+          iso20121Card.classList.add('hidden');
+        }
+      }
+      // Update ESG Report Outcome Card
+      const esgReportCard = document.getElementById('kpi-esg-report-card');
+      if (esgReportCard) {
+        if (esgReportState.submitted) {
+          esgReportCard.classList.remove('hidden');
+          const fileText = document.getElementById('kpi-esg-report-filename');
+          const titleText = document.getElementById('kpi-esg-report-title-text');
+          const userText = document.getElementById('kpi-esg-report-username-text');
+          const detailsBox = document.getElementById('kpi-esg-report-details-box');
+          if (fileText) fileText.textContent = esgReportState.fileName || 'ESG_Outcome_Report.pdf';
+          if (titleText) titleText.textContent = esgReportState.title || '연간 ESG 성과 보고서';
+          if (userText) userText.textContent = esgReportState.username || sessionStats.username || '담당자';
+          if (detailsBox) detailsBox.classList.remove('hidden');
+        } else {
+          esgReportCard.classList.add('hidden');
+        }
+      }
+
+      // Update Advisory Committee Outcome Card
+      const advisoryCard = document.getElementById('kpi-advisory-card');
+      if (advisoryCard) {
+        if (advisoryState.submitted) {
+          advisoryCard.classList.remove('hidden');
+          const locText = document.getElementById('kpi-advisory-location-text');
+          const dtText = document.getElementById('kpi-advisory-datetime-text');
+          const summaryText = document.getElementById('kpi-advisory-summary-text');
+          const userText = document.getElementById('kpi-advisory-username-text');
+          const detailsBox = document.getElementById('kpi-advisory-details-box');
+          const photoContainer = document.getElementById('kpi-advisory-photo-container');
+          const photoPreview = document.getElementById('kpi-advisory-photo-preview');
+
+          if (locText) locText.textContent = advisoryState.location || '회의 장소 미입력';
+          if (dtText) dtText.textContent = advisoryState.datetime || '회의 일시 미입력';
+          if (summaryText) summaryText.textContent = advisoryState.summary || '자문 위원회 주요 안건 기록 없음';
+          if (userText) userText.textContent = advisoryState.username || sessionStats.username || '기록자';
+          
+          if (detailsBox) detailsBox.classList.remove('hidden');
+
+          if (advisoryState.previewUrl) {
+            if (photoPreview) photoPreview.src = advisoryState.previewUrl;
+            if (photoContainer) photoContainer.classList.remove('hidden');
+          } else {
+            if (photoContainer) photoContainer.classList.add('hidden');
+          }
+        } else {
+          advisoryCard.classList.add('hidden');
+        }
+      }
+
+      if (hasAnyActionSubmitted) {
+        if (guideCard) guideCard.classList.add('hidden');
+      } else {
+        if (guideCard) guideCard.classList.remove('hidden');
+      }
+
+      // Hide or show specific cards based on their values
+      const ecoTotal = (stats.items.reusable_cup || 0) + (stats.items.reusable_plate || 0) + (stats.items.reusable_bowl || 0) + (stats.items.reusable_fork || 0);
+      if (ecoTotal > 0) {
+        if (wasteCard) wasteCard.classList.remove('hidden');
+      } else {
+        if (wasteCard) wasteCard.classList.add('hidden');
+      }
+
+      if ((stats.items.public_transport || 0) > 0) {
+        if (transportCard) transportCard.classList.remove('hidden');
+      } else {
+        if (transportCard) transportCard.classList.add('hidden');
+      }
+
+      if ((stats.items.renewable_energy || 0) > 0) {
+        if (energyCard) energyCard.classList.remove('hidden');
+      } else {
+        if (energyCard) energyCard.classList.add('hidden');
+      }
+
+      if ((stats.items.upcycled_keyring || 0) > 0 || (stats.items.upcycled_banner || 0) > 0) {
+        if (upcycleCard) upcycleCard.classList.remove('hidden');
+      } else {
+        if (upcycleCard) upcycleCard.classList.add('hidden');
+      }
+
+      const boothCard = document.getElementById('kpi-booth-card');
+      if ((stats.items.paper_booth || 0) > 0) {
+        if (boothCard) boothCard.classList.remove('hidden');
+      } else {
+        if (boothCard) boothCard.classList.add('hidden');
+      }
+
+      const signageCard = document.getElementById('kpi-signage-card');
+      if ((stats.items.digital_signage || 0) > 0) {
+        if (signageCard) signageCard.classList.remove('hidden');
+      } else {
+        if (signageCard) signageCard.classList.add('hidden');
+      }
+
+      // Calculate total item quantities
+      const totalItemsCount = ecoTotal;
+      const totalDisplayItems = totalItemsCount + (stats.items.public_transport || 0);
+
+      // 3. Animate total reduced carbon & offset calculations
+      animateValue(document.getElementById('kpi-total-reduced-kg'), lastStats.totalReducedCarbonGrams, stats.totalReducedCarbonGrams, 800);
+      animateValue(document.getElementById('float-total-carbon'), lastStats.totalReducedCarbonGrams, stats.totalReducedCarbonGrams, 800);
+      animateValue(document.getElementById('kpi-pine-trees'), lastStats.totalReducedCarbonGrams, stats.totalReducedCarbonGrams, 800);
+      animateValue(document.getElementById('kpi-car-km'), lastStats.totalReducedCarbonGrams, stats.totalReducedCarbonGrams, 800);
+
+      // 4. Animate participants & actions
+      animateValue(document.getElementById('kpi-total-participants'), lastStats.totalParticipants, stats.totalParticipants, 800);
+      animateValue(document.getElementById('float-actions'), lastStats.totalActions || 0, stats.totalActions || 0, 800);
+
+      // 5. Animate total items count
+      const lastTotalItems = (lastStats.reusable_cup || 0) + (lastStats.reusable_plate || 0) + (lastStats.reusable_bowl || 0) + (lastStats.reusable_fork || 0);
+      animateValue(document.getElementById('kpi-total-items'), lastTotalItems, totalItemsCount, 800);
+
+      // 5-2. Animate waste reduced carbon
+      const wasteReducedCarbon = (stats.items.reusable_cup || 0) * 52 +
+                                 (stats.items.reusable_plate || 0) * 37 +
+                                 (stats.items.reusable_bowl || 0) * 60 +
+                                 (stats.items.reusable_fork || 0) * 9;
+      const lastWasteReducedCarbon = (lastStats.reusable_cup || 0) * 52 +
+                                     (lastStats.reusable_plate || 0) * 37 +
+                                     (lastStats.reusable_bowl || 0) * 60 +
+                                     (lastStats.reusable_fork || 0) * 9;
+      animateValue(document.getElementById('kpi-waste-reduced-carbon'), lastWasteReducedCarbon, wasteReducedCarbon, 800);
+
+      // 6. Animate detailed items
+      animateValue(document.getElementById('kpi-cup-count'), lastStats.reusable_cup || 0, stats.items.reusable_cup || 0, 800);
+      animateValue(document.getElementById('kpi-plate-count'), lastStats.reusable_plate || 0, stats.items.reusable_plate || 0, 800);
+      animateValue(document.getElementById('kpi-bowl-count'), lastStats.reusable_bowl || 0, stats.items.reusable_bowl || 0, 800);
+      animateValue(document.getElementById('kpi-fork-count'), lastStats.reusable_fork || 0, stats.items.reusable_fork || 0, 800);
+
+      // 7. Animate Transport details
+      const transportReducedCarbon = (stats.items.public_transport || 0) * TRANSPORT_COEFFICIENT;
+      const lastTransportReducedCarbon = (lastStats.public_transport || 0) * TRANSPORT_COEFFICIENT;
+      animateValue(document.getElementById('kpi-total-distance'), lastStats.public_transport || 0, stats.items.public_transport || 0, 800);
+      animateValue(document.getElementById('kpi-transport-participants'), lastStats.public_transport > 0 ? 1 : 0, transportParticipantsCount, 800);
+      animateValue(document.getElementById('kpi-transport-reduced-carbon'), lastTransportReducedCarbon, transportReducedCarbon, 800);
+
+      // 8. Animate Energy details
+      const energyReducedCarbon = (stats.items.renewable_energy || 0) * ENERGY_COEFFICIENT;
+      const lastEnergyReducedCarbon = (lastStats.renewable_energy || 0) * ENERGY_COEFFICIENT;
+      animateValue(document.getElementById('kpi-total-energy'), lastStats.renewable_energy || 0, stats.items.renewable_energy || 0, 800);
+      animateValue(document.getElementById('kpi-energy-reduced-carbon'), lastEnergyReducedCarbon, energyReducedCarbon, 800);
+      animateValue(document.getElementById('kpi-total-energy-cost'), lastStats.renewable_energy || 0, stats.items.renewable_energy || 0, 800);
+
+      // 9. Animate Upcycle details
+      const totalUpcycleGrams = (stats.keyringReducedCarbonGrams || 0) + ((stats.items.upcycled_banner || 0) * 6280);
+      const lastTotalUpcycleGrams = (lastStats.keyringReducedCarbonGrams || 0) + ((lastStats.upcycled_banner || 0) * 6280);
+      animateValue(document.getElementById('kpi-upcycle-reduced-carbon'), lastTotalUpcycleGrams, totalUpcycleGrams, 800);
+      animateValue(document.getElementById('kpi-upcycle-participants'), lastStats.keyringParticipants || 0, stats.keyringParticipants || 0, 800);
+
+      const keyringCount = stats.items.upcycled_keyring || 0;
+      const bannerCount = stats.items.upcycled_banner || 0;
+      animateValue(document.getElementById('kpi-total-keyrings'), lastStats.upcycled_keyring || 0, keyringCount, 800);
+      animateValue(document.getElementById('kpi-total-banners'), (lastStats.upcycled_banner || 0) * 10, bannerCount * 10, 800);
+
+      // 9-2. Animate Paper Booth details
+      animateValue(document.getElementById('kpi-total-booth-area'), (lastStats.paper_booth || 0) * 10, (stats.items.paper_booth || 0) * 10, 800);
+      animateValue(document.getElementById('kpi-booth-participants'), lastStats.paperBoothParticipants || 0, stats.paperBoothParticipants || 0, 800);
+      
+      const boothReduced = (stats.items.paper_booth || 0) * 10125;
+      const lastBoothReduced = (lastStats.paper_booth || 0) * 10125;
+      animateValue(document.getElementById('kpi-booth-reduced-carbon'), lastBoothReduced, boothReduced, 800);
+
+      // 9-3. Animate Digital Signage details
+      const signageReduced = stats.items.digital_signage || 0;
+      const lastSignageReduced = lastStats.digital_signage || 0;
+      animateValue(document.getElementById('kpi-signage-reduced-carbon'), lastSignageReduced, signageReduced, 800);
+      
+      const papersSaved = (currentSignageQuantities.paper_a4 || 0) + (currentSignageQuantities.paper_brochure || 0) + (currentSignageQuantities.paper_poster || 0);
+      const lastPapersSaved = lastStats.papersSaved || 0;
+      animateValue(document.getElementById('kpi-total-paper-saved'), lastPapersSaved, papersSaved, 800);
+      
+      const signageParticipants = (stats.items.digital_signage || 0) > 0 ? (stats.signageParticipants || stats.totalParticipants) : 0;
+      const lastSignageParticipants = lastStats.digital_signage > 0 ? 1 : 0;
+      animateValue(document.getElementById('kpi-signage-participants'), lastSignageParticipants, signageParticipants, 800);
+
+      // Update cached values
+      lastStats = {
+        totalReducedCarbonGrams: stats.totalReducedCarbonGrams,
+        totalParticipants: stats.totalParticipants,
+        totalActions: stats.totalActions || 0,
+        reusable_cup: stats.items.reusable_cup || 0,
+        reusable_plate: stats.items.reusable_plate || 0,
+        reusable_bowl: stats.items.reusable_bowl || 0,
+        reusable_fork: stats.items.reusable_fork || 0,
+        public_transport: stats.items.public_transport || 0,
+        renewable_energy: stats.items.renewable_energy || 0,
+        upcycled_keyring: stats.items.upcycled_keyring || 0,
+        upcycled_banner: stats.items.upcycled_banner || 0,
+        paper_booth: stats.items.paper_booth || 0,
+        digital_signage: stats.items.digital_signage || 0,
+        papersSaved: papersSaved,
+        keyringReducedCarbonGrams: stats.keyringReducedCarbonGrams || 0,
+        keyringParticipants: stats.keyringParticipants || 0,
+        paperBoothParticipants: stats.paperBoothParticipants || 0,
+        signageParticipants: stats.signageParticipants || 0
+      };
+    }
+
+    // ==========================================
+    // 1. LOCAL ECONOMY MODAL JS
+    // ==========================================
+    let localEconomyState = {
+      submitted: false,
+      amount: '',
+      details: '',
+      username: ''
+    };
+
+
+// Real-time EventSource Listener & Page Initialization
+// Initialization & Real-time Event Listeners
+</script>
   <!-- Lucide Icons for clean SVG rendering -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Custom font styling -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: 'Noto Sans KR', 'Inter', sans-serif;
+      background-color: #f1f5f9;
+    }
+    .custom-shadow {
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+    }
+  </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-200 py-12">
 
@@ -3182,11 +3675,191 @@
 
   <!-- Setup Lucide and Modal scripts -->
 
-  <!-- External Modular Scripts -->
-  <script src="js/constants.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/modals.js"></script>
-  <script src="js/calculators.js"></script>
-  <script src="js/dashboard.js"></script>
-</body>
-</html>
+  <script>
+    // Global Constants
+    const ECO_COEFFICIENTS = {
+      cup: 52,
+      plate: 37,
+      bowl: 60,
+      fork: 9
+    };
+    const TRANSPORT_COEFFICIENT = 120; // 120g CO2eq per passenger-km saved
+    const ENERGY_COEFFICIENT = 478.1; // 478.1g CO2eq per 1 kWh saved
+
+    // Session token for updating entries
+    let sessionToken = localStorage.getItem('mice_session_token');
+    if (!sessionToken) {
+      sessionToken = 'sess_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      localStorage.setItem('mice_session_token', sessionToken);
+    }
+
+    // Preserve banner/upcycle input configurations
+    let lastUpcycleCategory = 'keyring';
+    let lastBannerN = 0;
+    let lastBannerY = 0;
+
+    // State Variables
+    let currentEcoQuantities = {
+      cup: 0,
+      plate: 0,
+      bowl: 0,
+      fork: 0
+    };
+    let currentTransportQuantities = {
+      distance: 0,
+      people: 1
+    };
+    let currentEnergyQuantity = 0;
+    let currentUpcycleQuantity = 0;
+    let currentSignageQuantities = {
+      paper_a4: 0,
+      paper_brochure: 0,
+      paper_poster: 0,
+      views: 0,
+      hours: 0,
+      is_renewable: false
+    };
+
+    // Local Session Statistics State (resets on refresh)
+    let sessionStats = {
+      username: '',
+      totalReducedCarbonGrams: 0,
+      totalParticipants: 0,
+      totalActions: 0,
+      items: {
+        reusable_cup: 0,
+        reusable_plate: 0,
+        reusable_bowl: 0,
+        reusable_fork: 0,
+        public_transport: 0,
+        renewable_energy: 0,
+        upcycled_keyring: 0,
+        upcycled_banner: 0,
+        paper_booth: 0,
+        digital_signage: 0
+      },
+      keyringReducedCarbonGrams: 0,
+      keyringParticipants: 0,
+      paperBoothParticipants: 0
+    };
+
+    function animateValue(element, start, end, duration) {
+      if (!element) return;
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const easeProgress = progress * (2 - progress); // easeOutQuad
+        const val = Math.floor(easeProgress * (end - start) + start);
+        
+        if (element.id === 'kpi-total-reduced-kg') {
+          const kgVal = (easeProgress * (end - start) + start) / 1000;
+          element.textContent = kgVal.toFixed(2) + " kgCO2eq";
+        } else if (element.id === 'float-total-carbon') {
+          element.textContent = val.toLocaleString() + " gCO2eq";
+        } else if (element.id === 'kpi-pine-trees') {
+          const pineVal = (easeProgress * (end - start) + start) / 18;
+          element.textContent = pineVal.toFixed(1) + "그루";
+        } else if (element.id === 'kpi-car-km') {
+          const carVal = (easeProgress * (end - start) + start) / 120;
+          element.textContent = carVal.toFixed(1) + "km";
+        } else if (element.id === 'kpi-total-participants' || element.id === 'float-participants' || element.id === 'kpi-upcycle-participants' || element.id === 'kpi-booth-participants') {
+          element.textContent = val.toLocaleString() + "명";
+        } else if (element.id === 'float-actions') {
+          element.textContent = val.toLocaleString() + "건";
+        } else if (element.id === 'kpi-transport-participants') {
+          element.textContent = val.toLocaleString() + "명";
+        } else if (element.id === 'kpi-total-distance') {
+          element.textContent = val.toLocaleString() + " km";
+        } else if (element.id === 'kpi-transport-reduced-carbon' || element.id === 'kpi-energy-reduced-carbon' || element.id === 'kpi-upcycle-reduced-carbon' || element.id === 'kpi-booth-reduced-carbon') {
+          element.textContent = val.toLocaleString() + " gCO2eq";
+        } else if (element.id === 'kpi-total-booth-area') {
+          const areaVal = (easeProgress * (end - start) + start) / 10;
+          element.textContent = areaVal.toFixed(1) + " ㎡";
+        } else if (element.id === 'kpi-total-energy') {
+          element.textContent = val.toLocaleString() + " kWh";
+        } else if (element.id === 'kpi-total-energy-cost') {
+          const costVal = val * 11;
+          element.textContent = costVal.toLocaleString() + "원";
+        } else if (element.id === 'kpi-total-banners') {
+          const bannerVal = (easeProgress * (end - start) + start) / 10;
+          element.textContent = bannerVal.toFixed(1) + "장";
+        } else {
+          element.textContent = val.toLocaleString() + "개";
+        }
+        
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    function submitKnowledgeSharing() {
+      const username = document.getElementById('knowledge-username').value.trim();
+      if (username) sessionStats.username = username;
+
+      let totalParticipants = 0;
+      let validPrograms = 0;
+
+      knowledgeState.programs.forEach(p => {
+        if (p.name.trim() !== '') {
+          validPrograms++;
+          totalParticipants += (parseInt(p.participants) || 0);
+        }
+      });
+
+      if (validPrograms === 0) {
+        showToast('최소 하나의 강연 제목을 입력해 주세요.', true);
+        return;
+      }
+
+      knowledgeState.submitted = true;
+
+      // Update Card 08 Badge
+      const label = document.getElementById('badge-knowledge-label');
+      const val = document.getElementById('badge-knowledge-value');
+      const iconContainer = document.getElementById('badge-knowledge-icon-container');
+      const icon = document.getElementById('badge-knowledge-icon');
+
+      if (label && val) {
+        label.textContent = `재능 기부 강연`;
+        val.textContent = `${validPrograms}개 강연 (${totalParticipants.toLocaleString()}명)`;
+        val.classList.remove('text-slate-800');
+        val.classList.add('text-blue-600');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.remove('bg-blue-50', 'text-blue-655');
+        iconContainer.classList.add('bg-[#0f2042]', 'text-white');
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        lucide.createIcons();
+      }
+
+      closeKnowledgeSharingModal();
+      updateDashboardUI(sessionStats);
+      showToast(`지식 나눔 강연 ${validPrograms}건 (${totalParticipants.toLocaleString()}명 수강) 등록이 완료되었습니다.`);
+    }
+
+    // Close modal on escape keypress
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeDetailModal();
+        closeEcoSimulatorModal();
+        closeTransportSimulatorModal();
+        closeEnergySimulatorModal();
+        closeUpcycleSimulatorModal();
+        closePaperBoothSimulatorModal();
+        closeSignageSimulatorModal();
+        closeBarrierFreeModal();
+        closeLocalEconomyModal();
+        closeInclusionModal();
+        closeEsgEducationModal();
+        closeSupportersModal();
+        closeDonationModal();
+        closeKnowledgeSharingModal();
+        closeIso20121Modal();
+        closeEsgReportModal();
+        closeAdvisoryModal();
+      }
+    });
+  
