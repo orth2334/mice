@@ -2430,7 +2430,7 @@
     }
 
     function updateDashboardUI(stats) {
-      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || venueEcologyState.submitted || barrierFreeState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
+      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || (stats.items.reusable_cup > 0) || (stats.items.public_transport_km > 0) || (stats.items.renewable_energy > 0) || (stats.items.upcycled_keyring > 0) || (stats.items.upcycled_banner > 0) || (stats.items.paperless_booth > 0) || (stats.items.digital_signage > 0) || (stats.items.waste_recycling > 0) || (barrierFreeState && barrierFreeState.submitted) || (safetyLaborState && safetyLaborState.submitted) || venueEcologyState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
 
       // 1. Show Floating dashboard bar
       const floatBar = document.getElementById('floatingDashboard');
@@ -2502,6 +2502,37 @@
         }
       } else {
         if (barrierFreeCard) barrierFreeCard.classList.add('hidden');
+      }
+
+      // Update Safety & Fair Labor Outcome Card
+      const safetyLaborCard = document.getElementById('kpi-safety-labor-card');
+      const safetyLaborList = document.getElementById('kpi-safety-labor-list');
+      const safetyLaborRate = document.getElementById('kpi-safety-labor-rate');
+
+      if (safetyLaborState && safetyLaborState.submitted) {
+        if (safetyLaborCard) safetyLaborCard.classList.remove('hidden');
+        const scoreRate = (((safetyLaborState.checkedItems || []).length / 6) * 100).toFixed(1);
+        if (safetyLaborRate) safetyLaborRate.textContent = `${scoreRate}%`;
+        if (safetyLaborList) {
+          safetyLaborList.innerHTML = '';
+          const slLabels = {
+            crowd: '군중밀집 스마트 관리',
+            medical: '응급의료 & AED 배치',
+            plan: '안전관리계획 사전심의',
+            contract: '서면 근로계약 체결',
+            rest: '휴게시간 & 전용휴게실',
+            training: '사전 안전/인권 교육'
+          };
+          (safetyLaborState.checkedItems || []).forEach(item => {
+            const badge = document.createElement('span');
+            badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
+            badge.innerHTML = `<i data-lucide="shield-check" class="w-3 h-3 text-blue-500"></i> ${slLabels[item]}`;
+            safetyLaborList.appendChild(badge);
+          });
+          lucide.createIcons();
+        }
+      } else {
+        if (safetyLaborCard) safetyLaborCard.classList.add('hidden');
       }
 
       // Update Local Economy Outcome Card
