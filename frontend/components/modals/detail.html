@@ -1,0 +1,37 @@
+﻿  <!-- ==========================================
+       MODAL POPUP FOR DETAILS
+       ========================================== -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300">
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
+        <h3 id="modalTitle" class="text-sm font-extrabold text-slate-900">상세 정보</h3>
+        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="py-4 space-y-3">
+        <p id="modalDescription" class="text-xs text-slate-600 leading-relaxed">상세 설명문이 들어가는 공간입니다.</p>
+        
+        <!-- File upload box inside detailModal -->
+        <div id="detailModalFileUploadContainer" class="hidden space-y-2 border-t border-slate-100 pt-3">
+          <span class="text-[10px] font-black text-indigo-600 uppercase tracking-wider block">ISO 20121 인증서 첨부파일 (PDF / 이미지)</span>
+          <label for="detail-file-upload" class="flex flex-col items-center justify-center w-full min-h-[95px] p-2.5 border-2 border-dashed border-indigo-200 rounded-xl cursor-pointer hover:bg-indigo-50/50 transition-colors">
+            <div id="iso20121-preview-container" class="flex flex-col items-center justify-center text-center">
+              <i data-lucide="file-check-2" id="iso20121-upload-icon" class="w-6 h-6 text-indigo-500 mb-1"></i>
+              <p class="text-[11px] text-slate-700 font-bold mb-0.5" id="iso20121-filename">클릭하여 인증서 파일(PDF, JPG, PNG) 첨부</p>
+              <p class="text-[9px] text-slate-400">PDF 문서 및 이미지 파일 가능 (최대 20MB)</p>
+            </div>
+            <input id="detail-file-upload" type="file" accept="image/*,.pdf" class="hidden" onchange="handleIso20121FileChange(event)">
+          </label>
+        </div>
+      </div>
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeDetailModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">닫기</button>
+        <button id="btn-detail-submit" onclick="submitIso20121(); closeDetailModal();" class="hidden bg-[#0f2042] hover:bg-blue-900 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition-colors shadow-md">인증서 제출</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR ECO SIMULATOR (다회용기)
+       ========================================== -->

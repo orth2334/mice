@@ -1,0 +1,130 @@
+﻿  <div id="wasteRecyclingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-4">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="recycle" class="w-5 h-5 text-emerald-600"></i>
+            자원순환 & 폐기물 재활용률 산정
+          </h3>
+          <p class="text-[10px] text-slate-500">GRI 306 및 TRUE Zero Waste(90% 이상) 기준 분리배출 수거량 산정</p>
+        </div>
+        <button onclick="closeWasteRecyclingModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+        <!-- Nickname Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">참여자 닉네임 (선택)</label>
+          <input type="text" id="waste-username" placeholder="이름 또는 닉네임을 입력하세요 (선택)" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium">
+        </div>
+
+        <!-- 1. 종이/박스 재활용량 -->
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800">종이 · 단보지 · 박스 (kg)</h4>
+            <p class="text-[9px] text-slate-450">재활용지 생산 회피 (1.12 kgCO2eq/kg)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeWasteQty('paper', -5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">-5</button>
+            <button onclick="changeWasteQty('paper', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="minus" class="w-3 h-3"></i></button>
+            <input type="number" id="qty-waste-paper" value="0" min="0" oninput="updateWasteModalUI()" class="w-10 text-center text-xs font-extrabold text-slate-800 bg-transparent focus:outline-none border-b border-slate-200">
+            <button onclick="changeWasteQty('paper', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            <button onclick="changeWasteQty('paper', 5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">+5</button>
+          </div>
+        </div>
+
+        <!-- 2. 플라스틱/캔/유리 재활용량 -->
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800">플라스틱 · 캔 · 유리 (kg)</h4>
+            <p class="text-[9px] text-slate-450">신재 자원 원료 회피 (1.85 kgCO2eq/kg)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeWasteQty('plastic', -5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">-5</button>
+            <button onclick="changeWasteQty('plastic', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="minus" class="w-3 h-3"></i></button>
+            <input type="number" id="qty-waste-plastic" value="0" min="0" oninput="updateWasteModalUI()" class="w-10 text-center text-xs font-extrabold text-slate-800 bg-transparent focus:outline-none border-b border-slate-200">
+            <button onclick="changeWasteQty('plastic', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            <button onclick="changeWasteQty('plastic', 5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">+5</button>
+          </div>
+        </div>
+
+        <!-- 3. 음식물 퇴비화/바이오가스 -->
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800">음식물 퇴비화 · 자원화 (kg)</h4>
+            <p class="text-[9px] text-slate-450">매립지 메탄방출 회피 (0.85 kgCO2eq/kg)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeWasteQty('food', -5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">-5</button>
+            <button onclick="changeWasteQty('food', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="minus" class="w-3 h-3"></i></button>
+            <input type="number" id="qty-waste-food" value="0" min="0" oninput="updateWasteModalUI()" class="w-10 text-center text-xs font-extrabold text-slate-800 bg-transparent focus:outline-none border-b border-slate-200">
+            <button onclick="changeWasteQty('food', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            <button onclick="changeWasteQty('food', 5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">+5</button>
+          </div>
+        </div>
+
+        <!-- 4. 일반 소각/매립 종량제 -->
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800">일반 소각 · 매립 종량제 (kg)</h4>
+            <p class="text-[9px] text-slate-450">단순 소각/매립 처분 (감축 0 kg)</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeWasteQty('general', -5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">-5</button>
+            <button onclick="changeWasteQty('general', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50"><i data-lucide="minus" class="w-3 h-3"></i></button>
+            <input type="number" id="qty-waste-general" value="0" min="0" oninput="updateWasteModalUI()" class="w-10 text-center text-xs font-extrabold text-slate-800 bg-transparent focus:outline-none border-b border-slate-200">
+            <button onclick="changeWasteQty('general', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            <button onclick="changeWasteQty('general', 5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 font-bold text-[9px]">+5</button>
+          </div>
+        </div>
+
+        <!-- Key Metrics Board -->
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+            <span class="text-[9px] text-slate-400 font-bold block">총 발생 폐기물 (GRI 306)</span>
+            <span id="waste-total-kg" class="text-sm font-black text-slate-800">0 kg</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
+            <span class="text-[9px] text-slate-400 font-bold block">자원 재활용률 (Diversion)</span>
+            <span id="waste-recycling-rate" class="text-sm font-black text-emerald-600">0.0 %</span>
+          </div>
+        </div>
+
+        <!-- TRUE Zero Waste Badge Status -->
+        <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-100 flex items-center justify-between">
+          <span class="text-[10px] font-bold text-emerald-800">TRUE Zero Waste (90% 이상)</span>
+          <span id="waste-zero-badge" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-200 text-slate-600">기준 미달</span>
+        </div>
+
+        <!-- Result Board -->
+        <div id="waste-result-container" class="bg-emerald-50/50 rounded-2xl p-3 border border-emerald-100/70 flex justify-between items-center">
+          <div>
+            <span class="text-[9px] font-bold text-emerald-700 uppercase tracking-widest block">Expected CO2 Reduction</span>
+            <span class="text-[10px] text-emerald-700 font-bold">온실가스 회피 감축량</span>
+          </div>
+          <div class="text-right">
+            <span id="waste-carbon-summary" class="text-lg font-black text-emerald-700 leading-none">0 gCO2eq</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="pt-2 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeWasteRecyclingModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-bold px-4 py-2 rounded-xl transition-colors">취소</button>
+        <button id="btn-submit-waste" disabled onclick="submitWasteSimulation()" class="bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          실천 완료
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR VENUE ECOLOGY CERTIFICATES
+       ========================================== -->

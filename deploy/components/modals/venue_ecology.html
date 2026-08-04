@@ -1,0 +1,120 @@
+﻿  <div id="venueEcologyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i>
+            친환경 행사장 인증 및 탄소상쇄 등록
+          </h3>
+          <p class="text-[10px] text-slate-500">행사장이 보유한 친환경 인증과 행사 탄소 상쇄 실적을 제출해 주세요.</p>
+        </div>
+        <button onclick="closeVenueEcologyModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+        
+        <!-- Section 1 -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md uppercase tracking-wider block w-max">1단계. 공간/장소(Venue) 친환경 인증 라인업</span>
+          
+          <div class="space-y-2">
+            <!-- ① G-SEED -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-gseed" class="mt-0.5 rounded border-slate-200 text-emerald-650 focus:ring-emerald-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">G-SEED (녹색건축인증)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">국토교통부와 환경부가 부여하는 대한민국 표준 친환경 건축물 인증입니다.</p>
+              </div>
+            </label>
+
+            <!-- ② LEED -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-leed" class="mt-0.5 rounded border-slate-200 text-emerald-650 focus:ring-emerald-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">LEED (인증)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">미국 그린빌딩협회(USGBC)가 발급하는 세계에서 가장 권위 있는 글로벌 친환경 건축 인증입니다.</p>
+              </div>
+            </label>
+
+            <!-- ③ EarthCheck -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-earthcheck" class="mt-0.5 rounded border-slate-200 text-emerald-650 focus:ring-emerald-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">EarthCheck (어스체크)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">세계적인 관광·마이스(MICE)·서비스 산업 특화 친환경 인증입니다.</p>
+              </div>
+            </label>
+
+            <!-- ④ ISO 14001 -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-iso14001" class="mt-0.5 rounded border-slate-200 text-emerald-650 focus:ring-emerald-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">ISO 14001 (환경경영시스템)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">기관의 운영 프로세스 전체가 친환경 국제 표준에 부합함을 증명하는 인증입니다.</p>
+              </div>
+            </label>
+
+            <!-- ⑤ ISO 20121 -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-iso20121" class="mt-0.5 rounded border-slate-200 text-emerald-650 focus:ring-emerald-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">ISO 20121 (이벤트 지속가능성 경영)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">행사 행정 시스템 자체가 친환경 표준에 맞추어 매니지먼트되는지 검증하는 마이스 특화 인증입니다.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-black text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wider block w-max">2단계. 당기 행사 운영 정산 시스템</span>
+          
+          <div class="space-y-2">
+            <!-- ⑥ 사회공헌형 산림탄소상쇄제도 -->
+            <label class="flex items-start gap-3 bg-slate-50 p-2.5 rounded-xl border border-slate-150/70 hover:bg-slate-100/50 cursor-pointer transition-colors">
+              <input type="checkbox" id="cert-forest" class="mt-0.5 rounded border-slate-200 text-blue-655 focus:ring-blue-500">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-900">사회공헌형 산림탄소상쇄제도 (행사형)</span>
+                <p class="text-[10px] text-slate-500 font-medium leading-tight">산림청이 주관하여 행사에서 발생한 탄소를 정산하고 상쇄했을 때 정부 공인 마크를 주는 제도입니다.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 3: PDF Upload -->
+        <div class="space-y-1.5 border-t border-slate-100 pt-3">
+          <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">인증서 PDF 파일 업로드 (필수)</span>
+          
+          <div class="flex items-center justify-center w-full">
+            <label for="pdf-upload" class="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50/70 hover:border-emerald-500 transition-colors">
+              <div class="flex flex-col items-center justify-center pt-3 pb-3">
+                <i data-lucide="file-up" id="upload-icon" class="w-6 h-6 text-slate-400 mb-1"></i>
+                <p class="text-[10px] text-slate-500 font-bold mb-0.5" id="upload-filename">클릭하여 PDF 인증서 업로드</p>
+                <p class="text-[9px] text-slate-400">PDF 파일만 가능 (최대 10MB)</p>
+              </div>
+              <input id="pdf-upload" type="file" accept=".pdf" class="hidden" onchange="handleFileChange(event)">
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeVenueEcologyModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-bold px-4 py-2 rounded-xl transition-colors">취소</button>
+        <button id="btn-submit-venue-ecology" disabled onclick="submitVenueEcology()" class="bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          제출하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR SIGNAGE SIMULATOR (디지털 페이퍼리스 & 사이니지)
+       ========================================== -->

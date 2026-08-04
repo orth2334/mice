@@ -1,0 +1,135 @@
+﻿  <div id="ecoSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="cup-soda" class="w-5 h-5 text-emerald-600"></i>
+            나의 다회용기 탄소감축 실천
+          </h3>
+          <p class="text-[10px] text-slate-500">일회용기 대신 다회용 식기를 사용하여 온실가스를 줄여주세요.</p>
+        </div>
+        <button onclick="closeEcoSimulatorModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-4">
+        <!-- Nickname Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">참여자 닉네임 (선택)</label>
+          <input type="text" id="eco-username" placeholder="이름 또는 닉네임을 입력하세요 (선택)" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium">
+        </div>
+
+        <!-- Items Counters -->
+        <div class="space-y-2.5">
+          <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">실천할 품목 수량</span>
+          
+          <!-- 1. Cup -->
+          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <i data-lucide="cup-soda" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">다회용 컵</h4>
+                <p class="text-[9px] text-slate-450">-52 gCO2eq / 개</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <button onclick="changeQty('cup', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
+              <span id="qty-cup" class="w-6 text-center text-xs font-extrabold text-slate-800 select-none">0</span>
+              <button onclick="changeQty('cup', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+
+          <!-- 2. Plate -->
+          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <i data-lucide="utensils" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">다회용 접시</h4>
+                <p class="text-[9px] text-slate-450">-37 gCO2eq / 개</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <button onclick="changeQty('plate', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
+              <span id="qty-plate" class="w-6 text-center text-xs font-extrabold text-slate-800 select-none">0</span>
+              <button onclick="changeQty('plate', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+
+          <!-- 3. Bowl -->
+          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <i data-lucide="soup" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">다회용 볼</h4>
+                <p class="text-[9px] text-slate-450">-60 gCO2eq / 개</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <button onclick="changeQty('bowl', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
+              <span id="qty-bowl" class="w-6 text-center text-xs font-extrabold text-slate-800 select-none">0</span>
+              <button onclick="changeQty('bowl', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+
+          <!-- 4. Fork -->
+          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <i data-lucide="hand-metal" class="w-4 h-4"></i>
+              </span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">다회용 포크</h4>
+                <p class="text-[9px] text-slate-450">-9 gCO2eq / 개</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <button onclick="changeQty('fork', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
+              <span id="qty-fork" class="w-6 text-center text-xs font-extrabold text-slate-800 select-none">0</span>
+              <button onclick="changeQty('fork', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Summary Board -->
+        <div class="bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/70 flex justify-between items-center transition-all duration-300">
+          <div>
+            <span class="text-[9px] font-bold text-emerald-700 uppercase tracking-widest block">Expected CO2 Reduction</span>
+            <span class="text-[10px] text-slate-400 font-medium">실시간 예상 탄소 감축 결과</span>
+          </div>
+          <div class="text-right">
+            <span id="eco-carbon-summary" class="text-lg font-black text-emerald-700 leading-none">0 gCO2eq</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeEcoSimulatorModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-bold px-4 py-2 rounded-xl transition-colors">취소</button>
+        <button onclick="submitEcoSimulation()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          실천 완료
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert Toast -->
+  <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none transform translate-y-3 z-50 flex items-center gap-2">
+    <i data-lucide="info" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">메시지</span>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR TRANSPORT SIMULATOR (친환경 이동수단)
+       ========================================== -->

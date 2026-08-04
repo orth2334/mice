@@ -1,0 +1,96 @@
+/**
+ * Modal Loader - Fetches modal HTML components and injects them into the page
+ * This replaces inline modal HTML in index.html, reducing file size from 3,700+ to ~500 lines
+ */
+(function() {
+  'use strict';
+
+  const MODAL_FILES = [
+    'detail',
+    'eco_simulator',
+    'transport_simulator',
+    'energy_simulator',
+    'upcycle_simulator',
+    'paper_booth_simulator',
+    'waste_recycling',
+    'venue_ecology',
+    'signage_simulator',
+    'barrier_free',
+    'safety_labor',
+    'local_food',
+    'local_economy',
+    'inclusion',
+    'esg_education',
+    'supporters',
+    'donation',
+    'knowledge_sharing',
+    'iso20121',
+    'esg_report',
+    'advisory',
+    'stakeholder_feedback',
+    'esg_disclosure'
+  ];
+
+  // Determine base path for components (works on both localhost and GitHub Pages)
+  function getBasePath() {
+    const path = window.location.pathname;
+    // If served from a subdirectory (e.g., /mice/ on GitHub Pages)
+    if (path.includes('/mice/')) {
+      return path.substring(0, path.lastIndexOf('/mice/') + 6);
+    }
+    // Default: relative to current page
+    return './';
+  }
+
+  async function loadAllModals() {
+    const container = document.getElementById('modal-container');
+    if (!container) {
+      console.warn('[Modal Loader] #modal-container not found. Modals may be inline.');
+      return;
+    }
+
+    const basePath = getBasePath();
+    const modalDir = basePath + 'components/modals/';
+
+    try {
+      // Fetch all modal HTML files in parallel
+      const fetchPromises = MODAL_FILES.map(name => {
+        const url = modalDir + name + '.html';
+        return fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              console.warn(`[Modal Loader] Failed to load ${name}.html (${response.status})`);
+              return '';
+            }
+            return response.text();
+          })
+          .catch(err => {
+            console.warn(`[Modal Loader] Error loading ${name}.html:`, err);
+            return '';
+          });
+      });
+
+      const fragments = await Promise.all(fetchPromises);
+
+      // Inject all modals at once
+      container.innerHTML = fragments.join('\n');
+
+      // Re-initialize Lucide icons for dynamically loaded content
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+
+      console.log(`[Modal Loader] Successfully loaded ${MODAL_FILES.length} modals`);
+    } catch (err) {
+      console.error('[Modal Loader] Critical error loading modals:', err);
+    }
+  }
+
+  // Load modals as soon as DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadAllModals);
+  } else {
+    // DOM already loaded
+    loadAllModals();
+  }
+})();

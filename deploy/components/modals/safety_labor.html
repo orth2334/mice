@@ -1,0 +1,138 @@
+﻿  <div id="safetyLaborModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-4">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
+            행사 안전 & 공정노동 준수 산정
+          </h3>
+          <p class="text-[10px] text-slate-500">GRI 403(안전보건), GRI 401(공정노동) 및 중대재해처벌법 준수율 측정</p>
+        </div>
+        <button onclick="closeSafetyLaborModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+        <!-- Nickname Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">참여자 닉네임 (선택)</label>
+          <input type="text" id="safety-labor-username" placeholder="이름 또는 닉네임을 입력하세요 (선택)" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium">
+        </div>
+
+        <!-- 📊 Quantitative Metrics Section -->
+        <div class="bg-blue-50/70 p-3 rounded-2xl border border-blue-100 space-y-2">
+          <span class="text-[10px] font-black text-blue-800 uppercase tracking-wider block flex items-center gap-1">
+            <i data-lucide="users" class="w-3.5 h-3.5 text-blue-600"></i>
+            안전 인력 & 스태프 수량 입력 (GRI 403)
+          </span>
+
+          <div class="grid grid-cols-2 gap-2">
+            <!-- 안전관리 요원 수 -->
+            <div class="bg-white p-2 rounded-xl border border-blue-100/80 shadow-2xs">
+              <label class="text-[10px] font-bold text-slate-700 block">안전관리 요원 (명)</label>
+              <input type="number" id="sl-guards-count" value="0" min="0" oninput="updateSafetyLaborUI()"
+                     class="w-full mt-1 text-center text-xs font-extrabold text-blue-900 bg-slate-50 rounded-lg py-1 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30">
+            </div>
+
+            <!-- 스태프 및 자원봉사자 수 -->
+            <div class="bg-white p-2 rounded-xl border border-blue-100/80 shadow-2xs">
+              <label class="text-[10px] font-bold text-slate-700 block">스태프/봉사자 (명)</label>
+              <input type="number" id="sl-staff-count" value="0" min="0" oninput="updateSafetyLaborUI()"
+                     class="w-full mt-1 text-center text-xs font-extrabold text-blue-900 bg-slate-50 rounded-lg py-1 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30">
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkbox Options (정성적 안전&공정노동 6종 점검) -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">안전 & 공정노동 6대 필수 점검 항목</span>
+          
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-crowd" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">군중 밀집 스마트 관리 & 비상동선</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">병목 구간 해소, 동선 일방통행화 및 비상 대피통로 확보</p>
+            </div>
+          </label>
+
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-medical" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">응급의료 부스 & AED 배치</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">전문 간호사/구조사 상주 및 자동심장충격기(AED) 전진 배치</p>
+            </div>
+          </label>
+
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-plan" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">안전관리계획 사전 수립 & 심의</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">지자체 및 소방서 사전 심의 완료 및 아차사고 예방 체계 수립</p>
+            </div>
+          </label>
+
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-contract" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">서면 근로계약 체결 & 최저임금 준수</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">단기 스태프 전원 전자 서면 계약서 체결 및 법정 최저임금 이상 지급</p>
+            </div>
+          </label>
+
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-rest" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">법정 휴게시간 & 쾌적한 휴게공간</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">4시간당 30분 이상 휴식 보장, 다과/음료 및 독립된 휴게실 제공</p>
+            </div>
+          </label>
+
+          <label class="flex items-start bg-slate-50 p-2.5 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50 cursor-pointer select-none">
+            <input type="checkbox" id="sl-training" onchange="updateSafetyLaborUI()" class="mt-0.5 mr-2.5 w-4 h-4 text-blue-600 border-slate-350 rounded focus:ring-blue-500">
+            <div class="flex-grow">
+              <h4 class="text-xs font-bold text-slate-800">사전 안전/인권/성희롱 예방 교육</h4>
+              <p class="text-[9px] text-slate-450 leading-tight mt-0.5">행사 투입 전 안전수칙, 응급대처 및 직장 내 인권 보호 사전 교육 이수</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- 📈 Real-Time Impact Summary Section -->
+        <div class="bg-slate-900 text-white p-3 rounded-2xl space-y-1.5 shadow-md">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-300 font-medium text-[11px]">안전·공정노동 준수율 (Score)</span>
+            <div class="flex items-center gap-1.5">
+              <span id="sl-score-rate" class="font-black text-blue-300 text-sm">0.0%</span>
+              <span id="sl-certified-badge" class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">미달성</span>
+            </div>
+          </div>
+          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+            <div id="sl-score-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+          </div>
+          <div class="flex justify-between items-center text-[10px] text-slate-400 pt-0.5">
+            <span>실천 항목: <strong id="sl-checked-count" class="text-white">0</strong> / 6개</span>
+            <span id="sl-summary" class="text-blue-200">안전 요원 0명 | 스태프 0명</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeSafetyLaborModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all active:scale-98">
+          취소
+        </button>
+        <button id="btn-submit-safety-labor" disabled onclick="submitSafetyLabor()" class="bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          안전·노동 준수 등록하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR LOCAL FOOD (로컬푸드 구매 탄소감축 계산기)
+       ========================================== -->

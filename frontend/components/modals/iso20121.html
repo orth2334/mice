@@ -1,0 +1,69 @@
+﻿  <div id="iso20121Modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="award" class="w-5 h-5 text-indigo-600"></i>
+            ISO 20121 국제 인증서 파일 제출
+          </h3>
+          <p class="text-[10px] text-slate-500">지속가능이벤트경영시스템(ISO 20121) 공식 인증서 사본(PDF/이미지)을 업로드해 주세요.</p>
+        </div>
+        <button onclick="closeIso20121Modal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-4">
+        <!-- Submitter / Organization -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">제출 기관 / 담당자 (선택)</label>
+          <input type="text" id="iso20121-username" placeholder="기관명 또는 담당자 이름을 입력하세요" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-medium">
+        </div>
+
+        <!-- Certificate Authority / Reg No -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">인증 기관 및 발급 번호 (선택)</label>
+          <input type="text" id="iso20121-cert-org" placeholder="예: 한국표준협회 (KSA) / Cert No. 2026-ISO-08" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-medium">
+        </div>
+
+        <!-- File Attachment Section (PDF or Image) -->
+        <div class="space-y-1.5 border-t border-slate-100 pt-3">
+          <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">인증서 첨부파일 (PDF 또는 이미지)</span>
+          
+          <div class="flex items-center justify-center w-full">
+            <label for="iso20121-file-upload" class="flex flex-col items-center justify-center w-full min-h-[110px] p-3 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50/70 hover:border-indigo-500 transition-colors">
+              <div id="iso20121-preview-container" class="flex flex-col items-center justify-center text-center">
+                <i data-lucide="file-check-2" id="iso20121-upload-icon" class="w-7 h-7 text-indigo-500 mb-1"></i>
+                <p class="text-[11px] text-slate-600 font-bold mb-0.5" id="iso20121-filename">클릭하여 인증서 파일(PDF, JPG, PNG) 첨부</p>
+                <p class="text-[9px] text-slate-400">PDF 문서 및 이미지 파일 지원 (최대 20MB)</p>
+              </div>
+              <input id="iso20121-file-upload" type="file" accept="image/*,.pdf" class="hidden" onchange="handleIso20121FileChange(event)">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button id="btn-cancel-submit-iso20121" class="hidden px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-xl transition-all mr-auto active:scale-98" onclick="cancelIso20121Submit()">
+          등록 취소
+        </button>
+        <button onclick="closeIso20121Modal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all active:scale-98">
+          취소
+        </button>
+        <button id="btn-submit-iso20121" disabled onclick="submitIso20121()" class="bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          인증서 제출하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR ESG REPORT PDF ATTACHMENT (ESG 성과 보고서 PDF 첨부)
+       ========================================== -->

@@ -1,0 +1,101 @@
+﻿  <div id="esgDisclosureModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-3 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <div class="flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2 py-0.5 rounded-full">지배구조 (G) ③-2-6</span>
+            <span class="text-[10px] text-slate-400 font-bold">투명 공시 프로젝트</span>
+          </div>
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2 mt-1">
+            <i data-lucide="globe" class="w-5 h-5 text-indigo-600"></i>
+            행사 ESG 통합 정보공개 페이지 구축
+          </h3>
+        </div>
+        <button onclick="closeEsgDisclosureModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Content Body -->
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        
+
+
+        <!-- 실천프로그램 수행방안 (3가지) -->
+        <div class="bg-indigo-50/40 p-4 rounded-2xl border border-indigo-100 space-y-2">
+          <span class="text-[11px] font-extrabold text-indigo-950 block flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i> 실천프로그램 수행방안
+          </span>
+          <ul class="space-y-1.5 text-[11px] text-slate-700 font-medium">
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+              <span><strong>표준 공개 항목 설정:</strong> 행사 개요, 운영 주체, 예산 규모, ESG 실천 항목을 포함한 표준 공개 항목 설정</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+              <span><strong>단계적 공개 확대:</strong> 정기행사와 공공지원 행사를 중심으로 단계적 공개 확대</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-indigo-200 text-indigo-800 text-[10px] font-black flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+              <span><strong>상시 열람 가능 운영:</strong> 도 누리집 또는 전용 페이지와 연계하여 상시 열람 가능하도록 운영</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 기대효과 -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-100">
+            <span class="text-[9px] text-emerald-600 font-bold block">효과 1</span>
+            <span class="text-[11px] font-bold text-slate-800">행사 운영 투명성 제고</span>
+          </div>
+          <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-100">
+            <span class="text-[9px] text-blue-600 font-bold block">효과 2</span>
+            <span class="text-[11px] font-bold text-slate-800">도민 정보 접근성 강화</span>
+          </div>
+          <div class="bg-indigo-50 p-2.5 rounded-xl border border-indigo-100">
+            <span class="text-[9px] text-indigo-600 font-bold block">효과 3</span>
+            <span class="text-[11px] font-bold text-slate-800">공공 행사 신뢰도 향상</span>
+          </div>
+        </div>
+
+        <!-- ★ 핵심: 실천 증명 방안 안내 및 등록 -->
+        <div class="border-t border-slate-200/80 pt-3 space-y-3">
+
+
+          <!-- URL and File Submission Form -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-150 space-y-3">
+            <div class="space-y-1">
+              <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">통합 정보공개 누리집 URL *</label>
+              <input type="text" id="esg-disclosure-url" value="https://www.gg.go.kr/esg-mice-integrated-info" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-medium">
+            </div>
+
+            <div class="space-y-1.5">
+              <span class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">통합 정보공개 이행 확인서 (PDF/이미지) *</span>
+              <label for="disclosure-file-upload" class="flex flex-col items-center justify-center w-full min-h-[85px] p-2.5 border-2 border-dashed border-indigo-200 rounded-2xl cursor-pointer hover:bg-indigo-50/50 transition-colors">
+                <div id="disclosure-preview-container" class="flex flex-col items-center justify-center text-center">
+                  <i data-lucide="file-check" id="disclosure-upload-icon" class="w-6 h-6 text-indigo-500 mb-1"></i>
+                  <p class="text-[11px] text-indigo-950 font-bold mb-0.5" id="disclosure-filename">경기도_행사_ESG_통합정보공개_이행확인서.pdf</p>
+                  <p class="text-[9px] text-slate-400">클릭하여 이행 확인서 PDF 또는 캡처본 증빙 첨부</p>
+                </div>
+                <input id="disclosure-file-upload" type="file" accept=".pdf,image/*" class="hidden" onchange="handleDisclosureFileChange(event)">
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeEsgDisclosureModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all">
+          닫기
+        </button>
+        <button id="btn-submit-disclosure" onclick="submitEsgDisclosure()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          통합 정보공개 페이지 등록 & 증명 제출
+        </button>
+      </div>
+    </div>
+  </div>

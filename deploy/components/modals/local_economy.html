@@ -1,0 +1,70 @@
+﻿  <div id="localEconomyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
+        <div class="space-y-0.5">
+          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
+            <i data-lucide="trending-up" class="w-5 h-5 text-blue-600"></i>
+            지역경제 기여 실적 등록
+          </h3>
+          <p class="text-[10px] text-slate-500">행사를 통해 창출된 지역경제 파급효과 금액 및 상세내용을 입력해 주세요.</p>
+        </div>
+        <button onclick="closeLocalEconomyModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-4">
+        <!-- Nickname Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">담당자/기관명 (선택)</label>
+          <input type="text" id="local-economy-username" placeholder="이름 또는 기관명을 입력하세요" 
+                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium">
+        </div>
+
+        <!-- Economic Value Amount Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">추정 경제적 창출 가치 (만원)</label>
+          <div class="relative">
+            <input type="number" id="local-economy-amount" step="1" min="0" placeholder="금액을 입력하세요" value=""
+                   class="w-full text-sm font-extrabold text-slate-800 px-3 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all pr-14">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">만 원</span>
+          </div>
+        </div>
+
+        <!-- Details / Note Input -->
+        <div class="space-y-1">
+          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">기여 분야 / 세부 내역</label>
+          <textarea id="local-economy-details" rows="3" placeholder="예: 도외 참관단 숙박, 로컬 식음료 이용, 지역 골목상권 및 대중교통 소비 파급효과"
+                    class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium resize-none"></textarea>
+        </div>
+
+        <div class="bg-blue-50/60 p-3 rounded-2xl border border-blue-100 text-[10px] text-blue-800 space-y-1">
+          <div class="flex items-center gap-1.5 font-bold">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-blue-600"></i>
+            산정 기준 참고
+          </div>
+          <p class="text-[9px] text-slate-600 leading-relaxed">
+            비즈니스 참관객의 숙박비, 식비, 교통비 및 지역 소상공인 연계 부스 매출액을 종합 합산한 실적입니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
+        <button onclick="closeLocalEconomyModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-200 transition-all active:scale-98">
+          취소
+        </button>
+        <button onclick="submitLocalEconomy()" class="bg-[#0f2042] hover:bg-blue-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          실적 등록하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL POPUP FOR INCLUSION PROGRAM (포용 프로그램)
+       ========================================== -->
