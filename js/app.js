@@ -2643,7 +2643,7 @@
         }
       }
 
-      // Update Stakeholder Feedback & Pledge Guestbook Outcome Card
+      // Update Stakeholder Participation Outcome Card
       const stakeholderCard = document.getElementById('kpi-stakeholder-card');
       if (stakeholderCard) {
         if ((stakeholderState && stakeholderState.submitted) || pledgesState.length > 0) {
@@ -2655,26 +2655,7 @@
           });
 
           const peopleCountEl = document.getElementById('kpi-stakeholder-people-count');
-          const feedbackCountEl = document.getElementById('kpi-stakeholder-feedback-count');
-          const highlightEl = document.getElementById('kpi-stakeholder-highlight-text');
-          const photoBox = document.getElementById('kpi-stakeholder-photo-box');
-          const photoImg = document.getElementById('kpi-stakeholder-photo-img');
-
           if (peopleCountEl) peopleCountEl.textContent = `${totalPeople.toLocaleString()}명`;
-          if (feedbackCountEl) feedbackCountEl.textContent = `${pledgesState.length}건`;
-
-          if (pledgesState.length > 0 && highlightEl) {
-            highlightEl.textContent = `"${pledgesState[0].name} (${pledgesState[0].role})": ${pledgesState[0].message}`;
-          }
-
-          const activePhoto = (pledgesState.length > 0 && pledgesState[0].photoUrl) ? pledgesState[0].photoUrl : (stakeholderState ? stakeholderState.photoUrl : '');
-
-          if (activePhoto && photoBox && photoImg) {
-            photoImg.src = activePhoto;
-            photoBox.classList.remove('hidden');
-          } else if (photoBox) {
-            photoBox.classList.add('hidden');
-          }
         } else {
           stakeholderCard.classList.add('hidden');
         }
@@ -3662,43 +3643,20 @@
       showToast(`지식 나눔 강연 ${validPrograms}건 (${totalParticipants.toLocaleString()}명 수강) 등록이 완료되었습니다.`);
     }
 
-    // Stakeholder Feedback & ESG Pledges Guestbook Functions (GRI 2-29)
+    // Stakeholder Participation Functions (GRI 2-29)
     let pledgesState = [
-      { id: 1, name: '탄소제로도민', role: '도민·참관객', category: '텀블러/다회용기', peopleCount: 1, message: '행사장에 개인 텀블러를 갖고 와서 카페 부스에서 알차게 썼습니다! 💚', time: '10분 전' },
-      { id: 2, name: '지속가능연사', role: '연사·발표자', category: '대중교통 이용', peopleCount: 1, message: 'KTX와 수소 버스를 타고 행사장에 도착했습니다. 친환경 셔틀 훌륭해요! 🚌', time: '25분 전' },
-      { id: 3, name: '그린스태프', role: '행사 스태프', category: '페이퍼리스', peopleCount: 1, message: '모든 세션 발표 자료를 QR 코드로 안내하니 인쇄물도 줄고 너무 편리합니다! 📱', time: '1시간 전' }
+      { id: 1, role: '도민·참관객', peopleCount: 15, time: '10분 전' },
+      { id: 2, role: '연사·발표자', peopleCount: 5, time: '25분 전' },
+      { id: 3, role: '행사 스태프', peopleCount: 20, time: '1시간 전' }
     ];
 
     let stakeholderState = {
-      submitted: true,
-      photoUrl: ''
+      submitted: true
     };
-
-    let uploadedPledgePhotoUrl = '';
-
-    function handlePledgePhotoChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          uploadedPledgePhotoUrl = e.target.result;
-          const previewBox = document.getElementById('pledge-photo-preview-box');
-          const previewImg = document.getElementById('pledge-photo-preview');
-          const label = document.getElementById('pledge-photo-label');
-
-          if (previewImg) previewImg.src = uploadedPledgePhotoUrl;
-          if (previewBox) previewBox.classList.remove('hidden');
-          if (label) label.textContent = `사진 선택됨: ${file.name}`;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
 
     function openStakeholderFeedbackModal() {
       const modal = document.getElementById('stakeholderFeedbackModal');
       if (!modal) return;
-
-      renderPledgesList();
 
       modal.classList.remove('hidden');
       setTimeout(() => {
@@ -3717,83 +3675,25 @@
       }, 300);
     }
 
-    function renderPledgesList() {
-      const feedList = document.getElementById('pledges-feed-list');
-      const totalCountEl = document.getElementById('pledge-total-count');
-      const totalPeopleEl = document.getElementById('pledge-total-people');
-
-      let sumPeople = 0;
-      pledgesState.forEach(p => {
-        sumPeople += (parseInt(p.peopleCount) || 1);
-      });
-
-      if (totalCountEl) totalCountEl.textContent = pledgesState.length;
-      if (totalPeopleEl) totalPeopleEl.textContent = sumPeople.toLocaleString();
-
-      if (!feedList) return;
-      feedList.innerHTML = '';
-
-      pledgesState.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 space-y-1';
-        card.innerHTML = `
-          <div class="flex justify-between items-center text-[10px]">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="font-extrabold text-slate-800">${p.name}</span>
-              <span class="bg-indigo-50 text-indigo-700 text-[9px] px-1.5 py-0.2 rounded font-bold">${p.role}</span>
-              <span class="bg-emerald-50 text-emerald-700 text-[9px] px-1.5 py-0.2 rounded font-bold">${p.category}</span>
-              <span class="bg-slate-200 text-slate-700 text-[9px] px-1.5 py-0.2 rounded font-bold">${p.peopleCount || 1}명</span>
-            </div>
-            <span class="text-slate-400 text-[9px]">${p.time}</span>
-          </div>
-          <p class="text-[11px] text-slate-700 font-medium leading-snug">${p.message}</p>
-          ${p.photoUrl ? `<img src="${p.photoUrl}" alt="실천 인증" class="w-full h-24 object-cover rounded-lg border border-slate-200 mt-1">` : ''}
-        `;
-        feedList.appendChild(card);
-      });
-    }
-
     function submitPledge() {
-      const usernameInput = document.getElementById('pledge-username')?.value.trim();
       const role = document.getElementById('pledge-role')?.value || '도민·참관객';
-      const category = document.getElementById('pledge-category')?.value || '자유 다짐';
       const peopleInput = parseInt(document.getElementById('pledge-people-count')?.value) || 1;
-      const message = document.getElementById('pledge-message')?.value.trim();
-
-      const username = usernameInput || sessionStats.username || '익명 참가자';
-      if (usernameInput) sessionStats.username = usernameInput;
-
-      if (!message) {
-        showToast('한줄 다짐 메시지를 입력해 주세요.', true);
-        return;
-      }
 
       const newPledge = {
         id: Date.now(),
-        name: username,
         role: role,
-        category: category,
         peopleCount: peopleInput,
-        message: message,
-        photoUrl: uploadedPledgePhotoUrl,
         time: '방금 전'
       };
 
       pledgesState.unshift(newPledge);
       stakeholderState.submitted = true;
-      if (uploadedPledgePhotoUrl) stakeholderState.photoUrl = uploadedPledgePhotoUrl;
 
-      renderPledgesList();
-
-      const msgEl = document.getElementById('pledge-message');
-      if (msgEl) msgEl.value = '';
-
-      // Reset photo upload
-      uploadedPledgePhotoUrl = '';
-      const photoBox = document.getElementById('pledge-photo-preview-box');
-      const photoLabel = document.getElementById('pledge-photo-label');
-      if (photoBox) photoBox.classList.add('hidden');
-      if (photoLabel) photoLabel.textContent = '현장 실천 사진 첨부하기 (JPG, PNG)';
+      // Calculate total participants
+      let sumPeople = 0;
+      pledgesState.forEach(p => {
+        sumPeople += (parseInt(p.peopleCount) || 1);
+      });
 
       // Update Card 05 Badge
       const label = document.getElementById('badge-stakeholder-label');
@@ -3802,8 +3702,8 @@
       const icon = document.getElementById('badge-stakeholder-icon');
 
       if (label && val) {
-        label.textContent = '시민 소통 & 방명록';
-        val.textContent = `${pledgesState.length}건 다짐 등록됨`;
+        label.textContent = '시민 참여 집계';
+        val.textContent = `누적 ${sumPeople}명 참여`;
         val.classList.remove('text-slate-800');
         val.classList.add('text-indigo-600');
       }
@@ -3815,15 +3715,12 @@
       }
 
       updateDashboardUI(sessionStats);
-
-      sendParticipation(username, (data) => {
-        showToast(`ESG 한줄 다짐 방명록이 등록되었습니다! (총 ${peopleInput}명 동참) 💚`);
-      });
+      showToast(`ESG 실천 참여 인원이 등록되었습니다! (총 ${peopleInput}명 누적 반영) 💚`);
+      closeStakeholderFeedbackModal();
     }
 
     window.openStakeholderFeedbackModal = openStakeholderFeedbackModal;
     window.closeStakeholderFeedbackModal = closeStakeholderFeedbackModal;
-    window.handlePledgePhotoChange = handlePledgePhotoChange;
     window.submitPledge = submitPledge;
 
     // Advisory Minutes Modal Functions
