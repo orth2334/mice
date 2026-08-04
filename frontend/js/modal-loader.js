@@ -28,6 +28,7 @@
     'esg_report',
     'advisory',
     'stakeholder_feedback',
+    'advisory_minutes',
     'esg_disclosure'
   ];
 

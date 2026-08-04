@@ -3739,6 +3739,75 @@
     window.closeStakeholderFeedbackModal = closeStakeholderFeedbackModal;
     window.submitPledge = submitPledge;
 
+    // Advisory Minutes Modal Functions
+    let advisoryMinutesState = {
+      date: '2026년 7월 20일',
+      members: '',
+      summary: '',
+      fileName: '2026_MICE_이해관계자_자문단_회의록_및_의견수렴보고서.pdf',
+      submitted: false
+    };
+
+    function openAdvisoryMinutesModal() {
+      const modal = document.getElementById('advisoryMinutesModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeAdvisoryMinutesModal() {
+      const modal = document.getElementById('advisoryMinutesModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function handleAdvisoryMinFileChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        advisoryMinutesState.fileName = file.name;
+        const nameEl = document.getElementById('advisory-min-filename');
+        if (nameEl) nameEl.textContent = file.name;
+      }
+    }
+
+    function submitAdvisoryMinutes() {
+      advisoryMinutesState.submitted = true;
+
+      // Update Card 06 Badge
+      const label = document.getElementById('badge-advisory-min-label');
+      const val = document.getElementById('badge-advisory-min-value');
+      const iconContainer = document.getElementById('badge-advisory-min-icon-container');
+      const icon = document.getElementById('badge-advisory-min-icon');
+
+      if (label && val) {
+        label.textContent = '자문단 회의록 공시';
+        val.textContent = '회의록 첨부 완료';
+        val.classList.remove('text-slate-800');
+        val.classList.add('text-indigo-600');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.remove('bg-indigo-50', 'text-indigo-655');
+        iconContainer.classList.add('bg-indigo-600', 'text-white');
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        lucide.createIcons();
+      }
+
+      showToast('이해관계자 자문단 회의록 및 의견 수렴 보고서 공시가 성공적으로 제출되었습니다.');
+      closeAdvisoryMinutesModal();
+    }
+
+    window.openAdvisoryMinutesModal = openAdvisoryMinutesModal;
+    window.closeAdvisoryMinutesModal = closeAdvisoryMinutesModal;
+    window.handleAdvisoryMinFileChange = handleAdvisoryMinFileChange;
+    window.submitAdvisoryMinutes = submitAdvisoryMinutes;
+
     // Close modal on escape keypress
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
@@ -3762,5 +3831,6 @@
         closeEsgReportModal();
         closeAdvisoryModal();
         closeStakeholderFeedbackModal();
+        closeAdvisoryMinutesModal();
       }
     });
