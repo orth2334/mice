@@ -32,10 +32,11 @@ db.serialize(() => {
         { id: 'reusable_fork', name: '다회용 포크', carbon_reduction: 9, unit_name: '개' },
         { id: 'public_transport', name: '친환경 이동수단', carbon_reduction: 120, unit_name: '인·km' },
         { id: 'renewable_energy', name: '재생에너지 사용', carbon_reduction: 478.1, unit_name: 'kWh' },
-        { id: 'upcycled_keyring', name: '업사이클링 키링', carbon_reduction: 16, unit_name: '개' },
+        { id: 'upcycled_keyring', name: '업사이클링 키링', carbon_reduction: 12, unit_name: '개' },
         { id: 'upcycled_banner', name: '업사이클링 현수막', carbon_reduction: 6280, unit_name: '장' },
         { id: 'paper_booth', name: '종이 전시부스', carbon_reduction: 10125, unit_name: '㎡' },
-        { id: 'digital_signage', name: '디지털 페이퍼리스 & 사이니지', carbon_reduction: 1, unit_name: 'gCO2eq' }
+        { id: 'digital_signage', name: '디지털 페이퍼리스 & 사이니지', carbon_reduction: 1, unit_name: 'gCO2eq' },
+        { id: 'waste_recycling', name: '자원순환 & 폐기물 재활용', carbon_reduction: 1, unit_name: 'gCO2eq' }
       ];
 
       defaultActions.forEach(action => {

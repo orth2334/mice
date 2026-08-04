@@ -66,10 +66,12 @@ function getStats(callback) {
       COALESCE(SUM(CASE WHEN action_id = 'upcycled_banner' THEN quantity ELSE 0 END), 0) as total_banner,
       COALESCE(SUM(CASE WHEN action_id = 'paper_booth' THEN quantity ELSE 0 END), 0) as total_paper_booth,
       COALESCE(SUM(CASE WHEN action_id = 'digital_signage' THEN quantity ELSE 0 END), 0) as total_digital_signage,
+      COALESCE(SUM(CASE WHEN action_id = 'waste_recycling' THEN quantity ELSE 0 END), 0) as total_waste_recycling,
       COALESCE(SUM(CASE WHEN action_id = 'upcycled_keyring' THEN reduced_carbon ELSE 0 END), 0) as total_keyring_carbon,
       COALESCE(COUNT(DISTINCT CASE WHEN action_id = 'upcycled_keyring' THEN username END), 0) as keyring_participants,
       COALESCE(COUNT(DISTINCT CASE WHEN action_id = 'paper_booth' THEN username END), 0) as paper_booth_participants,
       COALESCE(COUNT(DISTINCT CASE WHEN action_id = 'digital_signage' THEN username END), 0) as signage_participants,
+      COALESCE(COUNT(DISTINCT CASE WHEN action_id = 'waste_recycling' THEN username END), 0) as waste_recycling_participants,
       COUNT(DISTINCT username) as total_participants
     FROM participation_logs
   `;
@@ -90,12 +92,14 @@ function getStats(callback) {
           upcycled_keyring: row.total_keyring,
           upcycled_banner: row.total_banner,
           paper_booth: row.total_paper_booth,
-          digital_signage: row.total_digital_signage
+          digital_signage: row.total_digital_signage,
+          waste_recycling: row.total_waste_recycling
         },
         keyringReducedCarbonGrams: row.total_keyring_carbon,
         keyringParticipants: row.keyring_participants,
         paperBoothParticipants: row.paper_booth_participants,
         signageParticipants: row.signage_participants,
+        wasteRecyclingParticipants: row.waste_recycling_participants,
         totalParticipants: row.total_participants
       });
     }
@@ -189,9 +193,7 @@ app.post('/api/participate', (req, res) => {
     validActions.forEach(act => {
       let reduced = 0;
       if (act.action_id === 'upcycled_keyring') {
-        // Formula: Q * W (0.01kg) * (E_virgin (2.0) - E_pre (0.4)) - E_trans (0.05kg)
-        // = Q * 0.016 - 0.05 kg CO2eq = Q * 16 - 50 g CO2eq
-        reduced = act.quantity * 16 - 50;
+        reduced = act.quantity * (actionCoefficients['upcycled_keyring'] || 12);
       } else {
         const coeff = actionCoefficients[act.action_id] || 0;
         reduced = act.quantity * coeff;

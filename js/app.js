@@ -1904,8 +1904,9 @@
     function openSignageSimulatorModal() {
       const modal = document.getElementById('signageSimulatorModal');
       
-      // Load existing session quantities
-      currentSignageQuantities = JSON.parse(localStorage.getItem('mice_signage_quantities')) || {
+      // Clear localStorage cache and reset initial quantities to 0
+      localStorage.removeItem('mice_signage_quantities');
+      currentSignageQuantities = {
         paper_a4: 0,
         paper_brochure: 0,
         paper_poster: 0,
@@ -1915,12 +1916,12 @@
       };
       
       document.getElementById('signage-username').value = sessionStats.username || '';
-      document.getElementById('qty-signage-paper-a4').value = currentSignageQuantities.paper_a4 || 0;
-      document.getElementById('qty-signage-paper-brochure').value = currentSignageQuantities.paper_brochure || 0;
-      document.getElementById('qty-signage-paper-poster').value = currentSignageQuantities.paper_poster || 0;
-      document.getElementById('qty-signage-views').value = currentSignageQuantities.views || 0;
-      document.getElementById('qty-signage-hours').value = currentSignageQuantities.hours || 0;
-      document.getElementById('signage-renewable').checked = currentSignageQuantities.is_renewable || false;
+      document.getElementById('qty-signage-paper-a4').value = 0;
+      document.getElementById('qty-signage-paper-brochure').value = 0;
+      document.getElementById('qty-signage-paper-poster').value = 0;
+      document.getElementById('qty-signage-views').value = 0;
+      document.getElementById('qty-signage-hours').value = 0;
+      document.getElementById('signage-renewable').checked = false;
       
       updateSignageModalUI();
       
@@ -2032,6 +2033,105 @@
       }, closeSignageSimulatorModal);
     }
 
+    // Waste Recycling Simulator Modal Functions (GRI 306 & TRUE Zero Waste)
+    let currentWasteQuantities = { paper: 0, plastic: 0, food: 0, general: 0 };
+
+    function openWasteRecyclingModal() {
+      const modal = document.getElementById('wasteRecyclingModal');
+      if (!modal) return;
+      
+      currentWasteQuantities = { paper: 0, plastic: 0, food: 0, general: 0 };
+      
+      document.getElementById('waste-username').value = sessionStats.username || '';
+      document.getElementById('qty-waste-paper').value = 0;
+      document.getElementById('qty-waste-plastic').value = 0;
+      document.getElementById('qty-waste-food').value = 0;
+      document.getElementById('qty-waste-general').value = 0;
+      
+      updateWasteModalUI();
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeWasteRecyclingModal() {
+      const modal = document.getElementById('wasteRecyclingModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function changeWasteQty(field, delta) {
+      const el = document.getElementById(`qty-waste-${field}`);
+      if (!el) return;
+      let val = parseInt(el.value || 0) + delta;
+      if (val < 0) val = 0;
+      el.value = val;
+      updateWasteModalUI();
+    }
+
+    function updateWasteModalUI() {
+      const paper = parseInt(document.getElementById('qty-waste-paper').value || 0);
+      const plastic = parseInt(document.getElementById('qty-waste-plastic').value || 0);
+      const food = parseInt(document.getElementById('qty-waste-food').value || 0);
+      const general = parseInt(document.getElementById('qty-waste-general').value || 0);
+      
+      currentWasteQuantities = { paper, plastic, food, general };
+      
+      const total_waste = paper + plastic + food + general;
+      const diverted_waste = paper + plastic + food;
+      const rate = total_waste > 0 ? ((diverted_waste / total_waste) * 100).toFixed(1) : "0.0";
+      
+      document.getElementById('waste-total-kg').textContent = total_waste.toLocaleString() + ' kg';
+      document.getElementById('waste-recycling-rate').textContent = rate + ' %';
+      
+      const badge = document.getElementById('waste-zero-badge');
+      if (total_waste > 0 && parseFloat(rate) >= 90.0) {
+        badge.textContent = 'CERTIFIED 90%+';
+        badge.className = 'text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-600 text-white shadow-sm';
+      } else {
+        badge.textContent = '기준 미달';
+        badge.className = 'text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-200 text-slate-600';
+      }
+      
+      const net_reduction_g = Math.round(paper * 1120 + plastic * 1850 + food * 850);
+      document.getElementById('waste-carbon-summary').textContent = '+' + net_reduction_g.toLocaleString() + ' gCO2eq';
+      
+      const btnSubmit = document.getElementById('btn-submit-waste');
+      if (total_waste <= 0) {
+        btnSubmit.disabled = true;
+        btnSubmit.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+      } else {
+        btnSubmit.disabled = false;
+        btnSubmit.className = "bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 active:scale-98";
+      }
+    }
+
+    function submitWasteSimulation() {
+      const username = document.getElementById('waste-username').value.trim() || '익명 참여자';
+      const paper = parseInt(document.getElementById('qty-waste-paper').value || 0);
+      const plastic = parseInt(document.getElementById('qty-waste-plastic').value || 0);
+      const food = parseInt(document.getElementById('qty-waste-food').value || 0);
+      
+      const net_reduction_g = Math.round(paper * 1120 + plastic * 1850 + food * 850);
+      if (net_reduction_g <= 0) {
+        showToast('재활용 분리배출 수량을 1kg 이상 입력해 주세요.', true);
+        return;
+      }
+      
+      sessionStats.items.waste_recycling = net_reduction_g;
+      
+      sendParticipation(username, (data) => {
+        showToast('참여 완료! 자원순환 & 폐기물 재활용 실천 내역이 성공적으로 반영되었습니다.');
+      }, closeWasteRecyclingModal);
+    }
+
     // Submit log to backend (Eco Reusable)
     function submitEcoSimulation() {
       const username = document.getElementById('eco-username').value.trim() || '익명 참여자';
@@ -2080,7 +2180,7 @@
         } else if (element.id === 'float-total-carbon') {
           element.textContent = val.toLocaleString() + " gCO2eq";
         } else if (element.id === 'kpi-pine-trees') {
-          const pineVal = (easeProgress * (end - start) + start) / 18;
+          const pineVal = (easeProgress * (end - start) + start) / 6600;
           element.textContent = pineVal.toFixed(1) + "그루";
         } else if (element.id === 'kpi-car-km') {
           const carVal = (easeProgress * (end - start) + start) / 120;
@@ -2541,13 +2641,13 @@
       animateValue(document.getElementById('kpi-total-energy-cost'), lastStats.renewable_energy || 0, stats.items.renewable_energy || 0, 800);
 
       // 9. Animate Upcycle details
-      const totalUpcycleGrams = (stats.keyringReducedCarbonGrams || 0) + ((stats.items.upcycled_banner || 0) * 6280);
-      const lastTotalUpcycleGrams = (lastStats.keyringReducedCarbonGrams || 0) + ((lastStats.upcycled_banner || 0) * 6280);
+      const keyringCount = stats.items.upcycled_keyring || 0;
+      const lastKeyringCount = lastStats.upcycled_keyring || 0;
+      const bannerCount = stats.items.upcycled_banner || 0;
+      const totalUpcycleGrams = (keyringCount * 12) + (bannerCount * 6280);
+      const lastTotalUpcycleGrams = (lastKeyringCount * 12) + ((lastStats.upcycled_banner || 0) * 6280);
       animateValue(document.getElementById('kpi-upcycle-reduced-carbon'), lastTotalUpcycleGrams, totalUpcycleGrams, 800);
       animateValue(document.getElementById('kpi-upcycle-participants'), lastStats.keyringParticipants || 0, stats.keyringParticipants || 0, 800);
-
-      const keyringCount = stats.items.upcycled_keyring || 0;
-      const bannerCount = stats.items.upcycled_banner || 0;
       animateValue(document.getElementById('kpi-total-keyrings'), lastStats.upcycled_keyring || 0, keyringCount, 800);
       animateValue(document.getElementById('kpi-total-banners'), (lastStats.upcycled_banner || 0) * 10, bannerCount * 10, 800);
 
