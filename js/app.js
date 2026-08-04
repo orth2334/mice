@@ -1250,56 +1250,108 @@
 
     function openBarrierFreeModal() {
       const modal = document.getElementById('barrierFreeModal');
+      if (!modal) return;
       
       const items = ['ramp', 'desk', 'facility', 'sign', 'easy', 'braille', 'helper'];
       items.forEach(item => {
-        document.getElementById(`bf-${item}`).checked = barrierFreeState.checkedItems.includes(item);
+        const el = document.getElementById(`bf-${item}`);
+        if (el) el.checked = (barrierFreeState.checkedItems || []).includes(item);
       });
       
-      document.getElementById('barrier-free-username').value = sessionStats.username || '';
-      checkBarrierFreeSubmitStatus();
+      if (document.getElementById('bf-sign-hours')) document.getElementById('bf-sign-hours').value = barrierFreeState.signHours || 0;
+      if (document.getElementById('bf-participants-count')) document.getElementById('bf-participants-count').value = barrierFreeState.participantsCount || 0;
+      if (document.getElementById('barrier-free-username')) document.getElementById('barrier-free-username').value = sessionStats.username || '';
+      
+      updateBarrierFreeUI();
 
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.classList.remove('opacity-0');
-        modal.querySelector('div').classList.remove('scale-95');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
       }, 10);
     }
 
     function closeBarrierFreeModal() {
       const modal = document.getElementById('barrierFreeModal');
+      if (!modal) return;
       modal.classList.add('opacity-0');
-      modal.querySelector('div').classList.add('scale-95');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
       setTimeout(() => {
         modal.classList.add('hidden');
       }, 300);
     }
 
-    function checkBarrierFreeSubmitStatus() {
+    function updateBarrierFreeUI() {
       const items = ['ramp', 'desk', 'facility', 'sign', 'easy', 'braille', 'helper'];
-      const anyChecked = items.some(item => document.getElementById(`bf-${item}`).checked);
-      const btn = document.getElementById('btn-submit-barrier-free');
+      let checkedCount = 0;
+      items.forEach(item => {
+        const el = document.getElementById(`bf-${item}`);
+        if (el && el.checked) checkedCount++;
+      });
 
-      if (anyChecked) {
-        btn.disabled = false;
-        btn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
-        btn.classList.add('bg-[#0f2042]', 'hover:bg-blue-900', 'text-white');
-      } else {
-        btn.disabled = true;
-        btn.classList.remove('bg-[#0f2042]', 'hover:bg-blue-900', 'text-white');
-        btn.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+      const signHours = parseInt(document.getElementById('bf-sign-hours')?.value || 0);
+      const participantsCount = parseInt(document.getElementById('bf-participants-count')?.value || 0);
+
+      const scoreRate = ((checkedCount / 7) * 100).toFixed(1);
+      
+      const rateEl = document.getElementById('bf-score-rate');
+      if (rateEl) rateEl.textContent = `${scoreRate}%`;
+
+      const barEl = document.getElementById('bf-score-bar');
+      if (barEl) barEl.style.width = `${scoreRate}%`;
+
+      const countEl = document.getElementById('bf-checked-count');
+      if (countEl) countEl.textContent = checkedCount;
+
+      const badgeEl = document.getElementById('bf-certified-badge');
+      if (badgeEl) {
+        if (parseFloat(scoreRate) >= 100.0) {
+          badgeEl.textContent = 'ISO 20121 CERTIFIED';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-600 text-white shadow-sm';
+        } else if (parseFloat(scoreRate) >= 50.0) {
+          badgeEl.textContent = '우수 달성';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-500/80 text-white shadow-sm';
+        } else {
+          badgeEl.textContent = '미달성';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400';
+        }
+      }
+
+      const summaryEl = document.getElementById('bf-social-summary');
+      if (summaryEl) {
+        summaryEl.textContent = `수어 ${signHours}시간 | 배려참가자 ${participantsCount}명`;
+      }
+
+      const btn = document.getElementById('btn-submit-barrier-free');
+      if (btn) {
+        if (checkedCount > 0 || signHours > 0 || participantsCount > 0) {
+          btn.disabled = false;
+          btn.className = "bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 active:scale-98";
+        } else {
+          btn.disabled = true;
+          btn.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+        }
       }
     }
 
     function submitBarrierFree() {
-      const usernameInput = document.getElementById('barrier-free-username').value.trim();
+      const usernameInput = document.getElementById('barrier-free-username')?.value.trim();
+      const username = usernameInput || sessionStats.username || '익명 참여자';
       if (usernameInput) {
         sessionStats.username = usernameInput;
       }
       
       const items = ['ramp', 'desk', 'facility', 'sign', 'easy', 'braille', 'helper'];
-      barrierFreeState.checkedItems = items.filter(item => document.getElementById(`bf-${item}`).checked);
+      const checkedItems = items.filter(item => document.getElementById(`bf-${item}`)?.checked);
+      const signHours = parseInt(document.getElementById('bf-sign-hours')?.value || 0);
+      const participantsCount = parseInt(document.getElementById('bf-participants-count')?.value || 0);
+      
+      barrierFreeState.checkedItems = checkedItems;
+      barrierFreeState.signHours = signHours;
+      barrierFreeState.participantsCount = participantsCount;
       barrierFreeState.submitted = true;
+
+      const scoreRate = ((checkedItems.length / 7) * 100).toFixed(1);
 
       // Update badge on Card 02
       const label = document.getElementById('badge-barrier-free-label');
@@ -1308,22 +1360,27 @@
       const icon = document.getElementById('badge-barrier-free-icon');
 
       if (label && val) {
-        label.textContent = '실천 완료';
-        val.textContent = `실천 완료 (${barrierFreeState.checkedItems.length}건)`;
+        label.textContent = '포용 지수 수치화';
+        val.textContent = `달성률 ${scoreRate}% (${checkedItems.length}건)`;
         val.classList.remove('text-slate-800');
         val.classList.add('text-blue-600');
       }
       if (iconContainer && icon) {
         iconContainer.classList.remove('bg-blue-50', 'text-blue-650');
-        iconContainer.classList.add('bg-[#0f2042]', 'text-white');
+        iconContainer.classList.add('bg-blue-600', 'text-white');
         icon.setAttribute('data-lucide', 'check-circle-2');
         lucide.createIcons();
       }
 
-      closeBarrierFreeModal();
-      updateDashboardUI(sessionStats);
-      showToast('배리어프리 가이드라인 실천 항목이 성공적으로 저장되었습니다.');
+      sendParticipation(username, (data) => {
+        showToast('참여 완료! 무장애 & 포용적 행사 지수가 성공적으로 측정·반영되었습니다.');
+      }, closeBarrierFreeModal);
     }
+
+    window.openBarrierFreeModal = openBarrierFreeModal;
+    window.closeBarrierFreeModal = closeBarrierFreeModal;
+    window.updateBarrierFreeUI = updateBarrierFreeUI;
+    window.submitBarrierFree = submitBarrierFree;
 
     function openVenueEcologyModal() {
       const modal = document.getElementById('venueEcologyModal');
