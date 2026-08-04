@@ -2139,6 +2139,12 @@
       }, closeWasteRecyclingModal);
     }
 
+    window.openWasteRecyclingModal = openWasteRecyclingModal;
+    window.closeWasteRecyclingModal = closeWasteRecyclingModal;
+    window.changeWasteQty = changeWasteQty;
+    window.updateWasteModalUI = updateWasteModalUI;
+    window.submitWasteSimulation = submitWasteSimulation;
+
     // Submit log to backend (Eco Reusable)
     function submitEcoSimulation() {
       const username = document.getElementById('eco-username').value.trim() || '익명 참여자';
@@ -3399,6 +3405,7 @@
         closeUpcycleSimulatorModal();
         closePaperBoothSimulatorModal();
         closeSignageSimulatorModal();
+        closeWasteRecyclingModal();
         closeBarrierFreeModal();
         closeLocalEconomyModal();
         closeInclusionModal();
