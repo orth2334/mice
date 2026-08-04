@@ -1,11 +1,12 @@
 {
-  "name": "mice-esg-backend",
-  "version": "1.0.0",
-  "description": "MICE Event ESG Carbon Reduction Tracker Backend",
-  "main": "server.js",
+  "name": "mice-esg-platform",
+  "version": "2.0.0",
+  "description": "MICE Event ESG Carbon & Sustainability Integrated Platform (Decoupled)",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node backend/server.js",
+    "backend": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,7 +16,7 @@
   "devDependencies": {
     "nodemon": "^3.1.0"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["MICE", "ESG", "Carbon Tracker", "Zero Waste", "Barrier Free"],
+  "author": "Antigravity AI",
   "license": "ISC"
 }

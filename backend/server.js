@@ -9,25 +9,39 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files from ../ (or ../frontend)
-app.use(express.static(path.join(__dirname, '../'), {
+// 1. Serve frontend files from /frontend directory
+const frontendPath = path.join(__dirname, '../frontend');
+const rootPath = path.join(__dirname, '../');
+
+app.use(express.static(frontendPath, {
   setHeaders: (res, filePath) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   }
 }));
 
-// Route for main frontend entry
+app.use(express.static(rootPath, {
+  setHeaders: (res, filePath) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  }
+}));
+
+// Route to main page (frontend/index.html or frontend/mice.html)
 app.get('/', (req, res) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// REST API Health Check
+// REST API Health Check Endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'MICE ESG Decoupled Backend API', timestamp: new Date() });
+  res.json({
+    status: 'ok',
+    service: 'MICE ESG Independent Backend API Server',
+    architecture: 'Decoupled (Frontend / Backend)',
+    timestamp: new Date()
+  });
 });
 
-// REST API Get Stats
+// REST API Stats Endpoint
 app.get('/api/stats', (req, res) => {
   db.get("SELECT keyringParticipants, keyringReducedCarbonGrams FROM stats ORDER BY id DESC LIMIT 1", (err, statRow) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -49,7 +63,7 @@ app.get('/api/stats', (req, res) => {
   });
 });
 
-// REST API Submit Participation
+// REST API Participate Endpoint
 app.post('/api/participate', (req, res) => {
   const { sessionToken, username, items } = req.body;
 
@@ -87,7 +101,8 @@ app.post('/api/participate', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`===================================================`);
-  console.log(`🚀 MICE ESG Decoupled Backend Server running on http://localhost:${PORT}`);
-  console.log(`===================================================`);
+  console.log(`===========================================================`);
+  console.log(`🚀 Decoupled MICE ESG Backend Server online at http://localhost:${PORT}`);
+  console.log(`📁 Serving Frontend from: ${frontendPath}`);
+  console.log(`===========================================================`);
 });
