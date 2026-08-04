@@ -3625,6 +3625,120 @@
       showToast(`지식 나눔 강연 ${validPrograms}건 (${totalParticipants.toLocaleString()}명 수강) 등록이 완료되었습니다.`);
     }
 
+    // Stakeholder Feedback & ESG Pledges Guestbook Functions (GRI 2-29)
+    let pledgesState = [
+      { id: 1, name: '탄소제로도민', role: '도민·참관객', category: '텀블러/다회용기', message: '행사장에 개인 텀블러를 갖고 와서 카페 부스에서 알차게 썼습니다! 💚', time: '10분 전' },
+      { id: 2, name: '지속가능연사', role: '연사·발표자', category: '대중교통 이용', message: 'KTX와 수소 버스를 타고 행사장에 도착했습니다. 친환경 셔틀 훌륭해요! 🚌', time: '25분 전' },
+      { id: 3, name: '그린스태프', role: '행사 스태프', category: '페이퍼리스', message: '모든 세션 발표 자료를 QR 코드로 안내하니 인쇄물도 줄고 너무 편리합니다! 📱', time: '1시간 전' }
+    ];
+
+    function openStakeholderFeedbackModal() {
+      const modal = document.getElementById('stakeholderFeedbackModal');
+      if (!modal) return;
+
+      renderPledgesList();
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeStakeholderFeedbackModal() {
+      const modal = document.getElementById('stakeholderFeedbackModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function renderPledgesList() {
+      const feedList = document.getElementById('pledges-feed-list');
+      const totalCountEl = document.getElementById('pledge-total-count');
+
+      if (totalCountEl) totalCountEl.textContent = pledgesState.length;
+
+      if (!feedList) return;
+      feedList.innerHTML = '';
+
+      pledgesState.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 space-y-1';
+        card.innerHTML = `
+          <div class="flex justify-between items-center text-[10px]">
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold text-slate-800">${p.name}</span>
+              <span class="bg-indigo-50 text-indigo-700 text-[9px] px-1.5 py-0.2 rounded font-bold">${p.role}</span>
+              <span class="bg-emerald-50 text-emerald-700 text-[9px] px-1.5 py-0.2 rounded font-bold">${p.category}</span>
+            </div>
+            <span class="text-slate-400 text-[9px]">${p.time}</span>
+          </div>
+          <p class="text-[11px] text-slate-700 font-medium leading-snug">${p.message}</p>
+        `;
+        feedList.appendChild(card);
+      });
+    }
+
+    function submitPledge() {
+      const usernameInput = document.getElementById('pledge-username')?.value.trim();
+      const role = document.getElementById('pledge-role')?.value || '도민·참관객';
+      const category = document.getElementById('pledge-category')?.value || '자유 다짐';
+      const message = document.getElementById('pledge-message')?.value.trim();
+
+      const username = usernameInput || sessionStats.username || '익명 참가자';
+      if (usernameInput) sessionStats.username = usernameInput;
+
+      if (!message) {
+        showToast('한줄 다짐 메시지를 입력해 주세요.', true);
+        return;
+      }
+
+      const newPledge = {
+        id: Date.now(),
+        name: username,
+        role: role,
+        category: category,
+        message: message,
+        time: '방금 전'
+      };
+
+      pledgesState.unshift(newPledge);
+      renderPledgesList();
+
+      const msgEl = document.getElementById('pledge-message');
+      if (msgEl) msgEl.value = '';
+
+      // Update Card 05 Badge
+      const label = document.getElementById('badge-stakeholder-label');
+      const val = document.getElementById('badge-stakeholder-value');
+      const iconContainer = document.getElementById('badge-stakeholder-icon-container');
+      const icon = document.getElementById('badge-stakeholder-icon');
+
+      if (label && val) {
+        label.textContent = '시민 소통 & 방명록';
+        val.textContent = `${pledgesState.length}건 다짐 등록됨`;
+        val.classList.remove('text-slate-800');
+        val.classList.add('text-indigo-600');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.remove('bg-indigo-50', 'text-indigo-655');
+        iconContainer.classList.add('bg-indigo-600', 'text-white');
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        lucide.createIcons();
+      }
+
+      sendParticipation(username, (data) => {
+        showToast('ESG 한줄 다짐 방명록이 성공적으로 등록되었습니다! 💚');
+      });
+    }
+
+    window.openStakeholderFeedbackModal = openStakeholderFeedbackModal;
+    window.closeStakeholderFeedbackModal = closeStakeholderFeedbackModal;
+    window.submitPledge = submitPledge;
+
     // Close modal on escape keypress
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
@@ -3647,5 +3761,6 @@
         closeIso20121Modal();
         closeEsgReportModal();
         closeAdvisoryModal();
+        closeStakeholderFeedbackModal();
       }
     });
