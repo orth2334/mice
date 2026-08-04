@@ -1382,6 +1382,148 @@
     window.updateBarrierFreeUI = updateBarrierFreeUI;
     window.submitBarrierFree = submitBarrierFree;
 
+    // Safety & Fair Labor Protocol Functions (GRI 403 / GRI 401)
+    let safetyLaborState = {
+      checkedItems: [],
+      guardsCount: 0,
+      staffCount: 0,
+      submitted: false
+    };
+
+    function openSafetyLaborModal() {
+      const modal = document.getElementById('safetyLaborModal');
+      if (!modal) return;
+      
+      const items = ['crowd', 'medical', 'plan', 'contract', 'rest', 'training'];
+      items.forEach(item => {
+        const el = document.getElementById(`sl-${item}`);
+        if (el) el.checked = (safetyLaborState.checkedItems || []).includes(item);
+      });
+      
+      if (document.getElementById('sl-guards-count')) document.getElementById('sl-guards-count').value = safetyLaborState.guardsCount || 0;
+      if (document.getElementById('sl-staff-count')) document.getElementById('sl-staff-count').value = safetyLaborState.staffCount || 0;
+      if (document.getElementById('safety-labor-username')) document.getElementById('safety-labor-username').value = sessionStats.username || '';
+      
+      updateSafetyLaborUI();
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeSafetyLaborModal() {
+      const modal = document.getElementById('safetyLaborModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function updateSafetyLaborUI() {
+      const items = ['crowd', 'medical', 'plan', 'contract', 'rest', 'training'];
+      let checkedCount = 0;
+      items.forEach(item => {
+        const el = document.getElementById(`sl-${item}`);
+        if (el && el.checked) checkedCount++;
+      });
+
+      const guardsCount = parseInt(document.getElementById('sl-guards-count')?.value || 0);
+      const staffCount = parseInt(document.getElementById('sl-staff-count')?.value || 0);
+
+      const scoreRate = ((checkedCount / 6) * 100).toFixed(1);
+      
+      const rateEl = document.getElementById('sl-score-rate');
+      if (rateEl) rateEl.textContent = `${scoreRate}%`;
+
+      const barEl = document.getElementById('sl-score-bar');
+      if (barEl) barEl.style.width = `${scoreRate}%`;
+
+      const countEl = document.getElementById('sl-checked-count');
+      if (countEl) countEl.textContent = checkedCount;
+
+      const badgeEl = document.getElementById('sl-certified-badge');
+      if (badgeEl) {
+        if (parseFloat(scoreRate) >= 100.0) {
+          badgeEl.textContent = 'SAFETY & FAIR LABOR CERTIFIED';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-600 text-white shadow-sm';
+        } else if (parseFloat(scoreRate) >= 50.0) {
+          badgeEl.textContent = '우수 준수';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-blue-500/80 text-white shadow-sm';
+        } else {
+          badgeEl.textContent = '미달성';
+          badgeEl.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400';
+        }
+      }
+
+      const summaryEl = document.getElementById('sl-summary');
+      if (summaryEl) {
+        summaryEl.textContent = `안전 요원 ${guardsCount}명 | 스태프 ${staffCount}명`;
+      }
+
+      const btn = document.getElementById('btn-submit-safety-labor');
+      if (btn) {
+        if (checkedCount > 0 || guardsCount > 0 || staffCount > 0) {
+          btn.disabled = false;
+          btn.className = "bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 active:scale-98";
+        } else {
+          btn.disabled = true;
+          btn.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+        }
+      }
+    }
+
+    function submitSafetyLabor() {
+      const usernameInput = document.getElementById('safety-labor-username')?.value.trim();
+      const username = usernameInput || sessionStats.username || '익명 참여자';
+      if (usernameInput) {
+        sessionStats.username = usernameInput;
+      }
+      
+      const items = ['crowd', 'medical', 'plan', 'contract', 'rest', 'training'];
+      const checkedItems = items.filter(item => document.getElementById(`sl-${item}`)?.checked);
+      const guardsCount = parseInt(document.getElementById('sl-guards-count')?.value || 0);
+      const staffCount = parseInt(document.getElementById('sl-staff-count')?.value || 0);
+      
+      safetyLaborState.checkedItems = checkedItems;
+      safetyLaborState.guardsCount = guardsCount;
+      safetyLaborState.staffCount = staffCount;
+      safetyLaborState.submitted = true;
+
+      const scoreRate = ((checkedItems.length / 6) * 100).toFixed(1);
+
+      // Update badge on Card 06
+      const label = document.getElementById('badge-safety-labor-label');
+      const val = document.getElementById('badge-safety-labor-value');
+      const iconContainer = document.getElementById('badge-safety-labor-icon-container');
+      const icon = document.getElementById('badge-safety-labor-icon');
+
+      if (label && val) {
+        label.textContent = '안전·노동 표준';
+        val.textContent = `준수율 ${scoreRate}% (${checkedItems.length}건)`;
+        val.classList.remove('text-slate-800');
+        val.classList.add('text-blue-600');
+      }
+      if (iconContainer && icon) {
+        iconContainer.classList.remove('bg-blue-50', 'text-blue-600');
+        iconContainer.classList.add('bg-blue-600', 'text-white');
+        icon.setAttribute('data-lucide', 'check-circle-2');
+        lucide.createIcons();
+      }
+
+      sendParticipation(username, (data) => {
+        showToast('참여 완료! 행사 안전 & 공정노동 준수 내역이 성공적으로 반영되었습니다.');
+      }, closeSafetyLaborModal);
+    }
+
+    window.openSafetyLaborModal = openSafetyLaborModal;
+    window.closeSafetyLaborModal = closeSafetyLaborModal;
+    window.updateSafetyLaborUI = updateSafetyLaborUI;
+    window.submitSafetyLabor = submitSafetyLabor;
+
     function openVenueEcologyModal() {
       const modal = document.getElementById('venueEcologyModal');
       
@@ -3464,6 +3606,7 @@
         closeSignageSimulatorModal();
         closeWasteRecyclingModal();
         closeBarrierFreeModal();
+        closeSafetyLaborModal();
         closeLocalEconomyModal();
         closeInclusionModal();
         closeEsgEducationModal();
