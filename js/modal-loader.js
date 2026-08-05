@@ -55,9 +55,50 @@
     const basePath = getBasePath();
     const modalDir = basePath + 'components/modals/';
 
+    // Map modal file names to element IDs
+    const MODAL_ID_MAP = {
+      'detail': 'detailModal',
+      'eco_simulator': 'ecoSimulatorModal',
+      'transport_simulator': 'transportSimulatorModal',
+      'energy_simulator': 'energySimulatorModal',
+      'upcycle_simulator': 'upcycleSimulatorModal',
+      'paper_booth_simulator': 'paperBoothSimulatorModal',
+      'waste_recycling': 'wasteRecyclingModal',
+      'venue_ecology': 'venueEcologyModal',
+      'signage_simulator': 'signageSimulatorModal',
+      'barrier_free': 'barrierFreeModal',
+      'safety_labor': 'safetyLaborModal',
+      'local_food': 'localFoodModal',
+      'local_economy': 'localEconomyModal',
+      'inclusion': 'inclusionModal',
+      'esg_education': 'esgEducationModal',
+      'supporters': 'supportersModal',
+      'donation': 'donationModal',
+      'knowledge_sharing': 'knowledgeSharingModal',
+      'iso20121': 'iso20121Modal',
+      'esg_report': 'esgReportModal',
+      'advisory': 'advisoryModal',
+      'stakeholder_feedback': 'stakeholderFeedbackModal',
+      'advisory_minutes': 'advisoryMinutesModal',
+      'esg_disclosure': 'esgDisclosureModal',
+      'pdf_report_preview': 'pdfReportModal',
+      'esg_presets': 'esgPresetsModal'
+    };
+
+    // Filter out modals that are already present in the DOM
+    const filesToFetch = MODAL_FILES.filter(name => {
+      const id = MODAL_ID_MAP[name];
+      return id ? !document.getElementById(id) : true;
+    });
+
+    if (filesToFetch.length === 0) {
+      console.log('[Modal Loader] All modals are already present in DOM.');
+      return;
+    }
+
     try {
-      // Fetch all modal HTML files in parallel
-      const fetchPromises = MODAL_FILES.map(name => {
+      // Fetch modal HTML files in parallel
+      const fetchPromises = filesToFetch.map(name => {
         const url = modalDir + name + '.html';
         return fetch(url)
           .then(response => {

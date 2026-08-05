@@ -3796,6 +3796,8 @@
 
       updatePdfReportData();
 
+      modal.style.display = 'flex';
+      modal.style.pointerEvents = 'auto';
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.classList.remove('opacity-0');
@@ -3806,9 +3808,11 @@
     function closePdfReportModal() {
       const modal = document.getElementById('pdfReportModal');
       if (!modal) return;
+      modal.style.pointerEvents = 'none';
       modal.classList.add('opacity-0');
       if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
       setTimeout(() => {
+        modal.style.display = 'none';
         modal.classList.add('hidden');
       }, 300);
     }
@@ -4252,6 +4256,8 @@
       const modal = document.getElementById('esgPresetsModal');
       if (!modal) return;
       renderPresetsListUI();
+      modal.style.display = 'flex';
+      modal.style.pointerEvents = 'auto';
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.classList.remove('opacity-0');
@@ -4263,10 +4269,12 @@
     function closeEsgPresetsModal() {
       const modal = document.getElementById('esgPresetsModal');
       if (!modal) return;
+      modal.style.pointerEvents = 'none';
       modal.classList.add('opacity-0');
       const content = modal.querySelector('> div');
       if (content) content.classList.add('scale-95');
       setTimeout(() => {
+        modal.style.display = 'none';
         modal.classList.add('hidden');
       }, 300);
     }
