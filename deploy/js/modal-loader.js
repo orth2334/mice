@@ -29,7 +29,9 @@
     'advisory',
     'stakeholder_feedback',
     'advisory_minutes',
-    'esg_disclosure'
+    'esg_disclosure',
+    'pdf_report_preview',
+    'esg_presets'
   ];
 
   // Determine base path for components (works on both localhost and GitHub Pages)

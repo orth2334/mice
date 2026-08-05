@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- html2pdf.js for Client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-200 py-12">
@@ -897,13 +899,29 @@
       </div>
 
       <!-- Section Header -->
-      <div class="relative z-10 space-y-2 pb-5 border-b border-slate-100">
-        <div class="flex items-center space-x-3">
-          <span class="bg-amber-500 text-white text-sm font-extrabold px-3.5 py-1 rounded-full shadow-sm tracking-wide">04 / Impact</span>
-          <span class="text-sm uppercase font-black tracking-widest text-amber-600 border-l-2 border-amber-200 pl-3">ESG Impact · 우리의 약속과 성과</span>
+      <div class="relative z-10 space-y-2 pb-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div>
+          <div class="flex items-center space-x-3">
+            <span class="bg-amber-500 text-white text-sm font-extrabold px-3.5 py-1 rounded-full shadow-sm tracking-wide">04 / Impact</span>
+            <span class="text-sm uppercase font-black tracking-widest text-amber-600 border-l-2 border-amber-200 pl-3">ESG Impact · 우리의 약속과 성과</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none mt-1">지속가능한 미래, 우리의 실천에서 시작됩니다</h2>
+          <p class="text-sm text-slate-500 leading-relaxed font-medium">숫자로 증명하는 ESG 성과와 우리의 약속</p>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none mt-1">지속가능한 미래, 우리의 실천에서 시작됩니다</h2>
-        <p class="text-sm text-slate-500 leading-relaxed font-medium">숫자로 증명하는 ESG 성과와 우리의 약속</p>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="resetAllMiceData()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold px-3 py-2.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            전체 초기화
+          </button>
+          <button onclick="openEsgPresetsModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
+            <i data-lucide="bookmark" class="w-3.5 h-3.5 text-emerald-400"></i>
+            데이터 저장 / 불러오기
+          </button>
+          <button onclick="openPdfReportModal()" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-black px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer flex-shrink-0">
+            <i data-lucide="file-down" class="w-4 h-4"></i>
+            간이 ESG 보고서 PDF
+          </button>
+        </div>
       </div>
 
       <!-- Main Layout -->

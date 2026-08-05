@@ -122,7 +122,7 @@
           quantity: qty
         });
       }
- 
+
       const payload = {
         username: username,
         session_token: sessionToken,
@@ -152,7 +152,7 @@
         }
         if (modalCloseFn) modalCloseFn();
       };
- 
+
       fetch('/api/participate', {
         method: 'POST',
         headers: {
@@ -2430,6 +2430,7 @@
     }
 
     function updateDashboardUI(stats) {
+      saveAllStateToLocalStorage();
       const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || (stats.items.reusable_cup > 0) || (stats.items.public_transport_km > 0) || (stats.items.renewable_energy > 0) || (stats.items.upcycled_keyring > 0) || (stats.items.upcycled_banner > 0) || (stats.items.paperless_booth > 0) || (stats.items.digital_signage > 0) || (stats.items.waste_recycling > 0) || (barrierFreeState && barrierFreeState.submitted) || (safetyLaborState && safetyLaborState.submitted) || (stakeholderState && stakeholderState.submitted) || venueEcologyState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
 
       // 1. Show Floating dashboard bar
@@ -3644,14 +3645,10 @@
     }
 
     // Stakeholder Participation Functions (GRI 2-29)
-    let pledgesState = [
-      { id: 1, role: '도민·참관객', peopleCount: 15, time: '10분 전' },
-      { id: 2, role: '연사·발표자', peopleCount: 5, time: '25분 전' },
-      { id: 3, role: '행사 스태프', peopleCount: 20, time: '1시간 전' }
-    ];
+    let pledgesState = [];
 
     let stakeholderState = {
-      submitted: true
+      submitted: false
     };
 
     function openStakeholderFeedbackModal() {
@@ -3792,6 +3789,631 @@
     window.handleAdvisoryMinFileChange = handleAdvisoryMinFileChange;
     window.submitAdvisoryMinutes = submitAdvisoryMinutes;
 
+    // PDF Report Preview & Export Functions
+    function openPdfReportModal() {
+      const modal = document.getElementById('pdfReportModal');
+      if (!modal) return;
+
+      updatePdfReportData();
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closePdfReportModal() {
+      const modal = document.getElementById('pdfReportModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (modal.querySelector('div')) modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function updatePdfReportData() {
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, '0')}. ${String(now.getDate()).padStart(2, '0')}`;
+      const dateEl = document.getElementById('pdf-report-date');
+      if (dateEl) dateEl.textContent = dateStr;
+
+      if (typeof recalculateSessionTotalCarbon === 'function') {
+        recalculateSessionTotalCarbon();
+      }
+
+      let localFoodGrams = 0;
+      if (window.localFoodState && window.localFoodState.submitted) {
+        localFoodGrams = Math.round((window.localFoodState.carbonReduction || 0.172) * 1000);
+      }
+
+      const totalGrams = (sessionStats && typeof sessionStats.totalReducedCarbonGrams === 'number')
+        ? (sessionStats.totalReducedCarbonGrams + localFoodGrams)
+        : localFoodGrams;
+
+      const totalKg = (totalGrams / 1000).toFixed(2);
+      const treeCount = (totalGrams / 6600).toFixed(1);
+      const carKm = (totalGrams / 120).toFixed(1);
+
+      const totalCarbonEl = document.getElementById('pdf-total-carbon');
+      if (totalCarbonEl) totalCarbonEl.innerHTML = `${totalKg} <span class="text-xs font-semibold text-emerald-300">kgCO2eq</span>`;
+
+      const treeEl = document.getElementById('pdf-tree-effect');
+      if (treeEl) treeEl.innerHTML = `${treeCount} <span class="text-xs font-semibold text-emerald-300">그루/년</span>`;
+
+      const carEl = document.getElementById('pdf-car-effect');
+      if (carEl) carEl.innerHTML = `${carKm} <span class="text-xs font-semibold text-emerald-300">km</span>`;
+
+      const items = (sessionStats && sessionStats.items) ? sessionStats.items : {};
+      const totalReusable = (items.reusable_cup || 0) + (items.reusable_plate || 0) + (items.reusable_bowl || 0) + (items.reusable_fork || 0);
+      if (document.getElementById('pdf-e-reusable')) document.getElementById('pdf-e-reusable').textContent = `${totalReusable.toLocaleString()} 개`;
+      if (document.getElementById('pdf-e-energy')) document.getElementById('pdf-e-energy').textContent = `${(items.renewable_energy || 0).toLocaleString()} kWh`;
+      if (document.getElementById('pdf-e-transport')) document.getElementById('pdf-e-transport').textContent = `${(items.public_transport || 0).toLocaleString()} km`;
+      if (document.getElementById('pdf-e-upcycle')) document.getElementById('pdf-e-upcycle').textContent = `${((items.upcycled_keyring || 0) + (items.upcycled_banner || 0)).toLocaleString()} 개`;
+      if (document.getElementById('pdf-e-paperbooth')) document.getElementById('pdf-e-paperbooth').textContent = `${(items.paper_booth || 0).toLocaleString()} ㎡`;
+
+      const recyclingRate = (window.wasteRecyclingState && window.wasteRecyclingState.recyclingRate) || 0;
+      if (document.getElementById('pdf-e-recycling')) document.getElementById('pdf-e-recycling').textContent = `${recyclingRate}%`;
+
+      const barrierScore = (window.barrierFreeState && window.barrierFreeState.submitted) 
+        ? (((window.barrierFreeState.checkedItems?.length || 0) / 7) * 100).toFixed(1) 
+        : 0;
+      if (document.getElementById('pdf-s-barrier')) document.getElementById('pdf-s-barrier').textContent = `${barrierScore}%`;
+
+      const safetyScore = (window.safetyLaborState && window.safetyLaborState.submitted) 
+        ? (((window.safetyLaborState.checkedItems?.length || 0) / 6) * 100).toFixed(1) 
+        : 0;
+      if (document.getElementById('pdf-s-safety')) document.getElementById('pdf-s-safety').textContent = `${safetyScore}%`;
+
+      let totalPledgeHeadcount = 0;
+      if (window.pledgesState) {
+        window.pledgesState.forEach(p => totalPledgeHeadcount += (parseInt(p.peopleCount) || 1));
+      }
+      if (document.getElementById('pdf-s-pledge')) document.getElementById('pdf-s-pledge').textContent = `${totalPledgeHeadcount} 명`;
+
+      let knowledgeProgramsCount = 0;
+      if (window.knowledgeState && window.knowledgeState.submitted && window.knowledgeState.programs) {
+        knowledgeProgramsCount = window.knowledgeState.programs.filter(p => p.name.trim() !== '').length;
+      }
+      if (document.getElementById('pdf-s-knowledge')) document.getElementById('pdf-s-knowledge').textContent = `${knowledgeProgramsCount} 건`;
+
+      let creatorsCount = 0;
+      if (window.localEconomyState && window.localEconomyState.submitted) {
+        creatorsCount = window.localEconomyState.youthCount || 0;
+      }
+      if (document.getElementById('pdf-s-creators')) document.getElementById('pdf-s-creators').textContent = `${creatorsCount} 명`;
+
+      if (document.getElementById('pdf-g-iso')) {
+        document.getElementById('pdf-g-iso').textContent = (window.iso20121State && window.iso20121State.submitted) ? '완료 (100%)' : '진행 중';
+      }
+      if (document.getElementById('pdf-g-advisory')) {
+        document.getElementById('pdf-g-advisory').textContent = (window.advisoryMinutesState && window.advisoryMinutesState.submitted) ? '공시 완료' : '미공시';
+      }
+      if (document.getElementById('pdf-g-disclosure')) {
+        document.getElementById('pdf-g-disclosure').textContent = (window.esgDisclosureState && window.esgDisclosureState.submitted) ? '구축 완료' : '구축 중';
+      }
+      if (document.getElementById('pdf-g-report')) {
+        document.getElementById('pdf-g-report').textContent = (window.esgReportState && window.esgReportState.submitted) ? '등록 완료' : '미등록';
+      }
+
+      const certContainer = document.getElementById('pdf-cert-tags');
+      if (certContainer) {
+        const certs = window.venueEcologyState?.checkedCerts || [];
+        const certNames = {
+          gseed: 'G-SEED (녹색건축인증)',
+          leed: 'LEED (미국 친환경인증)',
+          earthcheck: 'EarthCheck (마이스인증)',
+          iso14001: 'ISO 14001 (환경경영)',
+          iso20121: 'ISO 20121 (지속가능경영)',
+          forest: '산림탄소상쇄 (행사형)'
+        };
+
+        if (certs.length === 0) {
+          certContainer.innerHTML = `<span class="text-[10px] text-slate-400 font-medium">제출된 인증서가 없습니다. (카드를 클릭하여 친환경 인증을 등록할 수 있습니다)</span>`;
+        } else {
+          certContainer.innerHTML = certs.map(c => 
+            `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2.5 py-1 rounded-md">✓ ${certNames[c] || c}</span>`
+          ).join('');
+        }
+      }
+    }
+
+    function downloadPdfReport() {
+      const originalEl = document.getElementById('pdf-report-document');
+      if (!originalEl) return;
+
+      showToast('MUREPA KOREA ESG PDF 보고서를 생성 중입니다... 📄');
+
+      const currentScrollX = window.scrollX;
+      const currentScrollY = window.scrollY;
+
+      // Attach wrapper to document.documentElement to bypass body max-w-7xl mx-auto centering
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'position: fixed !important; top: 0px !important; left: 0px !important; width: 794px !important; margin: 0px !important; padding: 0px !important; background: #ffffff !important; z-index: 99999999 !important; transform: none !important;';
+
+      const clone = originalEl.cloneNode(true);
+      clone.id = 'pdf-report-clone';
+      clone.style.cssText = 'margin: 0px !important; width: 794px !important; max-width: 794px !important; min-width: 794px !important; box-shadow: none !important; border: none !important; border-radius: 0px !important; transform: none !important; background: #ffffff !important;';
+
+      wrapper.appendChild(clone);
+      document.documentElement.appendChild(wrapper);
+
+      window.scrollTo(0, 0);
+
+      const opt = {
+        margin: [5, 5, 5, 5],
+        filename: `MUREPA_KOREA_MICE_ESG_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          x: 0,
+          y: 0,
+          width: 794,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: 794
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      setTimeout(() => {
+        if (window.html2pdf) {
+          html2pdf().set(opt).from(clone).save().then(() => {
+            if (document.documentElement.contains(wrapper)) document.documentElement.removeChild(wrapper);
+            window.scrollTo(currentScrollX, currentScrollY);
+            showToast('MUREPA KOREA ESG PDF 성과 보고서 다운로드가 완료되었습니다! 🎉');
+          }).catch(err => {
+            console.error('PDF Export Error:', err);
+            if (document.documentElement.contains(wrapper)) document.documentElement.removeChild(wrapper);
+            window.scrollTo(currentScrollX, currentScrollY);
+            window.print();
+          });
+        } else {
+          if (document.documentElement.contains(wrapper)) document.documentElement.removeChild(wrapper);
+          window.scrollTo(currentScrollX, currentScrollY);
+          window.print();
+        }
+      }, 150);
+    }
+
+    function printPdfReport() {
+      window.print();
+    }
+
+    window.openPdfReportModal = openPdfReportModal;
+    window.closePdfReportModal = closePdfReportModal;
+    window.downloadPdfReport = downloadPdfReport;
+    window.printPdfReport = printPdfReport;
+
+    // --- MICE ESG Persistence Manager (Auto-Save, Load, Reset, 30-Min Expiration TTL) ---
+    const STORAGE_KEY = 'mice_esg_persistent_state_v1';
+    const EXPIRY_TIME_MS = 30 * 60 * 1000; // 30 minutes in milliseconds
+    let isRestoringState = false;
+
+    function saveAllStateToLocalStorage() {
+      if (isRestoringState) return;
+      try {
+        const fullState = {
+          sessionStats: sessionStats,
+          localFoodState: window.localFoodState || (typeof localFoodState !== 'undefined' ? localFoodState : {}),
+          iso20121State: window.iso20121State || (typeof iso20121State !== 'undefined' ? iso20121State : {}),
+          barrierFreeState: window.barrierFreeState || (typeof barrierFreeState !== 'undefined' ? barrierFreeState : {}),
+          safetyLaborState: window.safetyLaborState || (typeof safetyLaborState !== 'undefined' ? safetyLaborState : {}),
+          venueEcologyState: window.venueEcologyState || (typeof venueEcologyState !== 'undefined' ? venueEcologyState : {}),
+          pledgesState: window.pledgesState || (typeof pledgesState !== 'undefined' ? pledgesState : []),
+          knowledgeState: window.knowledgeState || (typeof knowledgeState !== 'undefined' ? knowledgeState : {}),
+          localEconomyState: window.localEconomyState || (typeof localEconomyState !== 'undefined' ? localEconomyState : {}),
+          advisoryMinutesState: window.advisoryMinutesState || (typeof advisoryMinutesState !== 'undefined' ? advisoryMinutesState : {}),
+          esgDisclosureState: window.esgDisclosureState,
+          esgReportState: window.esgReportState || (typeof esgReportState !== 'undefined' ? esgReportState : {}),
+          wasteRecyclingState: window.wasteRecyclingState,
+          supportersState: window.supportersState || (typeof supportersState !== 'undefined' ? supportersState : {}),
+          updatedTimestamp: Date.now(),
+          savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(fullState));
+      } catch (err) {
+        console.warn('Failed to save state to localStorage:', err);
+      }
+    }
+
+    function loadAllStateFromLocalStorage() {
+      try {
+        const savedRaw = localStorage.getItem(STORAGE_KEY);
+        if (!savedRaw) return false;
+
+        const fullState = JSON.parse(savedRaw);
+        if (!fullState) return false;
+
+        // Check if 30 minutes have passed since last update
+        const now = Date.now();
+        const lastUpdated = fullState.updatedTimestamp || (fullState.savedAt ? new Date(fullState.savedAt).getTime() : 0);
+        if (lastUpdated > 0 && (now - lastUpdated > EXPIRY_TIME_MS)) {
+          console.log('[MICE ESG] Saved session expired (> 30 mins). Auto resetting active workspace.');
+          localStorage.removeItem(STORAGE_KEY);
+          setTimeout(() => {
+            showToast('마지막 작성 후 30분이 경과하여 임시 ESG 카드 데이터가 자동 초기화되었습니다. ⏰');
+          }, 600);
+          return false;
+        }
+
+        isRestoringState = true;
+
+        if (fullState.sessionStats) {
+          sessionStats = Object.assign(sessionStats, fullState.sessionStats);
+        }
+        if (fullState.localFoodState) {
+          localFoodState = Object.assign(typeof localFoodState !== 'undefined' ? localFoodState : {}, fullState.localFoodState);
+          window.localFoodState = localFoodState;
+        }
+        if (fullState.iso20121State) {
+          iso20121State = Object.assign(typeof iso20121State !== 'undefined' ? iso20121State : {}, fullState.iso20121State);
+          window.iso20121State = iso20121State;
+        }
+        if (fullState.barrierFreeState) {
+          barrierFreeState = Object.assign(typeof barrierFreeState !== 'undefined' ? barrierFreeState : {}, fullState.barrierFreeState);
+          window.barrierFreeState = barrierFreeState;
+        }
+        if (fullState.safetyLaborState) {
+          safetyLaborState = Object.assign(typeof safetyLaborState !== 'undefined' ? safetyLaborState : {}, fullState.safetyLaborState);
+          window.safetyLaborState = safetyLaborState;
+        }
+        if (fullState.venueEcologyState) {
+          venueEcologyState = Object.assign(typeof venueEcologyState !== 'undefined' ? venueEcologyState : {}, fullState.venueEcologyState);
+          window.venueEcologyState = venueEcologyState;
+        }
+        if (fullState.pledgesState) {
+          pledgesState = fullState.pledgesState;
+          window.pledgesState = pledgesState;
+        }
+        if (fullState.knowledgeState) {
+          knowledgeState = Object.assign(typeof knowledgeState !== 'undefined' ? knowledgeState : {}, fullState.knowledgeState);
+          window.knowledgeState = knowledgeState;
+        }
+        if (fullState.localEconomyState) {
+          localEconomyState = Object.assign(typeof localEconomyState !== 'undefined' ? localEconomyState : {}, fullState.localEconomyState);
+          window.localEconomyState = localEconomyState;
+        }
+        if (fullState.advisoryMinutesState) {
+          advisoryMinutesState = Object.assign(typeof advisoryMinutesState !== 'undefined' ? advisoryMinutesState : {}, fullState.advisoryMinutesState);
+          window.advisoryMinutesState = advisoryMinutesState;
+        }
+        if (fullState.esgDisclosureState) {
+          window.esgDisclosureState = fullState.esgDisclosureState;
+        }
+        if (fullState.esgReportState) {
+          esgReportState = Object.assign(typeof esgReportState !== 'undefined' ? esgReportState : {}, fullState.esgReportState);
+          window.esgReportState = esgReportState;
+        }
+        if (fullState.wasteRecyclingState) {
+          window.wasteRecyclingState = fullState.wasteRecyclingState;
+        }
+        if (fullState.supportersState) {
+          supportersState = Object.assign(typeof supportersState !== 'undefined' ? supportersState : {}, fullState.supportersState);
+          window.supportersState = supportersState;
+        }
+
+        recalculateSessionTotalCarbon();
+        updateDashboardUI(sessionStats);
+
+        isRestoringState = false;
+        return true;
+      } catch (err) {
+        console.warn('Failed to load state from localStorage:', err);
+        isRestoringState = false;
+        return false;
+      }
+    }
+
+    function resetAllMiceData() {
+      if (!confirm('정말로 입력한 모든 ESG 카드 데이터를 초기화하시겠습니까?\n(초기화 후에는 작성된 실천 내역이 모두 리셋됩니다)')) {
+        return;
+      }
+
+      localStorage.removeItem(STORAGE_KEY);
+
+      sessionStats = {
+        username: '',
+        totalReducedCarbonGrams: 0,
+        totalParticipants: 0,
+        totalActions: 0,
+        items: {
+          reusable_cup: 0,
+          reusable_plate: 0,
+          reusable_bowl: 0,
+          reusable_fork: 0,
+          public_transport: 0,
+          renewable_energy: 0,
+          upcycled_keyring: 0,
+          upcycled_banner: 0,
+          paper_booth: 0,
+          digital_signage: 0
+        },
+        keyringReducedCarbonGrams: 0,
+        keyringParticipants: 0,
+        paperBoothParticipants: 0
+      };
+
+      if (window.localFoodState) window.localFoodState.submitted = false;
+      if (window.iso20121State) window.iso20121State.submitted = false;
+      if (window.barrierFreeState) { window.barrierFreeState.submitted = false; window.barrierFreeState.checkedItems = []; }
+      if (window.safetyLaborState) { window.safetyLaborState.submitted = false; window.safetyLaborState.checkedItems = []; }
+      if (window.venueEcologyState) { window.venueEcologyState.submitted = false; window.venueEcologyState.checkedCerts = []; }
+      if (window.pledgesState) window.pledgesState = [];
+      pledgesState = [];
+      if (window.stakeholderState) window.stakeholderState.submitted = false;
+      stakeholderState.submitted = false;
+      if (window.knowledgeState) window.knowledgeState.submitted = false;
+      if (window.localEconomyState) window.localEconomyState.submitted = false;
+      if (window.advisoryMinutesState) window.advisoryMinutesState.submitted = false;
+      if (window.esgDisclosureState) window.esgDisclosureState.submitted = false;
+      if (window.esgReportState) window.esgReportState.submitted = false;
+      if (window.wasteRecyclingState) window.wasteRecyclingState.submitted = false;
+      if (window.supportersState) window.supportersState.submitted = false;
+
+      recalculateSessionTotalCarbon();
+      updateDashboardUI(sessionStats);
+      showToast('모든 ESG 카드 데이터가 성공적으로 초기화되었습니다. 🧹');
+    }
+
+    function exportMiceDataJson() {
+      const fullState = {
+        sessionStats: sessionStats,
+        localFoodState: window.localFoodState || (typeof localFoodState !== 'undefined' ? localFoodState : {}),
+        iso20121State: window.iso20121State || (typeof iso20121State !== 'undefined' ? iso20121State : {}),
+        barrierFreeState: window.barrierFreeState || (typeof barrierFreeState !== 'undefined' ? barrierFreeState : {}),
+        safetyLaborState: window.safetyLaborState || (typeof safetyLaborState !== 'undefined' ? safetyLaborState : {}),
+        venueEcologyState: window.venueEcologyState || (typeof venueEcologyState !== 'undefined' ? venueEcologyState : {}),
+        pledgesState: window.pledgesState || (typeof pledgesState !== 'undefined' ? pledgesState : []),
+        knowledgeState: window.knowledgeState || (typeof knowledgeState !== 'undefined' ? knowledgeState : {}),
+        localEconomyState: window.localEconomyState || (typeof localEconomyState !== 'undefined' ? localEconomyState : {}),
+        advisoryMinutesState: window.advisoryMinutesState || (typeof advisoryMinutesState !== 'undefined' ? advisoryMinutesState : {}),
+        esgDisclosureState: window.esgDisclosureState,
+        esgReportState: window.esgReportState || (typeof esgReportState !== 'undefined' ? esgReportState : {}),
+        wasteRecyclingState: window.wasteRecyclingState,
+        supportersState: window.supportersState || (typeof supportersState !== 'undefined' ? supportersState : {}),
+        exportedAt: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(fullState, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `MUREPA_MICE_ESG_Data_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('현재 ESG 카드 설정 데이터가 JSON 파일로 백업되었습니다. 💾');
+    }
+
+    function importMiceDataJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedState = JSON.parse(e.target.result);
+          if (!importedState) throw new Error('올바르지 않은 파일 형식입니다.');
+
+          if (importedState.sessionStats) sessionStats = Object.assign(sessionStats, importedState.sessionStats);
+          if (importedState.localFoodState) window.localFoodState = Object.assign(window.localFoodState || {}, importedState.localFoodState);
+          if (importedState.iso20121State) window.iso20121State = Object.assign(window.iso20121State || {}, importedState.iso20121State);
+          if (importedState.barrierFreeState) window.barrierFreeState = Object.assign(window.barrierFreeState || {}, importedState.barrierFreeState);
+          if (importedState.safetyLaborState) window.safetyLaborState = Object.assign(window.safetyLaborState || {}, importedState.safetyLaborState);
+          if (importedState.venueEcologyState) window.venueEcologyState = Object.assign(window.venueEcologyState || {}, importedState.venueEcologyState);
+          if (importedState.pledgesState) window.pledgesState = importedState.pledgesState;
+          if (importedState.knowledgeState) window.knowledgeState = Object.assign(window.knowledgeState || {}, importedState.knowledgeState);
+          if (importedState.localEconomyState) window.localEconomyState = Object.assign(window.localEconomyState || {}, importedState.localEconomyState);
+          if (importedState.advisoryMinutesState) window.advisoryMinutesState = Object.assign(window.advisoryMinutesState || {}, importedState.advisoryMinutesState);
+          if (importedState.esgDisclosureState) window.esgDisclosureState = importedState.esgDisclosureState;
+          if (importedState.esgReportState) window.esgReportState = Object.assign(window.esgReportState || {}, importedState.esgReportState);
+          if (importedState.wasteRecyclingState) window.wasteRecyclingState = importedState.wasteRecyclingState;
+          if (importedState.supportersState) window.supportersState = Object.assign(window.supportersState || {}, importedState.supportersState);
+
+          recalculateSessionTotalCarbon();
+          updateDashboardUI(sessionStats);
+          saveAllStateToLocalStorage();
+          showToast('저장된 ESG 카드 데이터가 정상적으로 적용되었습니다! 📥');
+        } catch (err) {
+          showToast('JSON 파일을 읽는 중 오류가 발생했습니다: ' + err.message, true);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    window.saveAllStateToLocalStorage = saveAllStateToLocalStorage;
+    window.loadAllStateFromLocalStorage = loadAllStateFromLocalStorage;
+    window.resetAllMiceData = resetAllMiceData;
+    window.saveAllStateToLocalStorage = saveAllStateToLocalStorage;
+    window.loadAllStateFromLocalStorage = loadAllStateFromLocalStorage;
+    window.resetAllMiceData = resetAllMiceData;
+    window.exportMiceDataJson = exportMiceDataJson;
+    window.importMiceDataJson = importMiceDataJson;
+
+    // --- App-Internal Saved Presets Slot Manager ---
+    const PRESETS_SLOTS_KEY = 'mice_esg_saved_presets_slots_v1';
+
+    function getSavedPresetSlots() {
+      try {
+        const raw = localStorage.getItem(PRESETS_SLOTS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function openEsgPresetsModal() {
+      const modal = document.getElementById('esgPresetsModal');
+      if (!modal) return;
+      renderPresetsListUI();
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const content = modal.querySelector('> div');
+        if (content) content.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeEsgPresetsModal() {
+      const modal = document.getElementById('esgPresetsModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const content = modal.querySelector('> div');
+      if (content) content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function saveCurrentPresetInApp() {
+      const titleInput = document.getElementById('preset-title-input');
+      let title = titleInput ? titleInput.value.trim() : '';
+      if (!title) {
+        title = `ESG 실천 데이터 (${new Date().toLocaleDateString('ko-KR')})`;
+      }
+
+      recalculateSessionTotalCarbon();
+      const slots = getSavedPresetSlots();
+      const newSlot = {
+        id: 'slot_' + Date.now(),
+        title: title,
+        savedAt: new Date().toLocaleString('ko-KR'),
+        totalCarbonKg: (sessionStats.totalReducedCarbonGrams / 1000).toFixed(2),
+        actionsCount: sessionStats.totalActions || 0,
+        fullState: {
+          sessionStats: JSON.parse(JSON.stringify(sessionStats)),
+          localFoodState: JSON.parse(JSON.stringify(window.localFoodState || (typeof localFoodState !== 'undefined' ? localFoodState : {}))),
+          iso20121State: JSON.parse(JSON.stringify(window.iso20121State || (typeof iso20121State !== 'undefined' ? iso20121State : {}))),
+          barrierFreeState: JSON.parse(JSON.stringify(window.barrierFreeState || (typeof barrierFreeState !== 'undefined' ? barrierFreeState : {}))),
+          safetyLaborState: JSON.parse(JSON.stringify(window.safetyLaborState || (typeof safetyLaborState !== 'undefined' ? safetyLaborState : {}))),
+          venueEcologyState: JSON.parse(JSON.stringify(window.venueEcologyState || (typeof venueEcologyState !== 'undefined' ? venueEcologyState : {}))),
+          pledgesState: JSON.parse(JSON.stringify(window.pledgesState || (typeof pledgesState !== 'undefined' ? pledgesState : []))),
+          knowledgeState: JSON.parse(JSON.stringify(window.knowledgeState || (typeof knowledgeState !== 'undefined' ? knowledgeState : {}))),
+          localEconomyState: JSON.parse(JSON.stringify(window.localEconomyState || (typeof localEconomyState !== 'undefined' ? localEconomyState : {}))),
+          advisoryMinutesState: JSON.parse(JSON.stringify(window.advisoryMinutesState || (typeof advisoryMinutesState !== 'undefined' ? advisoryMinutesState : {}))),
+          esgDisclosureState: JSON.parse(JSON.stringify(window.esgDisclosureState || {})),
+          esgReportState: JSON.parse(JSON.stringify(window.esgReportState || (typeof esgReportState !== 'undefined' ? esgReportState : {}))),
+          wasteRecyclingState: JSON.parse(JSON.stringify(window.wasteRecyclingState || {})),
+          supportersState: JSON.parse(JSON.stringify(window.supportersState || (typeof supportersState !== 'undefined' ? supportersState : {})))
+        }
+      };
+
+      slots.unshift(newSlot);
+      localStorage.setItem(PRESETS_SLOTS_KEY, JSON.stringify(slots));
+      if (titleInput) titleInput.value = '';
+      renderPresetsListUI();
+      showToast(`"${title}" 슬롯이 프로그램 내에 저장되었습니다! 💾`);
+    }
+
+    function loadPresetSlotInApp(id) {
+      const slots = getSavedPresetSlots();
+      const target = slots.find(s => s.id === id);
+      if (!target || !target.fullState) {
+        showToast('저장된 데이터 슬롯을 찾을 수 없습니다.', true);
+        return;
+      }
+
+      isRestoringState = true;
+      const fullState = target.fullState;
+
+      if (fullState.sessionStats) sessionStats = Object.assign(sessionStats, fullState.sessionStats);
+      if (fullState.localFoodState) { localFoodState = Object.assign(typeof localFoodState !== 'undefined' ? localFoodState : {}, fullState.localFoodState); window.localFoodState = localFoodState; }
+      if (fullState.iso20121State) { iso20121State = Object.assign(typeof iso20121State !== 'undefined' ? iso20121State : {}, fullState.iso20121State); window.iso20121State = iso20121State; }
+      if (fullState.barrierFreeState) { barrierFreeState = Object.assign(typeof barrierFreeState !== 'undefined' ? barrierFreeState : {}, fullState.barrierFreeState); window.barrierFreeState = barrierFreeState; }
+      if (fullState.safetyLaborState) { safetyLaborState = Object.assign(typeof safetyLaborState !== 'undefined' ? safetyLaborState : {}, fullState.safetyLaborState); window.safetyLaborState = safetyLaborState; }
+      if (fullState.venueEcologyState) { venueEcologyState = Object.assign(typeof venueEcologyState !== 'undefined' ? venueEcologyState : {}, fullState.venueEcologyState); window.venueEcologyState = venueEcologyState; }
+      if (fullState.pledgesState) { pledgesState = fullState.pledgesState; window.pledgesState = pledgesState; }
+      if (fullState.knowledgeState) { knowledgeState = Object.assign(typeof knowledgeState !== 'undefined' ? knowledgeState : {}, fullState.knowledgeState); window.knowledgeState = knowledgeState; }
+      if (fullState.localEconomyState) { localEconomyState = Object.assign(typeof localEconomyState !== 'undefined' ? localEconomyState : {}, fullState.localEconomyState); window.localEconomyState = localEconomyState; }
+      if (fullState.advisoryMinutesState) { advisoryMinutesState = Object.assign(typeof advisoryMinutesState !== 'undefined' ? advisoryMinutesState : {}, fullState.advisoryMinutesState); window.advisoryMinutesState = advisoryMinutesState; }
+      if (fullState.esgDisclosureState) window.esgDisclosureState = fullState.esgDisclosureState;
+      if (fullState.esgReportState) { esgReportState = Object.assign(typeof esgReportState !== 'undefined' ? esgReportState : {}, fullState.esgReportState); window.esgReportState = esgReportState; }
+      if (fullState.wasteRecyclingState) window.wasteRecyclingState = fullState.wasteRecyclingState;
+      if (fullState.supportersState) { supportersState = Object.assign(typeof supportersState !== 'undefined' ? supportersState : {}, fullState.supportersState); window.supportersState = supportersState; }
+
+      recalculateSessionTotalCarbon();
+      updateDashboardUI(sessionStats);
+      isRestoringState = false;
+
+      saveAllStateToLocalStorage();
+      closeEsgPresetsModal();
+      showToast(`"${target.title}" 데이터를 성공적으로 불러왔습니다! 📥`);
+    }
+
+    function deletePresetSlotInApp(id) {
+      if (!confirm('이 저장 데이터 슬롯을 삭제하시겠습니까?')) return;
+      let slots = getSavedPresetSlots();
+      slots = slots.filter(s => s.id !== id);
+      localStorage.setItem(PRESETS_SLOTS_KEY, JSON.stringify(slots));
+      renderPresetsListUI();
+      showToast('저장 데이터 슬롯이 삭제되었습니다.');
+    }
+
+    function renderPresetsListUI() {
+      const container = document.getElementById('presets-list-container');
+      const badge = document.getElementById('presets-count-badge');
+      if (!container) return;
+
+      const slots = getSavedPresetSlots();
+      if (badge) badge.textContent = `${slots.length}개 저장됨`;
+
+      if (slots.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 space-y-2 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
+            <div class="w-10 h-10 rounded-full bg-slate-200/60 text-slate-400 flex items-center justify-center mx-auto">
+              <i data-lucide="inbox" class="w-5 h-5"></i>
+            </div>
+            <p class="text-xs font-bold text-slate-500">저장된 ESG 데이터 슬롯이 없습니다.</p>
+            <p class="text-[11px] text-slate-400">위에서 데이터 이름을 입력하고 [현재 설정 저장]을 눌러보세요!</p>
+          </div>`;
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = slots.map(slot => `
+        <div class="bg-slate-50 hover:bg-slate-100/80 transition-all p-3.5 rounded-2xl border border-slate-200/80 flex items-center justify-between gap-3">
+          <div class="space-y-1 min-w-0">
+            <div class="flex items-center space-x-2">
+              <span class="font-extrabold text-xs text-slate-900 truncate">${slot.title}</span>
+              <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">${slot.totalCarbonKg} kgCO2eq</span>
+            </div>
+            <div class="flex items-center space-x-3 text-[10px] text-slate-500 font-medium">
+              <span>📅 ${slot.savedAt}</span>
+              <span>⚡ ${slot.actionsCount || 0}개 실천 항목</span>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <button onclick="loadPresetSlotInApp('${slot.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1 cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              불러오기
+            </button>
+            <button onclick="deletePresetSlotInApp('${slot.id}')" class="p-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-bold rounded-xl transition-all cursor-pointer">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    }
+
+    window.openEsgPresetsModal = openEsgPresetsModal;
+    window.closeEsgPresetsModal = closeEsgPresetsModal;
+    window.saveCurrentPresetInApp = saveCurrentPresetInApp;
+    window.loadPresetSlotInApp = loadPresetSlotInApp;
+    window.deletePresetSlotInApp = deletePresetSlotInApp;
+
+    // Load saved state automatically on page load
+    setTimeout(() => {
+      loadAllStateFromLocalStorage();
+    }, 100);
+
     // Close modal on escape keypress
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
@@ -3816,5 +4438,9 @@
         closeAdvisoryModal();
         closeStakeholderFeedbackModal();
         closeAdvisoryMinutesModal();
+        closeVenueEcologyModal();
+        closeEsgDisclosureModal();
+        closePdfReportModal();
+        closeEsgPresetsModal();
       }
     });
