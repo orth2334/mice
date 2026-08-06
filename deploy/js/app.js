@@ -3925,6 +3925,26 @@
         knowledgeEl.className = knowledgeProgramsCount > 0 ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
 
+      if (document.getElementById('pdf-s-localeconomy')) {
+        const isEconomySubmitted = window.localEconomyState && window.localEconomyState.submitted;
+        const economyElem = document.getElementById('pdf-s-localeconomy');
+        if (isEconomySubmitted) {
+          const amt = (window.localEconomyState.amount || 0).toLocaleString();
+          economyElem.textContent = `${amt} 만원`;
+          economyElem.className = 'text-blue-700 font-bold ml-1 flex-shrink-0';
+        } else {
+          economyElem.textContent = '0 만원';
+          economyElem.className = 'text-slate-900 font-bold ml-1 flex-shrink-0';
+        }
+      }
+
+      if (document.getElementById('pdf-s-education')) {
+        const isEduSubmitted = (window.esgEduState && window.esgEduState.submitted) || (window.inclusionState && window.inclusionState.submitted);
+        const eduElem = document.getElementById('pdf-s-education');
+        eduElem.textContent = isEduSubmitted ? '실천 완료' : '미제출';
+        eduElem.className = isEduSubmitted ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
+
       if (document.getElementById('pdf-s-creators')) {
         const isSupportersSubmitted = window.supportersState && window.supportersState.submitted;
         const elem = document.getElementById('pdf-s-creators');
