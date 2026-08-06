@@ -3799,6 +3799,12 @@
       modal.style.display = 'flex';
       modal.style.pointerEvents = 'auto';
       modal.classList.remove('hidden');
+
+      // Reset scroll position to top
+      const scrollables = modal.querySelectorAll('.overflow-y-auto');
+      scrollables.forEach(el => el.scrollTop = 0);
+      modal.scrollTop = 0;
+
       setTimeout(() => {
         modal.classList.remove('opacity-0');
         if (modal.querySelector('div')) modal.querySelector('div').classList.remove('scale-95');
@@ -3857,48 +3863,84 @@
       if (document.getElementById('pdf-e-upcycle')) document.getElementById('pdf-e-upcycle').textContent = `${((items.upcycled_keyring || 0) + (items.upcycled_banner || 0)).toLocaleString()} 개`;
       if (document.getElementById('pdf-e-paperbooth')) document.getElementById('pdf-e-paperbooth').textContent = `${(items.paper_booth || 0).toLocaleString()} ㎡`;
 
-      const recyclingRate = (window.wasteRecyclingState && window.wasteRecyclingState.recyclingRate) || 0;
-      if (document.getElementById('pdf-e-recycling')) document.getElementById('pdf-e-recycling').textContent = `${recyclingRate}%`;
+      const isWasteSubmitted = window.wasteRecyclingState && window.wasteRecyclingState.submitted;
+      const recyclingRate = isWasteSubmitted ? (window.wasteRecyclingState.recyclingRate || 0) : 0;
+      const recyclingEl = document.getElementById('pdf-e-recycling');
+      if (recyclingEl) {
+        recyclingEl.textContent = `${recyclingRate}%`;
+        recyclingEl.className = isWasteSubmitted ? 'text-emerald-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
 
-      const barrierScore = (window.barrierFreeState && window.barrierFreeState.submitted) 
-        ? (((window.barrierFreeState.checkedItems?.length || 0) / 7) * 100).toFixed(1) 
+      const isBarrierSubmitted = window.barrierFreeState && window.barrierFreeState.submitted;
+      const barrierScore = isBarrierSubmitted 
+        ? (((window.barrierFreeState.checkedItems?.length || 0) / 7) * 100).toFixed(0) 
         : 0;
-      if (document.getElementById('pdf-s-barrier')) document.getElementById('pdf-s-barrier').textContent = `${barrierScore}%`;
+      const barrierEl = document.getElementById('pdf-s-barrier');
+      if (barrierEl) {
+        barrierEl.textContent = `${barrierScore}%`;
+        barrierEl.className = isBarrierSubmitted ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
 
-      const safetyScore = (window.safetyLaborState && window.safetyLaborState.submitted) 
-        ? (((window.safetyLaborState.checkedItems?.length || 0) / 6) * 100).toFixed(1) 
+      const isSafetySubmitted = window.safetyLaborState && window.safetyLaborState.submitted;
+      const safetyScore = isSafetySubmitted 
+        ? (((window.safetyLaborState.checkedItems?.length || 0) / 6) * 100).toFixed(0) 
         : 0;
-      if (document.getElementById('pdf-s-safety')) document.getElementById('pdf-s-safety').textContent = `${safetyScore}%`;
+      const safetyEl = document.getElementById('pdf-s-safety');
+      if (safetyEl) {
+        safetyEl.textContent = `${safetyScore}%`;
+        safetyEl.className = isSafetySubmitted ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
 
       let totalPledgeHeadcount = 0;
-      if (window.pledgesState) {
+      if (window.pledgesState && window.pledgesState.length > 0) {
         window.pledgesState.forEach(p => totalPledgeHeadcount += (parseInt(p.peopleCount) || 1));
       }
-      if (document.getElementById('pdf-s-pledge')) document.getElementById('pdf-s-pledge').textContent = `${totalPledgeHeadcount} 명`;
+      const pledgeEl = document.getElementById('pdf-s-pledge');
+      if (pledgeEl) {
+        pledgeEl.textContent = `${totalPledgeHeadcount} 명`;
+        pledgeEl.className = totalPledgeHeadcount > 0 ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
 
       let knowledgeProgramsCount = 0;
       if (window.knowledgeState && window.knowledgeState.submitted && window.knowledgeState.programs) {
-        knowledgeProgramsCount = window.knowledgeState.programs.filter(p => p.name.trim() !== '').length;
+        knowledgeProgramsCount = window.knowledgeState.programs.filter(p => p.name && p.name.trim() !== '').length;
       }
-      if (document.getElementById('pdf-s-knowledge')) document.getElementById('pdf-s-knowledge').textContent = `${knowledgeProgramsCount} 건`;
+      const knowledgeEl = document.getElementById('pdf-s-knowledge');
+      if (knowledgeEl) {
+        knowledgeEl.textContent = `${knowledgeProgramsCount} 건`;
+        knowledgeEl.className = knowledgeProgramsCount > 0 ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
+      }
 
-      let creatorsCount = 0;
-      if (window.localEconomyState && window.localEconomyState.submitted) {
-        creatorsCount = window.localEconomyState.youthCount || 0;
+      if (document.getElementById('pdf-s-creators')) {
+        const isSupportersSubmitted = window.supportersState && window.supportersState.submitted;
+        const elem = document.getElementById('pdf-s-creators');
+        elem.textContent = isSupportersSubmitted ? '제출 완료' : '미제출';
+        elem.className = isSupportersSubmitted ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
-      if (document.getElementById('pdf-s-creators')) document.getElementById('pdf-s-creators').textContent = `${creatorsCount} 명`;
 
       if (document.getElementById('pdf-g-iso')) {
-        document.getElementById('pdf-g-iso').textContent = (window.iso20121State && window.iso20121State.submitted) ? '완료 (100%)' : '진행 중';
+        const isIso = window.iso20121State && window.iso20121State.submitted;
+        const elem = document.getElementById('pdf-g-iso');
+        elem.textContent = isIso ? '완료 (100%)' : '미완료';
+        elem.className = isIso ? 'text-indigo-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
       if (document.getElementById('pdf-g-advisory')) {
-        document.getElementById('pdf-g-advisory').textContent = (window.advisoryMinutesState && window.advisoryMinutesState.submitted) ? '공시 완료' : '미공시';
+        const isAdvisory = window.advisoryMinutesState && window.advisoryMinutesState.submitted;
+        const elem = document.getElementById('pdf-g-advisory');
+        elem.textContent = isAdvisory ? '공시 완료' : '미공시';
+        elem.className = isAdvisory ? 'text-indigo-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
       if (document.getElementById('pdf-g-disclosure')) {
-        document.getElementById('pdf-g-disclosure').textContent = (window.esgDisclosureState && window.esgDisclosureState.submitted) ? '구축 완료' : '구축 중';
+        const isDisclosure = window.esgDisclosureState && window.esgDisclosureState.submitted;
+        const elem = document.getElementById('pdf-g-disclosure');
+        elem.textContent = isDisclosure ? '구축 완료' : '미구축';
+        elem.className = isDisclosure ? 'text-indigo-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
       if (document.getElementById('pdf-g-report')) {
-        document.getElementById('pdf-g-report').textContent = (window.esgReportState && window.esgReportState.submitted) ? '등록 완료' : '미등록';
+        const isReport = window.esgReportState && window.esgReportState.submitted;
+        const elem = document.getElementById('pdf-g-report');
+        elem.textContent = isReport ? '등록 완료' : '미등록';
+        elem.className = isReport ? 'text-indigo-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
 
       const certContainer = document.getElementById('pdf-cert-tags');
