@@ -23,13 +23,13 @@
     </div>
 
     <!-- Scrollable Printable Paper Container -->
-    <div class="p-3 sm:p-5 overflow-y-auto overflow-x-auto bg-slate-100/80 flex justify-center flex-grow">
+    <div class="p-3 sm:p-5 overflow-y-auto overflow-x-auto bg-slate-100/80 flex-grow block">
       
       <!-- A4 Document Element for PDF Conversion -->
-      <div id="pdf-report-document" class="bg-white p-5 sm:p-7 md:p-8 shadow-lg rounded-2xl w-full max-w-[794px] min-w-[620px] sm:min-w-0 border border-slate-200 text-slate-800 font-sans space-y-3.5 sm:space-y-4">
+      <div id="pdf-report-document" class="bg-white p-4 sm:p-6 md:p-7 shadow-lg rounded-2xl w-full max-w-[794px] min-w-[680px] mx-auto border border-slate-200 text-slate-800 font-sans space-y-3.5">
         
         <!-- Report Title Header -->
-        <div class="border-b-2 border-slate-900 pb-3.5 sm:pb-4 flex justify-between items-start">
+        <div class="border-b-2 border-slate-900 pb-3 flex justify-between items-start">
           <div class="space-y-0.5">
             <div class="flex items-center space-x-2">
               <span class="bg-emerald-800 text-white text-[9px] sm:text-[10px] font-extrabold px-2 sm:px-2.5 py-0.5 rounded">MICE ESG TRACKER</span>
@@ -46,109 +46,109 @@
         </div>
 
         <!-- Section 1: Executive Carbon Impact Summary -->
-        <div class="bg-emerald-950 text-white rounded-xl p-3.5 sm:p-5 space-y-2.5 sm:space-y-3 shadow-sm">
-          <div class="flex justify-between items-center border-b border-emerald-800/60 pb-2">
+        <div class="bg-emerald-950 text-white rounded-xl p-3 sm:p-4 space-y-2 shadow-sm">
+          <div class="flex justify-between items-center border-b border-emerald-800/60 pb-1.5">
             <span class="text-[11px] sm:text-xs font-extrabold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i> Executive Summary · 종합 탄소 감축 성과
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> Executive Summary · 종합 탄소 감축 성과
             </span>
-            <span class="text-[9px] sm:text-[10px] bg-emerald-900/80 text-emerald-200 px-2 sm:px-2.5 py-0.5 rounded-full border border-emerald-700/50">정량 검증 완료</span>
+            <span class="text-[9px] sm:text-[10px] bg-emerald-900/80 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-700/50">정량 검증 완료</span>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 sm:gap-3 text-center">
-            <div class="bg-emerald-900/50 p-2 sm:p-3 rounded-lg border border-emerald-800/50">
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-emerald-900/50 p-2 sm:p-2.5 rounded-lg border border-emerald-800/50">
               <span class="text-[10px] sm:text-[11px] font-bold text-emerald-300 block mb-0.5">총 탄소 감축량</span>
-              <span id="pdf-total-carbon" class="text-lg sm:text-xl md:text-2xl font-black text-white">0.00 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">kgCO2eq</span></span>
+              <span id="pdf-total-carbon" class="text-base sm:text-lg md:text-xl font-black text-white">0.00 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">kgCO2eq</span></span>
             </div>
-            <div class="bg-emerald-900/50 p-2 sm:p-3 rounded-lg border border-emerald-800/50">
+            <div class="bg-emerald-900/50 p-2 sm:p-2.5 rounded-lg border border-emerald-800/50">
               <span class="text-[10px] sm:text-[11px] font-bold text-emerald-300 block mb-0.5">소나무 식재 대체 효과</span>
-              <span id="pdf-tree-effect" class="text-lg sm:text-xl md:text-2xl font-black text-emerald-300">0.0 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">그루/년</span></span>
+              <span id="pdf-tree-effect" class="text-base sm:text-lg md:text-xl font-black text-emerald-300">0.0 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">그루/년</span></span>
             </div>
-            <div class="bg-emerald-900/50 p-2 sm:p-3 rounded-lg border border-emerald-800/50">
+            <div class="bg-emerald-900/50 p-2 sm:p-2.5 rounded-lg border border-emerald-800/50">
               <span class="text-[10px] sm:text-[11px] font-bold text-emerald-300 block mb-0.5">승용차 주행거리 감축</span>
-              <span id="pdf-car-effect" class="text-lg sm:text-xl md:text-2xl font-black text-emerald-300">0.0 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">km</span></span>
+              <span id="pdf-car-effect" class="text-base sm:text-lg md:text-xl font-black text-emerald-300">0.0 <span class="text-[10px] sm:text-xs font-semibold text-emerald-300">km</span></span>
             </div>
           </div>
         </div>
 
         <!-- Section 2: Detailed ESG Action Breakdown -->
-        <div class="space-y-2.5 sm:space-y-3">
+        <div class="space-y-2">
           <h3 class="text-[11px] sm:text-xs font-black text-slate-900 uppercase tracking-wider border-l-4 border-slate-900 pl-2">
             분야별 ESG 실천 상세 지표 (Detailed Metrics)
           </h3>
 
-          <div class="grid grid-cols-3 gap-2 sm:gap-2.5">
+          <div class="grid grid-cols-3 gap-2">
             <!-- [E] Environment -->
-            <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-200 space-y-1.5 sm:space-y-2">
-              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1.5">
-                <span class="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-emerald-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">E</span>
-                <h4 class="text-[11px] sm:text-xs font-bold text-slate-900 truncate">환경 (Environment)</h4>
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1">
+                <span class="w-4 h-4 rounded-full bg-emerald-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">E</span>
+                <h4 class="text-[11px] font-bold text-slate-900 truncate">환경 (Environment)</h4>
               </div>
-              <ul class="text-[9.5px] sm:text-[10.5px] space-y-1 text-slate-600 font-medium">
-                <li class="flex justify-between"><span class="truncate">다회용기 절감:</span><strong id="pdf-e-reusable" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 개</strong></li>
-                <li class="flex justify-between"><span class="truncate">재생에너지 전환:</span><strong id="pdf-e-energy" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 kWh</strong></li>
-                <li class="flex justify-between"><span class="truncate">수소/전기차 이동:</span><strong id="pdf-e-transport" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 km</strong></li>
-                <li class="flex justify-between"><span class="truncate">업사이클링 굿즈:</span><strong id="pdf-e-upcycle" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 개</strong></li>
-                <li class="flex justify-between"><span class="truncate">친환경 종이부스:</span><strong id="pdf-e-paperbooth" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 ㎡</strong></li>
-                <li class="flex justify-between"><span class="truncate">로컬푸드 구매:</span><strong id="pdf-e-localfood" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 원</strong></li>
-                <li class="flex justify-between"><span class="truncate">자원순환 재활용률:</span><strong id="pdf-e-recycling" class="text-emerald-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
+              <ul class="text-[9.5px] sm:text-[10px] space-y-1 text-slate-600 font-medium">
+                <li class="flex justify-between items-center"><span class="truncate">다회용기 절감:</span><strong id="pdf-e-reusable" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 개</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">재생에너지 전환:</span><strong id="pdf-e-energy" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 kWh</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">수소/전기차 이동:</span><strong id="pdf-e-transport" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 km</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">업사이클링 굿즈:</span><strong id="pdf-e-upcycle" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 개</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">친환경 종이부스:</span><strong id="pdf-e-paperbooth" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 ㎡</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">로컬푸드 구매:</span><strong id="pdf-e-localfood" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 원</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">자원순환 재활용률:</span><strong id="pdf-e-recycling" class="text-emerald-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
               </ul>
             </div>
 
             <!-- [S] Social -->
-            <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-200 space-y-1.5 sm:space-y-2">
-              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1.5">
-                <span class="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-blue-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">S</span>
-                <h4 class="text-[11px] sm:text-xs font-bold text-slate-900 truncate">사회 (Social)</h4>
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1">
+                <span class="w-4 h-4 rounded-full bg-blue-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">S</span>
+                <h4 class="text-[11px] font-bold text-slate-900 truncate">사회 (Social)</h4>
               </div>
-              <ul class="text-[9.5px] sm:text-[10.5px] space-y-1 text-slate-600 font-medium">
-                <li class="flex justify-between"><span class="truncate">Barrier-Free 준수:</span><strong id="pdf-s-barrier" class="text-blue-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
-                <li class="flex justify-between"><span class="truncate">행사 안전관리계획:</span><strong id="pdf-s-safety" class="text-slate-900 font-bold ml-1 flex-shrink-0">미수립</strong></li>
-                <li class="flex justify-between"><span class="truncate">ESG 실천 참여 인원:</span><strong id="pdf-s-pledge" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 명</strong></li>
-                <li class="flex justify-between"><span class="truncate">지역경제 소비 기여:</span><strong id="pdf-s-localeconomy" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 만원</strong></li>
-                <li class="flex justify-between"><span class="truncate">포용·ESG 교육:</span><strong id="pdf-s-education" class="text-slate-900 font-bold ml-1 flex-shrink-0">미제출</strong></li>
-                <li class="flex justify-between"><span class="truncate">재능 기부 강연:</span><strong id="pdf-s-knowledge" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 건</strong></li>
-                <li class="flex justify-between"><span class="truncate">ESG 서포터즈 활동:</span><strong id="pdf-s-creators" class="text-slate-900 font-bold ml-1 flex-shrink-0">미제출</strong></li>
+              <ul class="text-[9.5px] sm:text-[10px] space-y-1 text-slate-600 font-medium">
+                <li class="flex justify-between items-center"><span class="truncate">Barrier-Free 준수:</span><strong id="pdf-s-barrier" class="text-blue-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">행사 안전관리계획:</span><strong id="pdf-s-safety" class="text-slate-900 font-bold ml-1 flex-shrink-0">미수립</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">ESG 실천 참여 인원:</span><strong id="pdf-s-pledge" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 명</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">지역경제 소비 기여:</span><strong id="pdf-s-localeconomy" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 만원</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">포용·ESG 교육:</span><strong id="pdf-s-education" class="text-slate-900 font-bold ml-1 flex-shrink-0">미제출</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">재능 기부 강연:</span><strong id="pdf-s-knowledge" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 건</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">ESG 서포터즈 활동:</span><strong id="pdf-s-creators" class="text-slate-900 font-bold ml-1 flex-shrink-0">미제출</strong></li>
               </ul>
             </div>
 
             <!-- [G] Governance -->
-            <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-200 space-y-1.5 sm:space-y-2">
-              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1.5">
-                <span class="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-indigo-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">G</span>
-                <h4 class="text-[11px] sm:text-xs font-bold text-slate-900 truncate">지배구조 (Governance)</h4>
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+              <div class="flex items-center space-x-1.5 border-b border-slate-200 pb-1">
+                <span class="w-4 h-4 rounded-full bg-indigo-600 text-white text-[9px] font-black flex items-center justify-center flex-shrink-0">G</span>
+                <h4 class="text-[11px] font-bold text-slate-900 truncate">지배구조 (Governance)</h4>
               </div>
-              <ul class="text-[9.5px] sm:text-[10.5px] space-y-1 text-slate-600 font-medium">
-                  <li class="flex justify-between"><span class="truncate">ISO 20121 인증:</span><strong id="pdf-g-iso" class="text-slate-900 font-bold ml-1 flex-shrink-0">미완료</strong></li>
-                  <li class="flex justify-between"><span class="truncate">자문단 회의록 공시:</span><strong id="pdf-g-advisory" class="text-slate-900 font-bold ml-1 flex-shrink-0">미공시</strong></li>
-                  <li class="flex justify-between"><span class="truncate">정보공개 페이지:</span><strong id="pdf-g-disclosure" class="text-slate-900 font-bold ml-1 flex-shrink-0">미구축</strong></li>
-                  <li class="flex justify-between"><span class="truncate">ESG 보고서 발간:</span><strong id="pdf-g-report" class="text-slate-900 font-bold ml-1 flex-shrink-0">미등록</strong></li>
+              <ul class="text-[9.5px] sm:text-[10px] space-y-1 text-slate-600 font-medium">
+                <li class="flex justify-between items-center"><span class="truncate">ISO 20121 인증:</span><strong id="pdf-g-iso" class="text-slate-900 font-bold ml-1 flex-shrink-0">미완료</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">자문단 회의록 공시:</span><strong id="pdf-g-advisory" class="text-slate-900 font-bold ml-1 flex-shrink-0">미공시</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">정보공개 페이지:</span><strong id="pdf-g-disclosure" class="text-slate-900 font-bold ml-1 flex-shrink-0">미구축</strong></li>
+                <li class="flex justify-between items-center"><span class="truncate">ESG 보고서 발간:</span><strong id="pdf-g-report" class="text-slate-900 font-bold ml-1 flex-shrink-0">미등록</strong></li>
               </ul>
             </div>
           </div>
         </div>
 
         <!-- Section 3: Verified Certificates & Submissions -->
-        <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-200 space-y-1.5">
-          <h4 class="text-[10.5px] sm:text-[11.5px] font-bold text-slate-900 flex items-center gap-1.5">
+        <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200 space-y-1">
+          <h4 class="text-[10.5px] sm:text-[11px] font-bold text-slate-900 flex items-center gap-1.5">
             <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> 제출된 친환경 인증 및 증빙 문서 현황
           </h4>
           <div id="pdf-cert-tags" class="flex flex-wrap gap-1.5 pt-0.5">
-            <span class="text-[8.5px] sm:text-[9.5px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-md">LEED 인증 완료</span>
-            <span class="text-[8.5px] sm:text-[9.5px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-md">EarthCheck 마이스 인증</span>
-            <span class="text-[8.5px] sm:text-[9.5px] bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded-md">ISO 14001 인증</span>
+            <span class="text-[8.5px] sm:text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-md">LEED 인증 완료</span>
+            <span class="text-[8.5px] sm:text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-md">EarthCheck 마이스 인증</span>
+            <span class="text-[8.5px] sm:text-[9px] bg-slate-200 text-slate-700 font-bold px-2 py-0.5 rounded-md">ISO 14001 인증</span>
           </div>
         </div>
 
         <!-- Section 3.5: Compliance Standards & Frameworks -->
-        <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-200 space-y-1.5 sm:space-y-2">
+        <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200 space-y-1.5">
           <div class="flex justify-between items-center border-b border-slate-200 pb-1 flex-wrap gap-1">
-            <span class="text-[10.5px] sm:text-[11.5px] font-bold text-slate-900 flex items-center gap-1.5 min-w-0">
+            <span class="text-[10.5px] sm:text-[11px] font-bold text-slate-900 flex items-center gap-1.5 min-w-0">
               <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i>
               <span class="truncate">적용 공식 공시 및 검증 규격 (Official Compliance Standards)</span>
             </span>
-            <span class="text-[8.5px] sm:text-[9.5px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full border border-emerald-300 flex-shrink-0">K-ESG &amp; GRI Standards &amp; Scope 3</span>
+            <span class="text-[8.5px] sm:text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full border border-emerald-300 flex-shrink-0">K-ESG &amp; GRI Standards &amp; Scope 3</span>
           </div>
-          <div class="grid grid-cols-2 gap-2 text-[9.5px] sm:text-[10.5px] text-slate-700 font-medium">
+          <div class="grid grid-cols-2 gap-2 text-[9.5px] sm:text-[10px] text-slate-700 font-medium">
             <div class="bg-white p-2 rounded-lg border border-slate-200/80">
               <strong class="text-slate-900">🌐 국제 규격:</strong> GRI Standards, GHG Protocol Scope 3 (Cat. 1, 6, 12), ISO 20121
             </div>
@@ -159,10 +159,10 @@
         </div>
 
         <!-- Section 4: Issuing Authority & Copyright -->
-        <div class="pt-2 sm:pt-2.5 border-t border-slate-200 flex justify-between items-center">
-          <div class="space-y-0.5 text-[8.5px] sm:text-[9.5px] text-slate-500 font-medium">
+        <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+          <div class="space-y-0.5 text-[8.5px] sm:text-[9px] text-slate-500 font-medium">
             <p>본 성과보고서는 MICE ESG Tracker 정량 산식 기준에 따라 자동 검증 출력이 완료되었습니다.</p>
-            <p class="text-[8px] sm:text-[9px] text-slate-400">© 2026 MUREPA KOREA. All Rights Reserved.</p>
+            <p class="text-[8px] sm:text-[8.5px] text-slate-400">© 2026 MUREPA KOREA. All Rights Reserved.</p>
           </div>
           <div class="text-right flex flex-col justify-center">
             <span class="text-[7.5px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-tight">ISSUING AUTHORITY</span>
