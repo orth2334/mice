@@ -3896,12 +3896,9 @@
       }
 
       const isSafetySubmitted = window.safetyLaborState && window.safetyLaborState.submitted;
-      const safetyScore = isSafetySubmitted 
-        ? (((window.safetyLaborState.checkedItems?.length || 0) / 6) * 100).toFixed(0) 
-        : 0;
       const safetyEl = document.getElementById('pdf-s-safety');
       if (safetyEl) {
-        safetyEl.textContent = `${safetyScore}%`;
+        safetyEl.textContent = isSafetySubmitted ? '수립 완료 (0건 사고)' : '미수립';
         safetyEl.className = isSafetySubmitted ? 'text-blue-700 font-bold ml-1 flex-shrink-0' : 'text-slate-900 font-bold ml-1 flex-shrink-0';
       }
 

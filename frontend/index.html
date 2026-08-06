@@ -1708,97 +1708,9 @@
   <!-- Footer Info -->
   <footer class="text-center py-8 text-slate-400 text-[10px] pb-24">
     <p>© 2026 MUREPA. All Rights Reserved.</p>
-  </footer>
-
-
-  <!-- Inline ESG Presets & PDF Report Preview Modals for 100% Reliability -->
-  <div id="esgPresetsModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between flex-shrink-0">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-            <i data-lucide="bookmark" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-2">
-              ESG 실천 데이터 저장 및 불러오기 (프로그램 내 보관함)
-              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">MUREPA KOREA</span>
-            </h3>
-            <p class="text-[11px] text-slate-400">현재 카드의 결과값을 프로그램 내부 슬롯에 저장하거나 불러옵니다.</p>
-          </div>
-        </div>
-        <button onclick="closeEsgPresetsModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-      <div class="p-5 bg-slate-50 border-b border-slate-200/80 space-y-2.5">
-        <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-          <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600"></i>
-          현재 작성된 카드 데이터 프로그램에 저장하기
-        </h4>
-        <div class="flex gap-2">
-          <input id="preset-title-input" type="text" placeholder="저장할 데이터 이름 입력 (예: 2026 MICE 컨퍼런스 1일차, 상반기 전시회)" class="flex-grow px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
-          <button onclick="saveCurrentPresetInApp()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0">
-            <i data-lucide="save" class="w-4 h-4"></i>
-            현재 설정 저장
-          </button>
-        </div>
-      </div>
-      <div class="p-6 space-y-4 max-h-[55vh] overflow-y-auto">
-        <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-          <h4 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-            <i data-lucide="folder-open" class="w-4 h-4 text-slate-600"></i>
-            프로그램 내 저장된 ESG 슬롯 목록
-          </h4>
-          <span id="presets-count-badge" class="text-[11px] font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">0개 저장됨</span>
-        </div>
-        <div id="presets-list-container" class="space-y-2.5"></div>
-      </div>
-      <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex justify-between items-center flex-shrink-0">
-        <span class="text-xs text-slate-500 font-medium">💡 프로그램 내부 저장소에 보관되므로 파일 생성 없이 바로 불러올 수 있습니다.</span>
-        <button onclick="closeEsgPresetsModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">
-          닫기
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div id="pdfReportModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-2 sm:px-4 py-3 sm:py-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[94vh] flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
-      
-      <!-- Modal Dark Top Header -->
-      <div class="px-5 py-3 bg-slate-900 text-white flex items-center justify-between flex-shrink-0 border-b border-slate-800">
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-2">
-              MICE ESG 실천 간이 보고서 미리보기
-              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">MUREPA KOREA</span>
-            </h3>
-            <p class="text-[10.5px] text-slate-400">PDF 다운로드 전 A4 출력 양식을 미리 확인합니다.</p>
-          </div>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button onclick="closePdfReportModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer" title="닫기">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Scrollable Printable Paper Container -->
-      <div class="p-3 sm:p-5 overflow-y-auto overflow-x-auto bg-slate-100/80 flex justify-center flex-grow">
-        
-        <!-- A4 Document Element for PDF Conversion -->
-        <div id="pdf-report-document" class="bg-white p-5 sm:p-7 md:p-8 shadow-lg rounded-2xl w-full max-w-[794px] min-w-[620px] sm:min-w-0 border border-slate-200 text-slate-800 font-sans space-y-3.5 sm:space-y-4">
-          
-          <!-- Report Title Header -->
-          <div class="border-b-2 border-slate-900 pb-3.5 sm:pb-4 flex justify-between items-start">
-            <div class="space-y-0.5">
               <div class="flex items-center space-x-2">
                 <span class="bg-emerald-800 text-white text-[9px] sm:text-[10px] font-extrabold px-2 sm:px-2.5 py-0.5 rounded">MICE ESG TRACKER</span>
-                <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 tracking-wider uppercase">GRI Standard &amp; Scope 3 Report</span>
+                <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 tracking-wider uppercase">GRI Standards &amp; Scope 3 (Cat. 1, 6, 12) Report</span>
               </div>
               <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">MICE 행사 ESG 실천 간이 성과보고서</h1>
               <p class="text-[11px] sm:text-xs text-slate-500">행사 전 과정에서의 지속가능성 지표 및 정량적 탄소 감축 성과 검증서</p>
@@ -1867,7 +1779,7 @@
                 </div>
                 <ul class="text-[9.5px] sm:text-[10.5px] space-y-1 text-slate-600 font-medium">
                   <li class="flex justify-between"><span class="truncate">Barrier-Free 준수:</span><strong id="pdf-s-barrier" class="text-blue-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
-                  <li class="flex justify-between"><span class="truncate">안전·공정노동 준수:</span><strong id="pdf-s-safety" class="text-blue-700 font-bold ml-1 flex-shrink-0">0 %</strong></li>
+                  <li class="flex justify-between"><span class="truncate">행사 안전관리계획:</span><strong id="pdf-s-safety" class="text-slate-900 font-bold ml-1 flex-shrink-0">미수립</strong></li>
                   <li class="flex justify-between"><span class="truncate">ESG 실천 참여 인원:</span><strong id="pdf-s-pledge" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 명</strong></li>
                   <li class="flex justify-between"><span class="truncate">지역경제 소비 기여:</span><strong id="pdf-s-localeconomy" class="text-slate-900 font-bold ml-1 flex-shrink-0">0 만원</strong></li>
                   <li class="flex justify-between"><span class="truncate">포용·ESG 교육:</span><strong id="pdf-s-education" class="text-slate-900 font-bold ml-1 flex-shrink-0">미제출</strong></li>
@@ -1911,14 +1823,14 @@
                 <i data-lucide="award" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 flex-shrink-0"></i>
                 <span class="truncate">적용 공식 공시 및 검증 규격 (Official Compliance Standards)</span>
               </span>
-              <span class="text-[9px] sm:text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2 sm:px-2.5 py-0.5 rounded-full border border-emerald-300 flex-shrink-0">K-ESG &amp; GRI Standard</span>
+              <span class="text-[9px] sm:text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2 sm:px-2.5 py-0.5 rounded-full border border-emerald-300 flex-shrink-0">K-ESG &amp; GRI Standards &amp; Scope 3</span>
             </div>
             <div class="grid grid-cols-2 gap-2 sm:gap-2.5 text-[10px] sm:text-[11px] text-slate-700 font-medium">
               <div class="bg-white p-2 sm:p-2.5 rounded-lg border border-slate-200/80">
-                <strong class="text-slate-900">🌐 국제 규격:</strong> GRI 301/302/305/306/403/413, ISO 20121, RE100
+                <strong class="text-slate-900">🌐 국제 규격:</strong> GRI Standards, GHG Protocol Scope 3 (Cat. 1, 6, 12), ISO 20121
               </div>
               <div class="bg-white p-2 sm:p-2.5 rounded-lg border border-slate-200/80">
-                <strong class="text-slate-900">🇰🇷 국내 기준:</strong> 산자부 K-ESG 지표 (E-6-2, E-3-2, S-2-1 등), 중대재해처벌법
+                <strong class="text-slate-900">🇰🇷 국내 기준:</strong> 산자부 K-ESG 지표 (E-6-2 등), 중대재해처벌법 (행사 안전관리 수립 산식)
               </div>
             </div>
           </div>
