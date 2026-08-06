@@ -3835,7 +3835,7 @@
 
       let localFoodGrams = 0;
       if (window.localFoodState && window.localFoodState.submitted) {
-        localFoodGrams = Math.round((window.localFoodState.carbonReduction || 0.172) * 1000);
+        localFoodGrams = window.localFoodState.reductionGrams || Math.round((window.localFoodState.carbonReduction || 0.172) * 1000);
       }
 
       const totalGrams = (sessionStats && typeof sessionStats.totalReducedCarbonGrams === 'number')
@@ -3859,9 +3859,23 @@
       const totalReusable = (items.reusable_cup || 0) + (items.reusable_plate || 0) + (items.reusable_bowl || 0) + (items.reusable_fork || 0);
       if (document.getElementById('pdf-e-reusable')) document.getElementById('pdf-e-reusable').textContent = `${totalReusable.toLocaleString()} 개`;
       if (document.getElementById('pdf-e-energy')) document.getElementById('pdf-e-energy').textContent = `${(items.renewable_energy || 0).toLocaleString()} kWh`;
-      if (document.getElementById('pdf-e-transport')) document.getElementById('pdf-e-transport').textContent = `${(items.public_transport || 0).toLocaleString()} km`;
+      if (document.getElementById('pdf-e-transport')) document.getElementById('pdf-e-transport').textContent = `${((items.public_transport || 0) + (items.public_transport_km || 0)).toLocaleString()} km`;
       if (document.getElementById('pdf-e-upcycle')) document.getElementById('pdf-e-upcycle').textContent = `${((items.upcycled_keyring || 0) + (items.upcycled_banner || 0)).toLocaleString()} 개`;
       if (document.getElementById('pdf-e-paperbooth')) document.getElementById('pdf-e-paperbooth').textContent = `${(items.paper_booth || 0).toLocaleString()} ㎡`;
+
+      if (document.getElementById('pdf-e-localfood')) {
+        const isFoodSubmitted = window.localFoodState && window.localFoodState.submitted;
+        const foodElem = document.getElementById('pdf-e-localfood');
+        if (isFoodSubmitted) {
+          const amt = (window.localFoodState.amount || 0).toLocaleString();
+          const kg = ((window.localFoodState.reductionGrams || localFoodGrams) / 1000).toFixed(2);
+          foodElem.textContent = `${amt}원 (${kg}kg 감축)`;
+          foodElem.className = 'text-emerald-700 font-bold ml-1 flex-shrink-0';
+        } else {
+          foodElem.textContent = '0 원';
+          foodElem.className = 'text-slate-900 font-bold ml-1 flex-shrink-0';
+        }
+      }
 
       const isWasteSubmitted = window.wasteRecyclingState && window.wasteRecyclingState.submitted;
       const recyclingRate = isWasteSubmitted ? (window.wasteRecyclingState.recyclingRate || 0) : 0;
