@@ -1,0 +1,203 @@
+<!-- ============================================================================
+     배출계수 설정 및 출처 관리 모달 (emission_factor_settings.html)
+     NZCE 9대 배출원 & GHG Protocol Scope 1/2/3 연계
+     ============================================================================ -->
+<div id="emissionFactorSettingsModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-2 sm:px-4 py-4 overflow-y-auto">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[92vh] flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
+    
+    <!-- Modal Dark Top Header -->
+    <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between flex-shrink-0 border-b border-slate-800">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
+          <i data-lucide="sliders" class="w-5 h-5 text-sky-400"></i>
+        </div>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+            배출계수 기준 및 버전 설정
+            <span class="bg-blue-500/20 text-sky-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-500/30">NZCE &amp; GHG Protocol</span>
+          </h3>
+          <p class="text-[11px] text-slate-400">행사 온실가스 감축·배출 산정에 적용할 표준 배출계수의 출처 및 버전을 선택합니다.</p>
+        </div>
+      </div>
+      <button onclick="closeEmissionFactorModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors flex items-center justify-center cursor-pointer">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Scrollable Modal Body -->
+    <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-grow bg-slate-50/50">
+
+      <!-- 1. Preset Selector Cards -->
+      <div>
+        <div class="flex justify-between items-center mb-3">
+          <h4 class="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="globe" class="w-4 h-4 text-blue-600"></i>
+            배출계수 표준 프로필 (출처 / 버전 선택)
+          </h4>
+          <span class="text-[11px] text-slate-500">목적에 맞게 공인 출처를 선택할 수 있습니다</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="ef-preset-cards-container">
+          <!-- Preset Card: Korea 2024 Default -->
+          <div onclick="selectEfPreset('kr_default')" id="ef-card-kr_default" class="ef-preset-card cursor-pointer p-3.5 rounded-2xl border-2 transition-all bg-white border-blue-500 shadow-sm relative">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">🇰🇷</span>
+              <span class="badge-recommended text-[9px] bg-blue-100 text-blue-800 font-extrabold px-1.5 py-0.5 rounded">기본 추천</span>
+            </div>
+            <div class="font-extrabold text-xs text-slate-900">한국 기본 (2024)</div>
+            <div class="text-xs sm:text-sm text-slate-500 mt-1 line-clamp-2">환경부 국가 인벤토리 최신 계수</div>
+            <div class="mt-2 pt-2 border-t border-slate-100 text-[9px] text-blue-700 font-semibold flex items-center justify-between">
+              <span>환경부 GIR</span>
+              <span class="font-mono">2024년</span>
+            </div>
+          </div>
+
+          <!-- Preset Card: DEFRA 2024 -->
+          <div onclick="selectEfPreset('defra_2024')" id="ef-card-defra_2024" class="ef-preset-card cursor-pointer p-3.5 rounded-2xl border-2 transition-all bg-white border-slate-200 hover:border-slate-300">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">🇬🇧</span>
+              <span class="text-[9px] bg-purple-100 text-purple-700 font-bold px-1.5 py-0.5 rounded">글로벌</span>
+            </div>
+            <div class="font-extrabold text-xs text-slate-900">DEFRA 2024 (UK)</div>
+            <div class="text-xs sm:text-sm text-slate-500 mt-1 line-clamp-2">영국 환경식품농림부 GHG 변환계수</div>
+            <div class="mt-2 pt-2 border-t border-slate-100 text-[9px] text-purple-700 font-semibold flex items-center justify-between">
+              <span>UK DEFRA</span>
+              <span class="font-mono">2024년</span>
+            </div>
+          </div>
+
+          <!-- Preset Card: EPA 2024 -->
+          <div onclick="selectEfPreset('epa_2024')" id="ef-card-epa_2024" class="ef-preset-card cursor-pointer p-3.5 rounded-2xl border-2 transition-all bg-white border-slate-200 hover:border-slate-300">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">🇺🇸</span>
+              <span class="text-[9px] bg-slate-100 text-slate-600 font-bold px-1.5 py-0.5 rounded">글로벌</span>
+            </div>
+            <div class="font-extrabold text-xs text-slate-900">EPA 2024 (US)</div>
+            <div class="text-xs sm:text-sm text-slate-500 mt-1 line-clamp-2">미국 환경보호청 배출계수 허브</div>
+            <div class="mt-2 pt-2 border-t border-slate-100 text-[9px] text-slate-500 font-semibold flex items-center justify-between">
+              <span>US EPA</span>
+              <span class="font-mono">2024년</span>
+            </div>
+          </div>
+
+          <!-- Preset Card: Custom -->
+          <div onclick="selectEfPreset('custom')" id="ef-card-custom" class="ef-preset-card cursor-pointer p-3.5 rounded-2xl border-2 transition-all bg-white border-slate-200 hover:border-slate-300">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xl">⚙️</span>
+              <span class="text-[9px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">직접입력</span>
+            </div>
+            <div class="font-extrabold text-xs text-slate-900">사용자 정의 (Custom)</div>
+            <div class="text-xs sm:text-sm text-slate-500 mt-1 line-clamp-2">개별 항목 배출계수 직접 조정</div>
+            <div class="mt-2 pt-2 border-t border-slate-100 text-[9px] text-amber-700 font-semibold flex items-center justify-between">
+              <span>사용자 지정</span>
+              <span>-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Active Profile Summary Banner -->
+      <div id="ef-active-summary-banner" class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-blue-800/40">
+        <div class="flex flex-wrap justify-between items-center gap-3">
+          <div class="flex items-center space-x-3">
+            <span id="ef-summary-icon" class="text-2xl">🇰🇷</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="ef-summary-name" class="text-sm font-extrabold text-white">한국 기본 (환경부 2024)</span>
+                <span id="ef-summary-badge" class="bg-sky-400/20 text-sky-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-sky-400/30">활성 프로필</span>
+              </div>
+              <p id="ef-summary-desc" class="text-[11px] text-slate-300 mt-0.5">환경부 국가 온실가스 인벤토리 기반 최신 배출계수</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 text-xs">
+            <div class="text-right">
+              <span class="text-[9px] text-slate-400 uppercase tracking-wider block">공식 출처</span>
+              <span id="ef-summary-source" class="font-bold text-sky-300">환경부 온실가스 종합정보센터</span>
+            </div>
+            <div class="h-6 w-px bg-slate-700"></div>
+            <div class="text-right">
+              <span class="text-[9px] text-slate-400 uppercase tracking-wider block">산정 연도</span>
+              <span id="ef-summary-year" class="font-bold text-white font-mono">2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Scope Explanation Mini Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <div class="bg-white p-3 rounded-xl border border-rose-200/80 flex items-center space-x-2.5">
+          <span class="w-7 h-7 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 text-xs font-black flex items-center justify-center flex-shrink-0">S1</span>
+          <div>
+            <div class="text-xs font-black text-rose-900">Scope 1 (직접 배출)</div>
+            <div class="text-xs sm:text-sm text-slate-500">자사 소유 연료 연소(경유 등), 냉매 누출</div>
+          </div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-amber-200/80 flex items-center space-x-2.5">
+          <span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 text-xs font-black flex items-center justify-center flex-shrink-0">S2</span>
+          <div>
+            <div class="text-xs font-black text-amber-900">Scope 2 (간접 에너지)</div>
+            <div class="text-xs sm:text-sm text-slate-500">외부 구매 전력 계통 배출, 지역난방</div>
+          </div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-blue-200/80 flex items-center space-x-2.5">
+          <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-xs font-black flex items-center justify-center flex-shrink-0">S3</span>
+          <div>
+            <div class="text-xs font-black text-blue-900">Scope 3 (가치사슬 배출)</div>
+            <div class="text-xs sm:text-sm text-slate-500">참가자 이동, 숙박, 다회용기, 부스자재, 폐기물</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Category Tabs & Emission Factors Table -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs">
+        <!-- Category Tab Buttons -->
+        <div class="flex overflow-x-auto bg-slate-100/70 p-1.5 border-b border-slate-200/80 gap-1" id="ef-category-tabs">
+          <button onclick="showEfCategory('energy')" id="ef-tab-energy" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all bg-white text-blue-700 shadow-xs flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i> 에너지 (Cat.7)
+          </button>
+          <button onclick="showEfCategory('transport')" id="ef-tab-transport" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="car" class="w-3.5 h-3.5"></i> 교통·이동 (Cat.4/5)
+          </button>
+          <button onclick="showEfCategory('food')" id="ef-tab-food" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="utensils" class="w-3.5 h-3.5"></i> 식음료 (Cat.3)
+          </button>
+          <button onclick="showEfCategory('production')" id="ef-tab-production" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="package" class="w-3.5 h-3.5"></i> 생산·자재 (Cat.1)
+          </button>
+          <button onclick="showEfCategory('digital')" id="ef-tab-digital" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="monitor" class="w-3.5 h-3.5"></i> 디지털 (Cat.9)
+          </button>
+          <button onclick="showEfCategory('waste')" id="ef-tab-waste" class="ef-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 flex-shrink-0">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 폐기물 (Cat.8)
+          </button>
+        </div>
+
+        <!-- Table Container -->
+        <div class="p-4 overflow-x-auto">
+          <div id="ef-items-table-container">
+            <!-- Dynamically populated via renderEfTable() -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="px-6 py-4 bg-white border-t border-slate-200 flex flex-wrap justify-between items-center gap-3 flex-shrink-0">
+      <div class="flex items-center space-x-2 text-xs sm:text-sm text-slate-500">
+        <i data-lucide="info" class="w-4 h-4 text-blue-500 flex-shrink-0"></i>
+        <span>배출계수를 변경하면 현재 입력된 실천 지표의 탄소 배출·감축량이 즉시 재계산됩니다.</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button onclick="closeEmissionFactorModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">
+          닫기
+        </button>
+        <button onclick="applyEmissionFactorSettings()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-black rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          선택한 배출계수 적용
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

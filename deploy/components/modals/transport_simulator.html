@@ -1,102 +1,321 @@
-﻿  <div id="transportSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+  <!-- Modal Container: Travel to and from Destination Simulator (NZCE Cat 4 · GLEC Framework) -->
+  <div id="transportSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-5xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-6 max-h-[92vh] overflow-y-auto">
       
       <!-- Header -->
-      <div class="flex justify-between items-start pb-2 border-b border-slate-100">
-        <div class="space-y-0.5">
-          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2">
-            <i data-lucide="bus" class="w-5 h-5 text-blue-600"></i>
-            나의 친환경 이동수단 실천
+      <div class="flex justify-between items-start pb-4 border-b border-slate-100">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-black px-3 py-1 rounded-full border border-blue-200 shadow-xs">NZCE Cat 4 · DEFRA 2024 · GLEC</span>
+            <span class="text-xs text-slate-500 font-bold">Scope 3 Category 6/7 (목적지 왕복 장거리 이동)</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2.5 mt-1">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+              <i data-lucide="plane-takeoff" class="w-5 h-5 text-blue-600"></i>
+            </div>
+            목적지 왕복 이동 &amp; 친환경 교통 (Travel Simulator)
           </h3>
-          <p class="text-[10px] text-slate-500">승용차 대신 셔틀버스나 대중교통을 타서 탄소 배출을 줄여보세요.</p>
+          <p class="text-sm sm:text-base text-slate-600 font-medium">참가자 거주지·출발지로부터 행사 도시까지의 왕복 온실가스 산정 및 KTX·친환경 전환 감축 관리</p>
         </div>
-        <button onclick="closeTransportSimulatorModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
-          <i data-lucide="x" class="w-4 h-4"></i>
+        <button type="button" onclick="closeTransportSimulatorModal()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 transition-colors flex items-center justify-center cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <!-- Body -->
-      <div class="space-y-4">
+      <div class="space-y-6">
         <!-- Nickname Input -->
-        <div class="space-y-1">
-          <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider">참여자 닉네임 (선택)</label>
-          <input type="text" id="transport-username" placeholder="이름 또는 닉네임을 입력하세요 (선택)" 
-                 class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium">
+        <div>
+          <label class="text-sm font-black text-slate-700 uppercase tracking-wider block mb-1.5">참여자 / 기관·업체명 (선택)</label>
+          <input type="text" id="transport-username" placeholder="성명 또는 기관명을 입력하세요 (선택)" 
+                 class="w-full text-sm sm:text-base px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium">
         </div>
 
-        <!-- Inputs Grid -->
-        <div class="space-y-3">
-          <!-- Distance Input -->
-          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
-            <div class="flex items-center space-x-3">
-              <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                <i data-lucide="milestone" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <h4 class="text-xs font-bold text-slate-800">이동 거리</h4>
-                <p class="text-[9px] text-slate-450">승용차 대체 주행 거리</p>
+        <!-- 1. 3-Tier Mode Selection -->
+        <div>
+          <label class="text-sm sm:text-base font-black text-slate-800 tracking-tight block mb-2.5 flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4 text-blue-600"></i>
+            1. 데이터 수준별 산정 방식 (3-Tier Mode)
+          </label>
+          <div class="grid grid-cols-3 gap-3">
+            <!-- Tier 2: City Presets (Recommended) -->
+            <button type="button" onclick="setTravelTier(2)" id="btn-travel-tier-2"
+                    class="travel-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-blue-500 bg-blue-50/50 shadow-xs flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-blue-100 text-blue-800">추천 표준형</span>
+                <i data-lucide="map-pin" class="w-4 h-4 text-blue-600"></i>
               </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <button onclick="changeTransportQty('distance', -5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 active:scale-95 transition-all text-[9px] font-black">-5</button>
-              <button onclick="changeTransportQty('distance', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
-              <span id="qty-distance" class="w-10 text-center text-xs font-extrabold text-slate-800 select-none">0 km</span>
-              <button onclick="changeTransportQty('distance', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
-              <button onclick="changeTransportQty('distance', 5)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-650 hover:bg-slate-50 active:scale-95 transition-all text-[9px] font-black">+5</button>
+              <div class="font-black text-sm sm:text-base text-blue-950">주요 출발 거점 프리셋</div>
+              <div class="text-xs sm:text-[13px] text-blue-700 font-bold mt-1">주요 도시 원클릭 거리 산출 ⭐</div>
+            </button>
+
+            <!-- Tier 1: Detailed Mode -->
+            <button type="button" onclick="setTravelTier(1)" id="btn-travel-tier-1"
+                    class="travel-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-slate-200 bg-white hover:border-slate-300 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-slate-100 text-slate-600">정밀 심화형</span>
+                <i data-lucide="sliders" class="w-4 h-4 text-slate-500"></i>
+              </div>
+              <div class="font-black text-sm sm:text-base text-slate-900">수단별 정밀 입력</div>
+              <div class="text-xs sm:text-[13px] text-slate-500 font-medium mt-1">거리·좌석등급·RF·WTT 설정</div>
+            </button>
+
+            <!-- Tier 3: Proxy Rules (Guideline 4.3) -->
+            <button type="button" onclick="setTravelTier(3)" id="btn-travel-tier-3"
+                    class="travel-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-slate-200 bg-white hover:border-slate-300 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">결측치 표준 추정</span>
+                <i data-lucide="calculator" class="w-4 h-4 text-emerald-600"></i>
+              </div>
+              <div class="font-black text-sm sm:text-base text-slate-900">가이드라인 4.3 표준 프록시</div>
+              <div class="text-xs sm:text-[13px] text-emerald-700 font-bold mt-1">200km/외지 75% 자동 안분</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2-A. Tier 2: City Presets Container (Default) -->
+        <div id="travel-tier-2-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="navigation-2" class="w-5 h-5 text-blue-600"></i>
+              2. 주요 출발지 선택 및 원클릭 거리 산출
+            </span>
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-toggle-roundtrip-tier2" onclick="toggleTravelRoundTrip()" class="text-xs sm:text-sm font-black text-blue-800 bg-blue-100 px-3 py-1 rounded-full border border-blue-200 cursor-pointer flex items-center gap-1">
+                <i data-lucide="repeat" class="w-3.5 h-3.5"></i> <span id="label-roundtrip-tier2">왕복 (편도 × 2) 적용 중</span>
+              </button>
             </div>
           </div>
 
-          <!-- People Count Input -->
-          <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100 transition-colors hover:bg-slate-100/50">
-            <div class="flex items-center space-x-3">
-              <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                <i data-lucide="users-2" class="w-4 h-4"></i>
-              </span>
-              <div>
-                <h4 class="text-xs font-bold text-slate-800">탑승 인원</h4>
-                <p class="text-[9px] text-slate-450">대체 이동 인원수</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-3">
-              <button onclick="changeTransportQty('people', -1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="minus" class="w-3 h-3"></i></button>
-              <span id="qty-people" class="w-6 text-center text-xs font-extrabold text-slate-800 select-none">1</span>
-              <button onclick="changeTransportQty('people', 1)" class="w-6 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 active:scale-95 transition-all"><i data-lucide="plus" class="w-3 h-3"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Info Description Block -->
-        <div class="text-[9px] text-slate-450 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-100 font-medium">
-          <ul class="list-disc pl-3.5 space-y-0.5">
-            <li>승용차 배출계수: 0.16 kgCO2eq/km (160 g/km)</li>
-            <li>일반 버스 배출계수: 0.8 kgCO2eq/대·km (20명 탑승 기준 인당 40 g/km)</li>
-            <li><strong>대비 감축 효과: 120 gCO2eq / 인·km</strong></li>
-          </ul>
-        </div>
-
-        <!-- Result Summary Board -->
-        <div class="bg-blue-50/50 rounded-2xl p-4 border border-blue-100/70 flex justify-between items-center transition-all duration-300">
+          <!-- Domestic Presets -->
           <div>
-            <span class="text-[9px] font-bold text-blue-700 uppercase tracking-widest block">Expected CO2 Reduction</span>
-            <span class="text-[10px] text-slate-400 font-medium">실시간 예상 탄소 감축 결과</span>
+            <span class="text-xs font-black text-slate-500 uppercase tracking-wider block mb-2">🇰🇷 국내 주요 거점 ↔ 행사장</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button type="button" onclick="applyTravelCityPreset('busan_ktx')" id="btn-city-busan_ktx" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">부산권 (400km)</div>
+                <div class="text-xs text-blue-600 font-bold mt-0.5">KTX 고속철도 (추천)</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('daegu_ktx')" id="btn-city-daegu_ktx" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">대구권 (300km)</div>
+                <div class="text-xs text-blue-600 font-bold mt-0.5">KTX 고속철도 (추천)</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('gwangju_ktx')" id="btn-city-gwangju_ktx" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">광주·호남권 (320km)</div>
+                <div class="text-xs text-blue-600 font-bold mt-0.5">KTX 고속철도 (추천)</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('jeju_air')" id="btn-city-jeju_air" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">제주권 (450km)</div>
+                <div class="text-xs text-slate-500 font-medium mt-0.5">국내선 항공 이동</div>
+              </button>
+            </div>
           </div>
-          <div class="text-right">
-            <span id="transport-carbon-summary" class="text-lg font-black text-blue-700 leading-none">0 gCO2eq</span>
+
+          <!-- International Presets -->
+          <div>
+            <span class="text-xs font-black text-slate-500 uppercase tracking-wider block mb-2">🌐 해외 주요 거점 (글로벌 참가자)</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button type="button" onclick="applyTravelCityPreset('tokyo_air')" id="btn-city-tokyo_air" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">일본 / 도쿄 (1,260km)</div>
+                <div class="text-xs text-slate-500 font-medium mt-0.5">단거리 국제선 항공</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('beijing_air')" id="btn-city-beijing_air" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">중국 / 베이징 (950km)</div>
+                <div class="text-xs text-slate-500 font-medium mt-0.5">단거리 국제선 항공</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('sg_air')" id="btn-city-sg_air" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">싱가포르·동남아 (4,650km)</div>
+                <div class="text-xs text-slate-500 font-medium mt-0.5">장거리 국제선 항공</div>
+              </button>
+              <button type="button" onclick="applyTravelCityPreset('us_air')" id="btn-city-us_air" class="city-preset-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50/40 text-left transition-all cursor-pointer">
+                <div class="font-black text-xs sm:text-sm text-slate-900">미주·유럽 (9,000km)</div>
+                <div class="text-xs text-slate-500 font-medium mt-0.5">대륙간 장거리 항공</div>
+              </button>
+            </div>
           </div>
         </div>
+
+        <!-- 2-B. Tier 1: Detailed Parameter Form -->
+        <div id="travel-tier-1-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4 hidden">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="sliders" class="w-5 h-5 text-blue-600"></i>
+              2. 수단별 정밀 파라미터 직접 입력
+            </span>
+            <button type="button" id="btn-toggle-roundtrip-tier1" onclick="toggleTravelRoundTrip()" class="text-xs sm:text-sm font-black text-blue-800 bg-blue-100 px-3 py-1 rounded-full border border-blue-200 cursor-pointer flex items-center gap-1">
+              <i data-lucide="repeat" class="w-3.5 h-3.5"></i> <span id="label-roundtrip-tier1">왕복 (편도 × 2) 적용 중</span>
+            </button>
+          </div>
+
+          <!-- Mode Select Chips -->
+          <div>
+            <label class="text-xs font-black text-slate-600 uppercase tracking-wider block mb-2">운송 수단 선택 (Transport Mode)</label>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+              <button type="button" onclick="setTravelMode('ktx')" id="btn-travel-mode-ktx" class="travel-mode-btn p-3 rounded-xl border-2 border-blue-500 bg-blue-50/60 font-black text-xs sm:text-sm text-blue-950 flex flex-col items-center gap-1">
+                <i data-lucide="train" class="w-5 h-5 text-blue-600"></i> KTX/고속철도
+              </button>
+              <button type="button" onclick="setTravelMode('air_domestic')" id="btn-travel-mode-air_domestic" class="travel-mode-btn p-3 rounded-xl border-2 border-slate-200 bg-white font-black text-xs sm:text-sm text-slate-800 flex flex-col items-center gap-1">
+                <i data-lucide="plane" class="w-5 h-5 text-slate-600"></i> 국내선 항공
+              </button>
+              <button type="button" onclick="setTravelMode('air_intl')" id="btn-travel-mode-air_intl" class="travel-mode-btn p-3 rounded-xl border-2 border-slate-200 bg-white font-black text-xs sm:text-sm text-slate-800 flex flex-col items-center gap-1">
+                <i data-lucide="globe-2" class="w-5 h-5 text-slate-600"></i> 국제선 항공
+              </button>
+              <button type="button" onclick="setTravelMode('bus')" id="btn-travel-mode-bus" class="travel-mode-btn p-3 rounded-xl border-2 border-slate-200 bg-white font-black text-xs sm:text-sm text-slate-800 flex flex-col items-center gap-1">
+                <i data-lucide="bus" class="w-5 h-5 text-slate-600"></i> 고속·시외버스
+              </button>
+              <button type="button" onclick="setTravelMode('car')" id="btn-travel-mode-car" class="travel-mode-btn p-3 rounded-xl border-2 border-slate-200 bg-white font-black text-xs sm:text-sm text-slate-800 flex flex-col items-center gap-1">
+                <i data-lucide="car" class="w-5 h-5 text-slate-600"></i> 승용차(자가용)
+              </button>
+            </div>
+          </div>
+
+          <!-- Distance & Passenger Steppers -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <!-- Distance -->
+            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="milestone" class="w-4 h-4 text-blue-600"></i> 이동 거리 (편도 기준)
+                </span>
+                <span id="travel-total-dist-display" class="text-xs font-black text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">0 km</span>
+              </div>
+              <div class="flex items-center space-x-1.5 pt-1">
+                <button type="button" onclick="changeTravelDistance(-50)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">-50</button>
+                <button type="button" onclick="changeTravelDistance(-10)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">-10</button>
+                <input type="number" id="qty-travel-distance" value="" min="0" max="20000" placeholder="0" oninput="onTravelParamChange()" class="w-full text-center text-base sm:text-lg font-black border border-slate-200 rounded-xl py-1.5 focus:ring-2 focus:ring-blue-500">
+                <button type="button" onclick="changeTravelDistance(10)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">+10</button>
+                <button type="button" onclick="changeTravelDistance(50)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">+50</button>
+              </div>
+            </div>
+
+            <!-- Passengers -->
+            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200 space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="users" class="w-4 h-4 text-blue-600"></i> 탑승 인원수
+                </span>
+                <span class="text-xs font-bold text-slate-500">동승자 포함 실천 인원</span>
+              </div>
+              <div class="flex items-center space-x-1.5 pt-1">
+                <button type="button" onclick="changeTravelPassengers(-5)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">-5</button>
+                <button type="button" onclick="changeTravelPassengers(-1)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">-1</button>
+                <input type="number" id="qty-travel-passengers" value="" min="0" max="10000" placeholder="0" oninput="onTravelParamChange()" class="w-full text-center text-base sm:text-lg font-black border border-slate-200 rounded-xl py-1.5 focus:ring-2 focus:ring-blue-500">
+                <button type="button" onclick="changeTravelPassengers(1)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">+1</button>
+                <button type="button" onclick="changeTravelPassengers(5)" class="w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black cursor-pointer">+5</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-C. Tier 3: Proxy Rules Engine (Guideline 4.3) -->
+        <div id="travel-tier-3-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4 hidden">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="calculator" class="w-5 h-5 text-emerald-600"></i>
+              가이드라인 4.3 결측치 표준 가정 자동 추정 엔진
+            </span>
+            <span class="text-xs font-black text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">국제 표준 모델</span>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+            <label class="text-sm font-black text-slate-800 block">행사 등록 총 참가자 수 (단위: 명)</label>
+            <div class="flex items-center gap-3">
+              <input type="number" id="qty-travel-proxy-total" value="" min="0" placeholder="등록 참가자 수 입력 (단위: 명)" class="w-full text-base sm:text-lg font-black border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500">
+              <button type="button" onclick="runTravelProxyCalculation()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-xl whitespace-nowrap cursor-pointer transition-all shadow-sm">
+                표준 모델 자동 배분
+              </button>
+            </div>
+            <div class="text-xs text-slate-500 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100 space-y-1">
+              <div class="font-bold text-slate-700">📌 자동 배분 규칙 (가이드라인 4.3 의거):</div>
+              <div>• <strong>현지 참가자 25%</strong>: 행사장 인근 거주자 (단거리 대중교통)</div>
+              <div>• <strong>외지 참가자 75%</strong>: 200km 미만(승용차 49%, 철도 35%, 버스 15%), 200km 이상(항공 70%, KTX 25%, 도로 5%)</div>
+              <div>• 항공 좌석 등급: 이코노미 80% : 비즈니스 20% 자동 가중치(1.38x) 및 왕복 2배 자동 적용</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Advanced Aviation & Upstream Options -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+          <label class="text-sm sm:text-base font-black text-slate-800 tracking-tight block">3. 항공 특화 옵션 &amp; 연료 상류(WTT) 설정</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Seat Class Multiplier -->
+            <div class="p-3 rounded-xl border border-slate-200 space-y-1 bg-slate-50/50">
+              <div class="flex justify-between items-center">
+                <span class="font-black text-xs sm:text-sm text-slate-800">항공 좌석 등급</span>
+                <span id="travel-seat-ratio-display" class="text-xs font-bold text-blue-700 bg-blue-100/70 px-2 py-0.5 rounded">표준 80:20 (1.38x)</span>
+              </div>
+              <select id="sel-travel-seat-class" onchange="onTravelParamChange()" class="w-full text-xs sm:text-sm font-bold border border-slate-200 rounded-lg p-2 bg-white mt-1">
+                <option value="weighted_80_20" selected>결측 표준 (이코노미 80% : 비즈니스 20%)</option>
+                <option value="economy">전원 이코노미 클래스 (1.0x)</option>
+                <option value="business">전원 비즈니스 클래스 (2.9x)</option>
+              </select>
+            </div>
+
+            <!-- Radiative Forcing (RF 1.9x) -->
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="checkbox" id="chk-travel-rf" checked onchange="onTravelParamChange()" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 flex-shrink-0">
+              <div>
+                <span class="font-black text-xs sm:text-sm text-slate-900 block">복사강제력 (RF 1.9배)</span>
+                <span class="text-xs text-slate-500 font-medium">고고도 비행운 온실효과 증폭 반영</span>
+              </div>
+            </label>
+
+            <!-- WTT Upstream -->
+            <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors">
+              <input type="checkbox" id="chk-travel-wtt" checked onchange="onTravelParamChange()" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 flex-shrink-0">
+              <div>
+                <span class="font-black text-xs sm:text-sm text-slate-900 block">연료 상류(WTT) 배출 포괄</span>
+                <span class="text-xs text-slate-500 font-medium">연료 정제·수송 상류 배출 포함</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Real-time Carbon Calculation Summary Card -->
+        <div class="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+            <span class="text-xs sm:text-sm font-black text-blue-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+              목적지 왕복 이동 온실가스 배출 및 KTX 전환 감축량
+            </span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-900 px-3 py-1 rounded-md border border-slate-800">Scope 3 Cat 6/7</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-center">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+              <span class="text-xs text-slate-400 block font-bold">총 여객 이동량 (p·km)</span>
+              <span id="travel-summary-pkm" class="text-base sm:text-xl font-black text-slate-100 mt-1 block font-mono">0 p·km</span>
+              <span id="travel-summary-trip-type" class="text-xs text-slate-500">왕복 이동 기준</span>
+            </div>
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+              <span class="text-xs text-slate-400 block font-bold">기존 기준 배출량 (Baseline)</span>
+              <span id="travel-summary-baseline" class="text-base sm:text-xl font-black text-amber-300 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-xs text-slate-500">항공/자가용 유발량</span>
+            </div>
+            <div class="col-span-2 bg-blue-950/40 p-3.5 rounded-xl border border-blue-500/30 flex flex-col justify-center">
+              <div class="flex justify-between items-center px-2">
+                <span class="text-xs sm:text-sm font-black text-blue-400">🚄 친환경 고속철도(KTX) 전환 감축량</span>
+                <span id="travel-summary-percent" class="text-xs font-black text-blue-300 bg-blue-900/70 px-2.5 py-0.5 rounded-full border border-blue-700/50">0.0% 감축</span>
+              </div>
+              <div class="flex items-baseline justify-center gap-1.5 mt-1.5">
+                <span id="travel-summary-reduction" class="text-3xl sm:text-4xl font-black text-blue-400 font-mono">0.00</span>
+                <span class="text-xs sm:text-sm font-bold text-blue-200">kgCO2eq</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Footer Actions -->
-      <div class="pt-3 border-t border-slate-100 flex justify-end space-x-2">
-        <button onclick="closeTransportSimulatorModal()" class="border border-slate-200 hover:bg-slate-50 text-slate-500 text-xs font-bold px-4 py-2 rounded-xl transition-colors">취소</button>
-        <button onclick="submitTransportSimulation()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 active:scale-98">
-          <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          실천 완료
+      <!-- Footer Buttons -->
+      <div class="flex justify-end items-center gap-3 pt-4 border-t border-slate-100">
+        <button type="button" onclick="closeTransportSimulatorModal()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm sm:text-base transition-colors cursor-pointer">
+          닫기
+        </button>
+        <button type="button" onclick="submitTransportSimulation()" class="px-7 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm sm:text-base shadow-md transition-all flex items-center gap-2 cursor-pointer">
+          <i data-lucide="check-circle" class="w-5 h-5"></i>
+          실천 적용 및 참여 완료
         </button>
       </div>
+
     </div>
   </div>
-
-  <!-- ==========================================
-       MODAL POPUP FOR ENERGY SIMULATOR (100% 재생에너지 운영)
-       ========================================== -->

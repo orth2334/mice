@@ -1,11 +1,11 @@
 <!-- ESG Presets Modal (App-Internal Save/Load Slot Manager) -->
 <div id="esgPresetsModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
-  <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
     
     <!-- Modal Header Controls -->
     <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between flex-shrink-0">
       <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
           <i data-lucide="bookmark" class="w-5 h-5"></i>
         </div>
         <div>
@@ -53,7 +53,7 @@
 
     <!-- Modal Footer Actions -->
     <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex justify-between items-center flex-shrink-0">
-      <span class="text-xs text-slate-500 font-medium">💡 프로그램 내부 저장소에 보관되므로 파일 생성 없이 바로 불러올 수 있습니다.</span>
+      <span class="text-xs sm:text-sm text-slate-500 font-medium">💡 프로그램 내부 저장소에 보관되므로 파일 생성 없이 바로 불러올 수 있습니다.</span>
       <button onclick="closeEsgPresetsModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">
         닫기
       </button>

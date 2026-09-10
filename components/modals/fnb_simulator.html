@@ -1,0 +1,287 @@
+  <!-- Modal Container: Food & Beverage Catering Simulator -->
+  <div id="fnbSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-5xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-6 max-h-[92vh] overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-4 border-b border-slate-100">
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1 rounded-full border border-emerald-200 shadow-xs">NZCE Cat 3 · Cool Food Pledge</span>
+            <span class="text-xs text-slate-500 font-bold">Scope 3 Category 1 (원재료 내재탄소)</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2.5 mt-1">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
+              <i data-lucide="utensils" class="w-5 h-5 text-emerald-600"></i>
+            </div>
+            친환경 식음료 &amp; 케이터링 (Food &amp; Beverage)
+          </h3>
+          <p class="text-sm sm:text-base text-slate-600 font-medium">만찬·VIP 리셉션·공식 케이터링 상류 내재탄소 산정 및 저탄소 식단 전환 감축 관리</p>
+        </div>
+        <button type="button" onclick="closeFnbSimulatorModal()" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 transition-colors flex items-center justify-center cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="space-y-6">
+        <!-- Nickname Input -->
+        <div>
+          <label class="text-sm font-black text-slate-700 uppercase tracking-wider block mb-1.5">담당자 / 케이터링 업체명 (선택)</label>
+          <input type="text" id="fnb-username" placeholder="업체명 또는 담당자명을 입력하세요 (선택)" 
+                 class="w-full text-sm sm:text-base px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all font-medium">
+        </div>
+
+        <!-- 1. 3-Tier Data Decision Selection -->
+        <div>
+          <label class="text-sm sm:text-base font-black text-slate-800 tracking-tight block mb-2.5 flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4 text-emerald-600"></i>
+            1. 데이터 수준별 산정 방식 (3-Tier Mode)
+          </label>
+          <div class="grid grid-cols-3 gap-3">
+            <!-- Tier 2: Meal-level (Recommended) -->
+            <button type="button" onclick="setFnbTier(2)" id="btn-fnb-tier-2"
+                    class="fnb-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-emerald-500 bg-emerald-50/50 shadow-xs flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">추천 표준형</span>
+                <i data-lucide="chef-hat" class="w-4 h-4 text-emerald-600"></i>
+              </div>
+              <div class="font-black text-sm sm:text-base text-emerald-950">식사 수 &amp; 메뉴 유형</div>
+              <div class="text-xs sm:text-[13px] text-emerald-700 font-bold mt-1">인원수 기반 저탄소식 배분 ⭐</div>
+            </button>
+
+            <!-- Tier 1: Ingredient-level -->
+            <button type="button" onclick="setFnbTier(1)" id="btn-fnb-tier-1"
+                    class="fnb-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-slate-200 bg-white hover:border-slate-300 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-slate-100 text-slate-600">정밀 심화형</span>
+                <i data-lucide="scale" class="w-4 h-4 text-slate-500"></i>
+              </div>
+              <div class="font-black text-sm sm:text-base text-slate-900">식재료 품목별 중량(kg)</div>
+              <div class="text-xs sm:text-[13px] text-slate-500 font-medium mt-1">Agribalyse 정밀 계수</div>
+            </button>
+
+            <!-- Tier 3: Spend-based -->
+            <button type="button" onclick="setFnbTier(3)" id="btn-fnb-tier-3"
+                    class="fnb-tier-btn p-3.5 sm:p-4 rounded-2xl border-2 text-left transition-all cursor-pointer border-slate-200 bg-white hover:border-slate-300 flex flex-col justify-between">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-black px-2 py-0.5 rounded bg-blue-100 text-blue-800">간이 프록시</span>
+                <i data-lucide="receipt" class="w-4 h-4 text-blue-600"></i>
+              </div>
+              <div class="font-black text-sm sm:text-base text-slate-900">케이터링 지출액 기반</div>
+              <div class="text-xs sm:text-[13px] text-blue-600 font-bold mt-1">DEFRA/EPA 지출 계수</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Tier 2: Meal-level Form (Default / Most Practical) -->
+        <div id="fnb-tier-2-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="utensils-crossed" class="w-5 h-5 text-emerald-600"></i>
+              2. 식단 유형별 제공 인원수 배분
+            </span>
+            <span class="text-xs sm:text-sm font-black text-emerald-800 bg-emerald-100/90 px-3 py-1 rounded-full border border-emerald-200 shadow-xs" id="fnb-total-meals-badge">총 0인분</span>
+          </div>
+
+          <!-- Quick Scenario Buttons -->
+          <div class="flex items-center gap-2.5 flex-wrap pt-0.5">
+            <span class="text-xs sm:text-sm font-extrabold text-slate-600 flex items-center gap-1">
+              <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i> 빠른 배분 프리셋:
+            </span>
+            <button type="button" onclick="applyFnbQuickScenario('baseline_100')" class="px-3.5 py-1.5 text-xs sm:text-sm font-extrabold rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 cursor-pointer transition-all shadow-xs active:scale-95">전통 육류 만찬 100명</button>
+            <button type="button" onclick="applyFnbQuickScenario('balanced_100')" class="px-3.5 py-1.5 text-xs sm:text-sm font-extrabold rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 cursor-pointer transition-all shadow-xs active:scale-95">균형 케이터링 (저탄소 중심)</button>
+            <button type="button" onclick="applyFnbQuickScenario('vegan_100')" class="px-3.5 py-1.5 text-xs sm:text-sm font-extrabold rounded-xl border border-emerald-500 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition-all shadow-sm active:scale-95">100% 비건 그린 서밋</button>
+          </div>
+
+          <!-- Meals Input Rows -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Meal 1: Meat Baseline -->
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 space-y-2.5 shadow-xs">
+              <div class="flex justify-between items-center gap-1 flex-nowrap">
+                <span class="text-sm sm:text-[15px] font-black text-slate-900 flex items-center gap-1.5 whitespace-nowrap shrink-0">🥩 일반 육류 만찬</span>
+                <span class="text-xs font-black text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md whitespace-nowrap shrink-0">7.20 kgCO2e/식</span>
+              </div>
+              <p class="text-xs sm:text-[12.5px] text-slate-500 font-medium whitespace-nowrap overflow-hidden text-ellipsis">소고기·돼지고기 중심 전통 식단 (기준)</p>
+              <div class="flex items-center space-x-1.5 pt-1">
+                <button type="button" onclick="changeFnbMeals('meat', -10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs sm:text-sm font-black transition-all cursor-pointer">-10</button>
+                <button type="button" onclick="changeFnbMeals('meat', -1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs sm:text-sm font-black transition-all cursor-pointer">-1</button>
+                <input type="number" id="qty-fnb-meat" value="0" min="0" oninput="onFnbMealChange()" class="w-full text-center text-base sm:text-lg font-black border border-slate-200 rounded-xl py-1.5 focus:ring-2 focus:ring-emerald-500 transition-all">
+                <button type="button" onclick="changeFnbMeals('meat', 1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs sm:text-sm font-black transition-all cursor-pointer">+1</button>
+                <button type="button" onclick="changeFnbMeals('meat', 10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 text-xs sm:text-sm font-black transition-all cursor-pointer">+10</button>
+              </div>
+            </div>
+
+            <!-- Meal 2: Low-Carbon Balanced -->
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50/30 space-y-2.5 shadow-xs">
+              <div class="flex justify-between items-center gap-1 flex-nowrap">
+                <span class="text-sm sm:text-[15px] font-black text-emerald-950 flex items-center gap-1.5 whitespace-nowrap shrink-0">🍗 저탄소 균형식</span>
+                <span class="text-xs font-black text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md whitespace-nowrap shrink-0">2.80 kgCO2e/식</span>
+              </div>
+              <p class="text-xs sm:text-[12.5px] text-emerald-700 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">닭고기·제철 해산물·채소 (61% 감축)</p>
+              <div class="flex items-center space-x-1.5 pt-1">
+                <button type="button" onclick="changeFnbMeals('low_carbon', -10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 active:scale-95 text-emerald-900 text-xs sm:text-sm font-black transition-all cursor-pointer">-10</button>
+                <button type="button" onclick="changeFnbMeals('low_carbon', -1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 active:scale-95 text-emerald-900 text-xs sm:text-sm font-black transition-all cursor-pointer">-1</button>
+                <input type="number" id="qty-fnb-low_carbon" value="0" min="0" oninput="onFnbMealChange()" class="w-full text-center text-base sm:text-lg font-black border-2 border-emerald-300 rounded-xl py-1.5 focus:ring-2 focus:ring-emerald-500 bg-white transition-all">
+                <button type="button" onclick="changeFnbMeals('low_carbon', 1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 active:scale-95 text-emerald-900 text-xs sm:text-sm font-black transition-all cursor-pointer">+1</button>
+                <button type="button" onclick="changeFnbMeals('low_carbon', 10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 active:scale-95 text-emerald-900 text-xs sm:text-sm font-black transition-all cursor-pointer">+10</button>
+              </div>
+            </div>
+
+            <!-- Meal 3: Vegan / Plant-based -->
+            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-100/30 space-y-2.5 shadow-xs">
+              <div class="flex justify-between items-center gap-1 flex-nowrap">
+                <span class="text-sm sm:text-[15px] font-black text-emerald-950 flex items-center gap-1.5 whitespace-nowrap shrink-0">🥗 식물성 비건·채식</span>
+                <span class="text-xs font-black text-emerald-900 bg-emerald-200/80 px-2 py-0.5 rounded-md whitespace-nowrap shrink-0">1.20 kgCO2e/식</span>
+              </div>
+              <p class="text-xs sm:text-[12.5px] text-emerald-800 font-bold whitespace-nowrap overflow-hidden text-ellipsis">대체단백질·로컬 곡물 (83% 대폭 감축)</p>
+              <div class="flex items-center space-x-1.5 pt-1">
+                <button type="button" onclick="changeFnbMeals('vegan', -10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-200 hover:bg-emerald-300 active:scale-95 text-emerald-950 text-xs sm:text-sm font-black transition-all cursor-pointer">-10</button>
+                <button type="button" onclick="changeFnbMeals('vegan', -1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-200 hover:bg-emerald-300 active:scale-95 text-emerald-950 text-xs sm:text-sm font-black transition-all cursor-pointer">-1</button>
+                <input type="number" id="qty-fnb-vegan" value="0" min="0" oninput="onFnbMealChange()" class="w-full text-center text-base sm:text-lg font-black border-2 border-emerald-400 rounded-xl py-1.5 focus:ring-2 focus:ring-emerald-500 bg-white transition-all">
+                <button type="button" onclick="changeFnbMeals('vegan', 1)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-200 hover:bg-emerald-300 active:scale-95 text-emerald-950 text-xs sm:text-sm font-black transition-all cursor-pointer">+1</button>
+                <button type="button" onclick="changeFnbMeals('vegan', 10)" class="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-emerald-200 hover:bg-emerald-300 active:scale-95 text-emerald-950 text-xs sm:text-sm font-black transition-all cursor-pointer">+10</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 1: Ingredient-level Form (Hidden by default) -->
+        <div id="fnb-tier-1-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4 hidden">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="scale" class="w-5 h-5 text-emerald-600"></i>
+              주요 식재료 중량 입력 (Agribalyse 3.1.1 기준)
+            </span>
+            <span class="text-xs sm:text-sm font-bold text-slate-500 bg-slate-200/60 px-2.5 py-0.5 rounded-full">단위: kg</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">소고기 (59.6 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-beef" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">돼지고기 (7.6 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-pork" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">닭고기 (5.7 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-poultry" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">해산물/생선 (5.1 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-fish" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">대체육/두류 (2.2 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-plant_protein" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">신선채소/과일 (0.8 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-veg" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">유제품/치즈 (13.5 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-cheese" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+              <label class="text-xs sm:text-sm font-bold text-slate-800 block">원두커피 (16.5 kgCO2e/kg)</label>
+              <input type="number" id="qty-fnb-coffee_kg" value="0" min="0" oninput="onFnbIngredientChange()" class="w-full text-sm sm:text-base font-black border border-slate-200 rounded-lg p-2 mt-1.5 focus:ring-2 focus:ring-emerald-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3: Spend-based Form (Hidden by default) -->
+        <div id="fnb-tier-3-container" class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-4 hidden">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-200/80">
+            <span class="font-black text-base sm:text-lg text-slate-800 tracking-tight flex items-center gap-2">
+              <i data-lucide="receipt" class="w-5 h-5 text-emerald-600"></i>
+              케이터링 총 지출액 기반 간이 산정 (DEFRA/EPA EEIO 기준)
+            </span>
+          </div>
+          <div>
+            <label class="text-sm font-black text-slate-800 block mb-1.5">총 케이터링 계약 금액 (단위: 만 원)</label>
+            <div class="relative">
+              <input type="number" id="qty-fnb-spend" value="0" min="0" placeholder="예: 2500 (2,500만 원)" oninput="onFnbSpendChange()" class="w-full text-base font-black border border-slate-200 rounded-xl p-3.5 focus:ring-2 focus:ring-emerald-500 pr-20">
+              <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">만 원</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1.5 font-medium">※ 식재료 상세 내역이 없을 때 지출 1,000원당 약 0.45 kgCO2e 프록시 계수를 적용합니다.</p>
+          </div>
+        </div>
+
+        <!-- 3. Additional Eco-F&B Practice Options -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+          <label class="text-sm sm:text-base font-black text-slate-800 tracking-tight block">3. 추가 친환경 F&amp;B 실천 옵션</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors shadow-xs">
+              <input type="checkbox" id="fnb-opt-coffee" onchange="updateFnbModalUI()" class="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 flex-shrink-0">
+              <div>
+                <span class="font-black text-xs sm:text-sm text-slate-900 block">공정무역 저탄소 원두 커피</span>
+                <span class="text-xs text-slate-500 font-medium">인당 1잔 기준 지속가능 원두</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors shadow-xs">
+              <input type="checkbox" id="fnb-opt-fruit" onchange="updateFnbModalUI()" class="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 flex-shrink-0">
+              <div>
+                <span class="font-black text-xs sm:text-sm text-slate-900 block">로컬 제철 과일 디저트</span>
+                <span class="text-xs text-slate-500 font-medium">수입산 열대과일 100% 대체</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors shadow-xs">
+              <input type="checkbox" id="fnb-opt-portion" onchange="updateFnbModalUI()" class="rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4 flex-shrink-0">
+              <div>
+                <span class="font-black text-xs sm:text-sm text-slate-900 block">음식물 잔반 방지 정량 발주</span>
+                <span class="text-xs text-slate-500 font-medium">참가자 노쇼 대비 10% 정밀 주문</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Real-time Carbon Calculation Summary Card -->
+        <div class="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-800 space-y-4">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+            <span class="text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+              F&amp;B 온실가스 배출 및 감축량 산출 결과
+            </span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-900 px-3 py-1 rounded-md border border-slate-800">Scope 3 Cat 1</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-center">
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+              <span class="text-xs text-slate-400 block font-bold">기존 육류 만찬 기준 (Baseline)</span>
+              <span id="fnb-baseline-carbon" class="text-base sm:text-xl font-black text-slate-100 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-xs text-slate-500">7.20 kgCO2e/식 기준</span>
+            </div>
+            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+              <span class="text-xs text-slate-400 block font-bold">실제 케이터링 배출량</span>
+              <span id="fnb-actual-carbon" class="text-base sm:text-xl font-black text-amber-300 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-xs text-slate-500">원재료 상류 내재탄소</span>
+            </div>
+            <div class="col-span-2 bg-emerald-950/40 p-3.5 rounded-xl border border-emerald-500/30 flex flex-col justify-center">
+              <div class="flex justify-between items-center px-2">
+                <span class="text-xs sm:text-sm font-black text-emerald-400">🌿 저탄소 메뉴 전환 감축량</span>
+                <span id="fnb-reduction-percent" class="text-xs font-black text-emerald-300 bg-emerald-900/70 px-2.5 py-0.5 rounded-full border border-emerald-700/50">0.0% 감축</span>
+              </div>
+              <div class="flex items-baseline justify-center gap-1.5 mt-1.5">
+                <span id="fnb-total-reduction-kg" class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">0.00</span>
+                <span class="text-xs sm:text-sm font-bold text-emerald-200">kgCO2eq</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex justify-end items-center gap-3 pt-4 border-t border-slate-100">
+        <button type="button" onclick="closeFnbSimulatorModal()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm sm:text-base transition-colors cursor-pointer">
+          닫기
+        </button>
+        <button type="button" onclick="submitFnbSimulation()" class="px-7 py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold rounded-xl text-sm sm:text-base shadow-md transition-all flex items-center gap-2 cursor-pointer">
+          <i data-lucide="check-circle" class="w-5 h-5"></i>
+          실천 적용 및 참여 완료
+        </button>
+      </div>
+
+    </div>
+  </div>

@@ -20,74 +20,133 @@
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
     
-    <!-- ==========================================
-         HERO & VISION (MICE EVENT 특화형 헤더)
+        <!-- ==========================================
+         HERO & VISION (MICE EVENT 특화형 헤더 - 순수 다크 앰비언트 리디자인)
          ========================================== -->
-    <header class="relative rounded-3xl overflow-hidden bg-cover bg-center text-white min-h-[440px] flex items-center shadow-md" 
-            style="background-image: linear-gradient(to right, rgba(10, 25, 47, 0.98) 35%, rgba(15, 32, 67, 0.85) 70%, rgba(15, 23, 42, 0.4)), url('headway-F2KRf_QfCqw-unsplash.jpg'), url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&q=80&w=1200'); background-size: cover; background-position: center;">
+    <header class="relative rounded-3xl overflow-hidden text-white min-h-[440px] flex items-center shadow-2xl border border-slate-800/80 bg-slate-950" 
+            style="background: radial-gradient(circle at 85% 15%, rgba(14, 165, 233, 0.22) 0%, transparent 45%),
+                               radial-gradient(circle at 10% 85%, rgba(16, 185, 129, 0.25) 0%, transparent 45%),
+                               radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.09) 0%, transparent 60%),
+                               linear-gradient(140deg, #070d1a 0%, #0c162b 50%, #060b16 100%);">
       
-      <!-- Top Right Logo (MUREPA KOREA 세리프 2줄 동일 크기 텍스트 로고 적용) -->
-      <div class="absolute top-6 right-8 text-right select-none z-20">
-        <div class="font-serif text-xl font-bold tracking-[0.15em] text-white leading-none uppercase">MUREPA</div>
-        <div class="font-serif text-xl font-bold tracking-[0.15em] text-white leading-none uppercase mt-2">KOREA</div>
+      <!-- SUBTLE AMBIENT GLOW ORBS & MESH (No background photo) -->
+      <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl"></div>
+        <div class="absolute -top-20 right-1/4 w-80 h-80 rounded-full bg-sky-500/15 blur-3xl"></div>
+        <div class="absolute -bottom-24 left-1/3 w-96 h-96 rounded-full bg-indigo-500/12 blur-3xl"></div>
+        <!-- Subtle Vector Grid Lines -->
+        <svg class="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#heroGrid)" />
+        </svg>
       </div>
 
-      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 sm:px-12 py-12 items-center relative z-10">
-        <!-- Left Side: Header Copy -->
-        <div class="lg:col-span-6 space-y-5">
-          <div class="space-y-1">
-            <span class="text-sm font-semibold text-sky-400 tracking-wider">ESG로 완성하는</span>
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+      <!-- Top Right Logo (MUREPA KOREA 1줄 세리프 로고) -->
+      <div class="absolute top-6 right-8 text-right select-none z-20">
+        <div class="font-serif text-lg sm:text-xl font-bold tracking-[0.18em] text-white leading-none uppercase flex items-center gap-2">
+          <span>MUREPA</span>
+          <span class="text-slate-300">KOREA</span>
+        </div>
+      </div>
+
+      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 px-6 sm:px-10 py-8 sm:py-10 items-center relative z-10">
+        <!-- Left Side: Header Copy (lg:col-span-4) -->
+        <div class="lg:col-span-4 space-y-3.5">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/25 backdrop-blur-md text-sky-300 text-xs font-bold tracking-wide shadow-sm">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-400"></i>
+              <span>ESG로 완성하는 지속가능한 MICE</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-black leading-tight tracking-tight text-white break-keep">
               지속가능한 <br>
-              <span class="text-sky-400">MICE EVENT</span>
+              <span class="bg-gradient-to-r from-sky-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent drop-shadow-sm">
+                MICE EVENT
+              </span>
             </h1>
           </div>
-          <p class="text-slate-300 text-sm font-light max-w-md leading-relaxed">
-            탄소를 저감하고, 친환경 비즈니스 네트워크 환경을 조성하며, 투명한 거버넌스로 신뢰받는 비즈니스 가치를 창출합니다.
+          <p class="text-slate-300 text-xs sm:text-sm font-normal max-w-sm leading-relaxed break-keep">
+            온실가스 저감과 친환경 생태계 조성, 지역사회 상생과 투명한 거버넌스를 통해 대한민국 MICE 비즈니스 이벤트의 새로운 지속가능성 기준을 창출합니다.
           </p>
-
-          <div class="flex flex-wrap gap-4 pt-4 border-t border-blue-800/60 max-w-lg">
-            <div class="flex items-center space-x-2">
-              <span class="w-7 h-7 rounded-full bg-blue-900 border border-blue-500/30 flex items-center justify-center"><i data-lucide="leaf" class="w-3.5 h-3.5 text-sky-400"></i></span>
-              <span class="text-xs text-slate-300 font-bold">E · Environment 환경</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-7 h-7 rounded-full bg-blue-950 border border-blue-500/30 flex items-center justify-center"><i data-lucide="users" class="w-3.5 h-3.5 text-blue-400"></i></span>
-              <span class="text-xs text-slate-300 font-bold">S · Social 사회</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-7 h-7 rounded-full bg-purple-950 border border-purple-500/30 flex items-center justify-center"><i data-lucide="shield" class="w-3.5 h-3.5 text-purple-400"></i></span>
-              <span class="text-xs text-slate-300 font-bold">G · Governance 지배구조</span>
-            </div>
-          </div>
         </div>
 
-        <!-- Right Side: ESG Vision Overlay Box -->
-        <div class="lg:col-span-6 bg-[#0f2042]/95 backdrop-blur-md rounded-2xl p-6 border border-blue-800/40 space-y-5 shadow-2xl">
-          <div class="text-center pb-3 border-b border-blue-900/50">
-            <span class="text-[10px] tracking-widest text-sky-400 font-extrabold uppercase">ESG Vision</span>
-            <h2 class="text-base font-bold text-white mt-1">자연과 사람이 함께 만드는 지속가능한 가치</h2>
+        <!-- Right Side: Frosted Glass ESG Vision & Pillars Card (lg:col-span-8 - Ample Space) -->
+        <div class="lg:col-span-8 bg-slate-900/65 backdrop-blur-2xl rounded-3xl p-5 sm:p-6 border border-white/10 shadow-2xl space-y-4 relative overflow-hidden group">
+          <!-- Background Ambient Glow inside Card -->
+          <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+
+          <!-- Card Top Header -->
+          <div class="flex items-center justify-between pb-3 border-b border-white/10 relative z-10">
+            <div>
+              <span class="text-[10px] tracking-widest text-sky-400 font-black uppercase flex items-center gap-1.5">
+                <i data-lucide="target" class="w-3.5 h-3.5 text-sky-400"></i>
+                ESG Core Vision &amp; Pillars
+              </span>
+              <h2 class="text-base sm:text-lg font-black text-white mt-0.5 tracking-tight break-keep">
+                자연과 사람이 함께 만드는 지속가능한 가치
+              </h2>
+            </div>
+            <span class="bg-white/10 text-slate-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-white/10 hidden sm:inline-block">
+              MICE 2026
+            </span>
           </div>
           
-          <div class="grid grid-cols-3 gap-1 text-center">
-            <!-- Column 1: 탄소 배출 관리 운영 -->
-            <div class="space-y-2 px-1">
-              <div class="flex justify-center"><i data-lucide="cloud" class="w-5 h-5 text-sky-400"></i></div>
-              <p class="text-xs font-bold text-white leading-tight">탄소 배출<br>관리 운영</p>
-              <p class="text-[9px] text-slate-300 leading-normal font-light">행사 기간 ESG 운영<br>데이터 측정 예정</p>
-            </div>
-            <!-- Column 2: 지역사회 연계 프로그램 운영 -->
-            <div class="space-y-2 border-x border-blue-900/50 px-2">
-              <div class="flex justify-center"><i data-lucide="users" class="w-5 h-5 text-sky-400"></i></div>
-              <p class="text-xs font-bold text-white leading-tight">지역사회 연계<br>프로그램 운영</p>
-              <p class="text-[9px] text-slate-300 leading-normal font-light">지역 사회와 함께하는<br>참여형 ESG 추진</p>
-            </div>
-            <!-- Column 3: 지속가능 행사 운영 강화 -->
-            <div class="space-y-2 px-1">
-              <div class="flex justify-center"><i data-lucide="heart-handshake" class="w-5 h-5 text-sky-400"></i></div>
-              <p class="text-xs font-bold text-white leading-tight">지속가능<br>행사 운영 강화</p>
-              <p class="text-[9px] text-slate-300 leading-normal font-light">친환경·투명 운영 기반<br>ESG 체계 구축</p>
-            </div>
+          <!-- 3 Pillars Grid (Direct Clickable Anchors to E, S, G - Perfectly Proportioned) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5 relative z-10">
+            <!-- Pillar 1: Environment -->
+            <a href="#section-e" class="bg-white/5 hover:bg-emerald-500/10 rounded-2xl p-4 border border-white/10 hover:border-emerald-500/40 transition-all flex flex-col justify-between space-y-3 group/item cursor-pointer block hover:scale-[1.02] shadow-sm overflow-hidden">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 group-hover/item:scale-105 transition-transform shrink-0">
+                  <i data-lucide="leaf" class="w-4.5 h-4.5"></i>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-xs font-black tracking-wide shadow-xs group-hover/item:bg-emerald-500/35 group-hover/item:border-emerald-400 group-hover/item:text-white transition-all shrink-0">
+                  <span>E · 환경</span>
+                  <i data-lucide="arrow-down" class="w-3 h-3 text-emerald-300 group-hover/item:translate-y-0.5 transition-transform"></i>
+                </span>
+              </div>
+              <div class="min-w-0">
+                <h3 class="text-sm sm:text-[15px] font-black text-white group-hover/item:text-emerald-200 transition-colors truncate">탄소 배출 관리</h3>
+                <p class="text-xs text-slate-300 leading-snug mt-1 font-normal break-keep">NZCE 9대 배출원 실시간 측정 및 감축</p>
+              </div>
+            </a>
+
+            <!-- Pillar 2: Social -->
+            <a href="#section-s" class="bg-white/5 hover:bg-sky-500/10 rounded-2xl p-4 border border-white/10 hover:border-sky-500/40 transition-all flex flex-col justify-between space-y-3 group/item cursor-pointer block hover:scale-[1.02] shadow-sm overflow-hidden">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center border border-sky-500/30 group-hover/item:scale-105 transition-transform shrink-0">
+                  <i data-lucide="users" class="w-4.5 h-4.5"></i>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-sky-500/20 border border-sky-400/40 text-sky-200 text-xs font-black tracking-wide shadow-xs group-hover/item:bg-sky-500/35 group-hover/item:border-sky-400 group-hover/item:text-white transition-all shrink-0">
+                  <span>S · 사회</span>
+                  <i data-lucide="arrow-down" class="w-3 h-3 text-sky-300 group-hover/item:translate-y-0.5 transition-transform"></i>
+                </span>
+              </div>
+              <div class="min-w-0">
+                <h3 class="text-sm sm:text-[15px] font-black text-white group-hover/item:text-sky-200 transition-colors truncate">포용과 지역 상생</h3>
+                <p class="text-xs text-slate-300 leading-snug mt-1 font-normal break-keep">무장애 동선 확보 및 지역 소상공인 협력</p>
+              </div>
+            </a>
+
+            <!-- Pillar 3: Governance -->
+            <a href="#section-g" class="bg-white/5 hover:bg-purple-500/10 rounded-2xl p-4 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-3 group/item cursor-pointer block hover:scale-[1.02] shadow-sm overflow-hidden">
+              <div class="flex items-center justify-between gap-2 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center border border-purple-500/30 group-hover/item:scale-105 transition-transform shrink-0">
+                  <i data-lucide="shield-check" class="w-4.5 h-4.5"></i>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-200 text-xs font-black tracking-wide shadow-xs group-hover/item:bg-purple-500/35 group-hover/item:border-purple-400 group-hover/item:text-white transition-all shrink-0">
+                  <span>G · 거버넌스</span>
+                  <i data-lucide="arrow-down" class="w-3 h-3 text-purple-300 group-hover/item:translate-y-0.5 transition-transform"></i>
+                </span>
+              </div>
+              <div class="min-w-0">
+                <h3 class="text-sm sm:text-[15px] font-black text-white group-hover/item:text-purple-200 transition-colors truncate">투명한 ESG 공시</h3>
+                <p class="text-xs text-slate-300 leading-snug mt-1 font-normal break-keep">ISO 20121 인증 및 성과보고서 출간</p>
+              </div>
+            </a>
           </div>
         </div>
       </div>
@@ -97,7 +156,7 @@
     <!-- ==========================================
          SECTION 01: ENVIRONMENT (환경)
          ========================================== -->
-    <section class="relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
+    <section id="section-e" class="scroll-mt-8 relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
       
       <!-- HIGH-QUALITY BACKGROUND ILLUSTRATIONS -->
       <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-40">
@@ -152,249 +211,204 @@
         <div id="env-cards" class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           <!-- Card 01 -->
-          <div onclick="openEcoSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openEcoSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=300" alt="Reusable" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">다회용기 · 친환경 에코 서비스</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">다회용 식기 도입 및 친환경 패키징 공수를 통한 종이컵 대체</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 306 · K-ESG E-6-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> GRI 306 · K-ESG E-6-2
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="cup-soda" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">일회용 식기</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">실천 등록</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">다회용기 · 친환경 에코 서비스</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">다회용 식기 도입 및 친환경 패키징 공수를 통한 종이컵 대체</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 02 -->
-          <div onclick="openEnergySimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 02: 친환경 식음료 & 케이터링 (Food & Beverage) -->
+          <div onclick="openFnbSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=300" alt="Solar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=300" alt="친환경 식음료 & 케이터링" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">02</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">100% 재생에너지 운영</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">이벤트 및 프레젠테이션 운영 전력을 100% 신재생에너지로 전환</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> RE100 · K-ESG E-4-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> NZCE Cat 3 · Cool Food
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="sun" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">재생에너지</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">신재생 전력 전환</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 식음료 & 케이터링</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">저탄소·비건 메뉴 전환, 로컬 유기농 식재료 및 케이터링 내재탄소 감축</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 03 -->
-          <div onclick="openTransportSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 03: 100% 재생에너지 운영 -->
+          <div onclick="openEnergySimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80&w=300" alt="Eco Bus" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=300" alt="Solar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">03</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">친환경 이동수단</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">행사 관계자 및 글로벌 바이어를 위한 친환경 수소 버스 지원</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 305 · K-ESG E-3-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> RE100 · K-ESG E-4-2
                   </span>
+                  <span class="bg-rose-50 text-rose-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-rose-200 whitespace-nowrap">Scope 1</span>
+                  <span class="bg-amber-50 text-amber-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-amber-200 whitespace-nowrap">Scope 2</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="bus" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">친환경 이동</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">수소·전기 셔틀</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">100% 재생에너지 운영</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">이벤트 및 프레젠테이션 운영 전력을 100% 신재생에너지로 전환</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 04: 업사이클링 굿즈(ESG 기념품) 제작 -->
-          <div onclick="openUpcycleSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 04: 목적지 왕복 이동 & 친환경 교통 (NZCE Cat 4 · GLEC) -->
+          <div onclick="openTransportSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300" alt="Upcycling Goods" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=300" alt="Travel and Transport" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">업사이클링 굿즈 제작</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">사용된 배너, 현수막, 의자 커버를 수거해 유니크한 가방·소품으로 변신</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 301 · K-ESG E-2-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> NZCE Cat 4 · DEFRA 2024
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="recycle" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">기념품 기증</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">VIP 증정용</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug whitespace-nowrap truncate">목적지 왕복 이동 &amp; 친환경 교통</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">항공·KTX·고속버스 왕복 이동 탄소 산정, 복사강제력(RF) 및 철도 전환 감축</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 05: 친환경 행사장 조성 · 관리 -->
-          <div onclick="openVenueEcologyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 05: 업사이클링 굿즈(ESG 기념품) 제작 -->
+          <div onclick="openUpcycleSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=300" alt="Jeju Ecology" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300" alt="Upcycling Goods" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">친환경 행사장 조성 · 관리</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">생태 보호 인근 지역 공간 보호 및 실내 청정 가이드라인 수립</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> LEED · ISO 14001
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> GRI 301 · K-ESG E-2-2
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600 transition-colors" id="badge-venue-ecology-icon-container">
-                    <i data-lucide="tree-pine" class="w-4 h-4" id="badge-venue-ecology-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span id="badge-venue-ecology-label" class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">생태 공간</span>
-                    <span id="badge-venue-ecology-value" class="text-[11px] font-bold text-slate-800 leading-none">실천 등록</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">업사이클링 굿즈 제작</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">사용된 배너, 현수막, 의자 커버를 수거해 유니크한 가방·소품으로 변신</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 06: 디지털 페이퍼리스 및 사이니지 시스템 -->
-          <div onclick="openSignageSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 06: 친환경 행사장 조성 · 관리 -->
+          <div onclick="openVenueEcologyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=300" alt="Digital Signage & Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=300" alt="Jeju Ecology" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">디지털 페이퍼리스 & 사이니지</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">종이 인쇄물 및 일회성 안내판을 전면 폐지하고 NFC/QR 플랫폼 및 디지털 사이니지 도입</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 301 · K-ESG E-2-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> LEED · ISO 14001
                   </span>
+                  <span class="bg-rose-50 text-rose-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-rose-200 whitespace-nowrap">Scope 1</span>
+                  <span class="bg-amber-50 text-amber-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-amber-200 whitespace-nowrap">Scope 2</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="monitor" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">인쇄물·안내판</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">Zero & 신재생 공급</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 행사장 조성 · 관리</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">생태 보호 인근 지역 공간 보호 및 실내 청정 가이드라인 수립</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 07: 친환경 부스 자재 의무화 -->
-          <div onclick="openPaperBoothSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 07: 디지털 페이퍼리스 및 사이니지 시스템 -->
+          <div onclick="openSignageSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=300" alt="Eco Booth" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=300" alt="Digital Signage & Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">친환경 부스 자재 의무화</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">재활용 알루미늄 및 종이 보드 사용, 철거 시 폐기물 관리</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 306 · K-ESG E-2-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> GRI 301 · K-ESG E-2-1
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="layers" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">부스 폐기물</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">처리 계획서 의무</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">디지털 페이퍼리스 & 사이니지</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">종이 인쇄물 및 일회성 안내판을 전면 폐지하고 NFC/QR 플랫폼 및 디지털 사이니지 도입</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 08: 자원순환 & 폐기물 재활용률 (Zero Waste Tracker) -->
-          <div onclick="openWasteRecyclingModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 08: 친환경 부스 자재 의무화 -->
+          <div onclick="openPaperBoothSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
+            <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=300" alt="Eco Booth" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
+            </div>
+            <div class="flex-grow flex flex-col pt-2.5">
+              <div>
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> GRI 306 · K-ESG E-2-1
+                  </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
+                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 부스 자재 의무화</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">재활용 알루미늄 및 종이 보드 사용, 철거 시 폐기물 관리</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 09: 자원순환 & 폐기물 재활용률 (Zero Waste Tracker) -->
+          <div onclick="openWasteRecyclingModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=300" alt="Zero Waste Recycling" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">09</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-emerald-800 tracking-tight leading-tight">자원순환 & 폐기물 재활용률</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">GRI 306 및 TRUE Zero Waste 기준 폐기물 분리배출 자원재활용률(%) 측정</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-emerald-50 text-emerald-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-emerald-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-emerald-600"></i> GRI 306-4 · K-ESG E-6-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> GRI 306-4 · K-ESG E-6-2
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-600">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5">GRI 306 & TRUE</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none">Zero Waste 산정</span>
-                  </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">자원순환 & 폐기물 재활용률</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">GRI 306 및 TRUE Zero Waste 기준 폐기물 분리배출 자원재활용률(%) 측정</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 10: 친환경 화물 & 물류 관리 (Freight & Logistics) -->
+          <div onclick="openFreightSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
+            <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=300" alt="Freight & Logistics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">10</span>
+            </div>
+            <div class="flex-grow flex flex-col pt-2.5">
+              <div>
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> NZCE Cat 2 · GLEC
+                  </span>
+                  <span class="bg-rose-50 text-rose-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-rose-200 whitespace-nowrap">Scope 1</span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 화물 & 물류 관리</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">행사 자재·전시품 수송 톤·km 산정, 전기 화물차 전환 및 혼적 안분 관리</p>
               </div>
             </div>
           </div>
@@ -410,7 +424,7 @@
         <!-- ==========================================
          SECTION 02: SOCIAL (사회)
          ========================================== -->
-    <section class="relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
+    <section id="section-s" class="scroll-mt-8 relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
       
       <!-- HIGH-QUALITY BACKGROUND ILLUSTRATIONS (Jeju Landscape) -->
       <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-50">
@@ -468,280 +482,173 @@
         <div id="soc-cards" class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           <!-- Card 1 -->
-          <div onclick="openLocalFoodModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openLocalFoodModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=300" alt="Local Biz" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">지역·소상공인 ESG 협업존</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">지역 로컬 특산품 및 지적 자산 연계 판로 촉진망 수립</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 204 · K-ESG S-3-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 204 · K-ESG S-3-1
                   </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-local-food-icon-container">
-                    <i data-lucide="store" class="w-4 h-4" id="badge-local-food-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-local-food-label">협력 모델</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-local-food-value">소상공인 연계</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">지역·소상공인 ESG 협업존</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">지역 로컬 특산품 및 지적 자산 연계 판로 촉진망 수립</p>
               </div>
             </div>
           </div>
 
           <!-- Card 2 -->
-          <div onclick="openBarrierFreeModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openBarrierFreeModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&q=80&w=300" alt="Barrier Free" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">02</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">무장애 행사 가이드라인</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">휠체어 동선 및 수어 통역사 배치, 발달장애인용 '쉬운 언어' 자료 제공</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> UN CRPD · K-ESG S-1-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> UN CRPD · K-ESG S-1-2
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-650 font-black transition-colors" id="badge-barrier-free-icon-container">
-                    <i data-lucide="accessibility" class="w-4 h-4" id="badge-barrier-free-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-barrier-free-label">배리어프리</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-barrier-free-value">정보·이동 보장</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">무장애 행사 가이드라인</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">휠체어 동선 및 수어 통역사 배치, 발달장애인용 '쉬운 언어' 자료 제공</p>
               </div>
             </div>
           </div>
 
           <!-- Card 3 -->
-          <div onclick="openLocalEconomyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openLocalEconomyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&q=80&w=300" alt="Economy Boost" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">03</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">지역경제 기여</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">도외 및 해외 유입 비즈니스 참관단 유치 기획 강화</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 203 · K-ESG S-3-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 203 · K-ESG S-3-1
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-650 font-black transition-colors" id="badge-local-economy-icon-container">
-                    <i data-lucide="heart" class="w-4 h-4" id="badge-local-economy-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-local-economy-label">지역 소비 효과</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-local-economy-value">실천 등록</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">지역경제 기여</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">도외 및 해외 유입 비즈니스 참관단 유치 기획 강화</p>
               </div>
             </div>
           </div>
 
           <!-- Card 4 -->
-          <div onclick="openInclusionModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openInclusionModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80&w=300" alt="Inclusion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">포용 프로그램</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">지역 아동 환경 보존 아카데미 투어리즘 동반 진행</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 413 · K-ESG S-3-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 413 · K-ESG S-3-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-650 font-black transition-colors" id="badge-inclusion-icon-container">
-                    <i data-lucide="smile" class="w-4 h-4" id="badge-inclusion-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-inclusion-label">포용 프로그램</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-inclusion-value">실천 등록</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">포용 프로그램</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">지역 아동 환경 보존 아카데미 투어리즘 동반 진행</p>
               </div>
             </div>
           </div>
 
           <!-- Card 5 -->
-          <div onclick="openEsgEducationModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openEsgEducationModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=300" alt="ESG Study" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">ESG 교육 · 체험</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">글로벌 연계 비즈니스 전문가 멘토링 연 12회 이상 조율</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 404 · K-ESG S-1-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 404 · K-ESG S-1-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-esg-edu-icon-container">
-                    <i data-lucide="graduation-cap" class="w-4 h-4" id="badge-esg-edu-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-esg-edu-label">교육 프로그램</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-esg-edu-value">실천 등록</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">ESG 교육 · 체험</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">글로벌 연계 비즈니스 전문가 멘토링 연 12회 이상 조율</p>
               </div>
             </div>
           </div>
 
           <!-- Card 06: 행사 안전 & 공정노동 표준 (Safety & Fair Labor Protocol) -->
-          <div id="card-safety-labor" onclick="openSafetyLaborModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-safety-labor" onclick="openSafetyLaborModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=300" alt="Safety & Fair Labor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-blue-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">행사 안전 & 공정노동 표준</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">군중밀집 스마트 관리, 응급의료 및 스태프 공정노동/휴게시간 준수</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 403 · K-ESG S-2-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 403 · K-ESG S-2-1
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-600 font-black transition-colors" id="badge-safety-labor-icon-container">
-                    <i data-lucide="shield-alert" class="w-4 h-4" id="badge-safety-labor-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-safety-labor-label">GRI 403 & 중대재해</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-safety-labor-value">안전·인권 준수</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">행사 안전 & 공정노동 표준</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">군중밀집 스마트 관리, 응급의료 및 스태프 공정노동/휴게시간 준수</p>
               </div>
             </div>
           </div>
 
           <!-- Card 6: 로컬 청년 크리에이터 서포터즈 -->
-          <div onclick="openSupportersModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openSupportersModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=300" alt="Youth Supporters" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">청년 서포터즈</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">지역 청년 서포터즈 현장 기획 및 미디어 홍보 활동</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> UN SDGs · K-ESG S-3-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> UN SDGs · K-ESG S-3-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-supporters-icon-container">
-                    <i data-lucide="camera" class="w-4 h-4" id="badge-supporters-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-supporters-label">지역 인재</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-supporters-value">청년 서포터즈</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">청년 서포터즈</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">지역 청년 서포터즈 현장 기획 및 미디어 홍보 활동</p>
               </div>
             </div>
           </div>
 
           <!-- Card 7: 기부 챌린지 및 사회 공헌 연계 -->
-          <div onclick="openDonationModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openDonationModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=300" alt="Giving" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">기부 챌린지 · 사회공헌 연계</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">걷기, 퀴즈 미션 완료 시 지역 사회 단체 및 복지시설 기부 매칭</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 413 · K-ESG S-3-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 413 · K-ESG S-3-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-donation-icon-container">
-                    <i data-lucide="gift" class="w-4 h-4" id="badge-donation-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-donation-label">매칭 기부</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-donation-value">사회 공헌 연계</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">기부 챌린지 · 사회공헌 연계</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">걷기, 퀴즈 미션 완료 시 지역 사회 단체 및 복지시설 기부 매칭</p>
               </div>
             </div>
           </div>
 
           <!-- Card 8: 지식 나눔 및 재능 기부 강연 -->
-          <div onclick="openKnowledgeSharingModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div onclick="openKnowledgeSharingModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=300" alt="Mentoring" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-blue-800 tracking-tight leading-tight">지식 나눔 · 재능 기부 강연</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">글로벌 연사들의 도내 대학생 및 청년 스타트업 대상 무료 멘토링</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-blue-50 text-blue-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-blue-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-blue-600"></i> GRI 404 · K-ESG S-1-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-blue-50 text-blue-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-blue-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i> GRI 404 · K-ESG S-1-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-blue-50 text-blue-655 font-black transition-colors" id="badge-knowledge-icon-container">
-                    <i data-lucide="heart-handshake" class="w-4 h-4" id="badge-knowledge-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-knowledge-label">멘토링 지원</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-knowledge-value">재능 기부 세션</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-blue-900 tracking-tight leading-snug">지식 나눔 · 재능 기부 강연</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">글로벌 연사들의 도내 대학생 및 청년 스타트업 대상 무료 멘토링</p>
               </div>
             </div>
           </div>
@@ -754,7 +661,7 @@
         <!-- ==========================================
          SECTION 03: GOVERNANCE (지배구조 & 재무 투명성)
          ========================================== -->
-    <section class="relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
+    <section id="section-g" class="scroll-mt-8 relative bg-white rounded-3xl p-6 sm:p-8 custom-shadow border border-slate-100 overflow-hidden space-y-6">
       
       <!-- HIGH-QUALITY BACKGROUND ILLUSTRATIONS (Lavender / Purple Organic Botanical Branches) -->
       <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none opacity-40">
@@ -808,182 +715,115 @@
         <div id="gov-cards" class="flex overflow-x-auto gap-4 snap-x snap-mandatory pb-4 w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
           <!-- Card 1: ESG 성과 보고서 (PDF 보고서 첨부 모달) -->
-          <div id="card-esg-report" onclick="openEsgReportModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-esg-report" onclick="openEsgReportModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=300" alt="ESG Report" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=400" alt="ESG Report" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">01</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">ESG 성과 보고서</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">ESG 성과를 정량적으로 측정 공시하여 투명하게 공개</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-indigo-50 text-indigo-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-indigo-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-indigo-600"></i> ISSB S1/S2 · K-ESG P-1-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> ISSB S1/S2 · K-ESG P-1-2
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-esg-report-icon-container">
-                    <i data-lucide="file-text" class="w-4 h-4" id="badge-esg-report-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-esg-report-label">공시 주기</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-esg-report-value">연 1회 보고서 발간</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">ESG 성과 보고서</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">ESG 성과를 정량적으로 측정 공시하여 투명하게 공개</p>
               </div>
             </div>
           </div>
 
           <!-- Card 2: ISO 20121 국제 인증 추진 (인증서 파일 첨부 모달) -->
-          <div id="card-iso20121" onclick="openIso20121Modal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-iso20121" onclick="openIso20121Modal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1496065187959-7f07b8353c55?auto=format&fit=crop&q=80&w=300" alt="ISO Cert" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&q=80&w=400" alt="ISO Cert" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">02</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">ISO 20121 국제 인증 추진</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">글로벌 스탠다드 충족을 위한 지속가능이벤트경영시스템 구축</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-indigo-50 text-indigo-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-indigo-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-indigo-600"></i> ISO 20121 · K-ESG P-1-2
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> ISO 20121 · K-ESG P-1-2
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-iso20121-icon-container">
-                    <i data-lucide="shield-check" class="w-4 h-4" id="badge-iso20121-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-iso20121-label">인증 절차</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-iso20121-value">ISO 20121 진행 중</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">ISO 20121 국제 인증 추진</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">글로벌 스탠다드 충족을 위한 지속가능이벤트경영시스템 구축</p>
               </div>
             </div>
           </div>
 
           <!-- Card 3: ESG 자문위원회 (회의 장소, 일시, 사진 첨부 모달) -->
-          <div id="card-advisory" onclick="openAdvisoryModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-advisory" onclick="openAdvisoryModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=300" alt="Advisory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">03</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">ESG 자문위원회</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">환경·사회·지배구조 전문가 자문으로 운영의 전문성과 신뢰성 강화</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-indigo-50 text-indigo-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-indigo-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-indigo-600"></i> GRI 2-12 · K-ESG G-1-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> GRI 2-12 · K-ESG G-1-1
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-advisory-icon-container">
-                    <i data-lucide="users-2" class="w-4 h-4" id="badge-advisory-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-advisory-label">전문가 위원</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-advisory-value">자문단 구성</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">ESG 자문위원회</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">환경·사회·지배구조 전문가 자문으로 운영의 전문성과 신뢰성 강화</p>
               </div>
             </div>
           </div>
 
           <!-- Card 4: 행사 ESG 통합 정보공개 페이지 구축 -->
-          <div id="card-esg-disclosure" onclick="openEsgDisclosureModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-esg-disclosure" onclick="openEsgDisclosureModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=300" alt="ESG Integrated Disclosure Page" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">행사 ESG 통합 정보공개 페이지 구축</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">행사별 운영 정보와 ESG 실천 현황을 일관되게 제공하는 도민 통합 누리집 구축</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-indigo-50 text-indigo-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-indigo-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-indigo-600"></i> GRI 2-27 · K-ESG P-1-1
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> GRI 2-27 · K-ESG P-1-1
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-esg-disclosure-icon-container">
-                    <i data-lucide="globe" class="w-4 h-4" id="badge-esg-disclosure-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-esg-disclosure-label">통합 누리집</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-esg-disclosure-value">상시 공개 운영</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">행사 ESG 통합 정보공개 페이지 구축</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">행사별 운영 정보와 ESG 실천 현황을 일관되게 제공하는 공식 통합 정보 누리집 구축</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 5: 도민·참가자 ESG 다짐 & 피드백 방명록 (GRI 2-29) -->
-          <div id="card-stakeholder-feedback" onclick="openStakeholderFeedbackModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <!-- Card 5: 참가자 ESG 다짐 & 피드백 방명록 (GRI 2-29) -->
+          <div id="card-stakeholder-feedback" onclick="openStakeholderFeedbackModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=300" alt="Feedback Channel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=400" alt="Feedback Channel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">도민·참가자 ESG 다짐 & 방명록</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">참관객 한줄 다짐 방명록 참여 및 소통 피드백 수렴</p>
-              </div>
-              <div>
-                <div class="mt-1.5 mb-0.5 flex items-center">
-                  <span class="bg-indigo-50 text-indigo-800 text-[9.5px] font-extrabold px-2 py-0.5 rounded-md border border-indigo-200/80 flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-2.5 h-2.5 text-indigo-600"></i> GRI 2-29 · K-ESG S-3-3
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> GRI 2-29 · K-ESG S-3-3
                   </span>
                 </div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-stakeholder-icon-container">
-                    <i data-lucide="message-square-heart" class="w-4 h-4" id="badge-stakeholder-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-stakeholder-label">시민 소통 & 방명록</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-stakeholder-value">참가자 다짐 연동</span>
-                  </div>
-                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">참가자 ESG 다짐 & 방명록</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">참관객 한줄 다짐 방명록 참여 및 소통 피드백 수렴</p>
               </div>
             </div>
           </div>
 
           <!-- Card 6: 이해관계자 자문단 회의록 & 공식 보고서 공시 (GRI 2-29) -->
-          <div id="card-advisory-minutes" onclick="openAdvisoryMinutesModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[295px]">
+          <div id="card-advisory-minutes" onclick="openAdvisoryMinutesModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-indigo-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=300" alt="Advisory Minutes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&q=80&w=400" alt="Advisory Minutes" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
-            <div class="flex-grow flex flex-col justify-between pt-2.5">
+            <div class="flex-grow flex flex-col pt-2.5">
               <div>
-                <h3 class="font-extrabold text-[13px] text-indigo-850 tracking-tight leading-tight">자문단 회의록 & 공식 보고서</h3>
-                <p class="text-[11px] text-slate-500 leading-normal line-clamp-2 mt-1">자문단 회의록 및 ESG 의견 수렴 결과 보고서를 공식 첨부하여 실천 증명</p>
-              </div>
-              <div>
-                <div class="border-t border-slate-100 my-2"></div>
-                <div class="flex items-center space-x-2 pb-1">
-                  <div class="w-7 h-7 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-655 font-black transition-colors" id="badge-advisory-min-icon-container">
-                    <i data-lucide="file-text" class="w-4 h-4" id="badge-advisory-min-icon"></i>
-                  </div>
-                  <div class="flex flex-col">
-                    <span class="text-[9px] text-slate-400 font-medium leading-none mb-0.5" id="badge-advisory-min-label">자문단 회의록</span>
-                    <span class="text-[11px] font-bold text-slate-800 leading-none" id="badge-advisory-min-value">결과 보고서 첨부</span>
-                  </div>
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-indigo-50 text-indigo-950 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-indigo-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0"></i> GRI 2-29 · K-ESG G-1-1
+                  </span>
                 </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-indigo-950 tracking-tight leading-snug">자문단 회의록 & 공식 보고서</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">자문단 회의록 및 ESG 의견 수렴 결과 보고서를 공식 첨부하여 실천 증명</p>
               </div>
             </div>
           </div>
@@ -1009,36 +849,60 @@
       </div>
 
       <!-- Section Header -->
-      <div class="relative z-10 space-y-2 pb-5 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-        <div>
-          <div class="flex items-center space-x-3">
-            <span class="bg-amber-500 text-white text-sm font-extrabold px-3.5 py-1 rounded-full shadow-sm tracking-wide">04 / Impact</span>
-            <span class="text-sm uppercase font-black tracking-widest text-amber-600 border-l-2 border-amber-200 pl-3">ESG Impact · 우리의 약속과 성과</span>
+      <div class="relative z-10 pb-6 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <!-- Title & Subtitle -->
+        <div class="space-y-1.5">
+          <div class="flex items-center space-x-2.5">
+            <span class="bg-amber-500 text-white text-xs font-black px-3 py-1 rounded-full shadow-2xs tracking-wide">04 / Impact</span>
+            <span class="text-xs uppercase font-black tracking-widest text-amber-600 border-l-2 border-amber-200 pl-2.5">ESG Impact · 우리의 약속과 성과</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none mt-1">지속가능한 미래, 우리의 실천에서 시작됩니다</h2>
-          <p class="text-sm text-slate-500 leading-relaxed font-medium">숫자로 증명하는 ESG 성과와 우리의 약속</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight break-keep">
+            지속가능한 미래, 우리의 실천에서 시작됩니다
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">숫자로 증명하는 ESG 성과와 우리의 약속</p>
         </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <button onclick="resetAllMiceData()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold px-3 py-2.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-            전체 초기화
-          </button>
-          <button onclick="openEsgPresetsModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
-            <i data-lucide="bookmark" class="w-3.5 h-3.5 text-emerald-400"></i>
-            데이터 저장 / 불러오기
-          </button>
-          <button onclick="openPdfReportModal()" class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-black px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer flex-shrink-0">
-            <i data-lucide="file-down" class="w-4 h-4"></i>
-            간이 ESG 보고서 PDF
+        
+        <!-- Action Toolbar (Single Neat Row) -->
+        <div class="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+          <!-- Segmented Utility Capsule -->
+          <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70 shadow-2xs">
+            <!-- 1. Emission Factor Selector -->
+            <button onclick="openEmissionFactorModal()" title="배출계수 기준 변경"
+                    class="bg-white hover:bg-slate-50 text-slate-700 hover:text-blue-700 active:scale-95 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs border border-slate-200/60 cursor-pointer">
+              <i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span class="text-slate-400 font-medium hidden sm:inline">계수:</span>
+              <span id="btn-active-preset-name" class="font-extrabold text-blue-700">한국 기본 2024</span>
+            </button>
+
+            <!-- 2. Preset Storage -->
+            <button onclick="openEsgPresetsModal()" title="데이터 저장 및 불러오기"
+                    class="hover:bg-white text-slate-600 hover:text-slate-900 active:scale-95 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="bookmark" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>데이터 보관함</span>
+            </button>
+
+            <!-- 3. Reset Button -->
+            <button onclick="resetAllMiceData()" title="전체 데이터 초기화"
+                    class="hover:bg-rose-50 text-slate-500 hover:text-rose-600 active:scale-95 px-2.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">초기화</span>
+            </button>
+          </div>
+
+          <!-- 4. Primary CTA: PDF Report Button -->
+          <button onclick="openPdfReportModal()" title="간이 ESG 보고서 PDF 생성"
+                  class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-95 text-white text-xs sm:text-sm font-black px-4 sm:px-5 py-2.5 rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer flex-shrink-0">
+            <i data-lucide="file-down" class="w-4 h-4 text-emerald-100"></i>
+            <span>간이 ESG 보고서 PDF</span>
           </button>
         </div>
       </div>
 
       <!-- Main Layout -->
-      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch w-full">
         
         <!-- Left Column: Quantitative Expected Effects Dashboard (Only show active/selected outcomes) -->
-        <div class="lg:col-span-6 bg-slate-50/70 rounded-2xl p-6 border border-slate-200/50 flex flex-col justify-between space-y-6">
+        <div class="w-full bg-slate-50/70 rounded-2xl p-6 sm:p-7 border border-slate-200/50 flex flex-col justify-between space-y-6">
           <div>
             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Selected Outcomes</span>
             <h3 class="text-base font-extrabold text-slate-800 mt-0.5">실천한 ESG 활동 기대효과</h3>
@@ -1056,12 +920,12 @@
           <!-- Dynamic Active Action Cards -->
           <div id="kpi-waste-card" class="hidden transition-all duration-300">
             <!-- Diagram 3: 자원 순환 (플라스틱 Zero) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openEcoSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="recycle" class="w-4 h-4 text-emerald-600"></i> 일회용 폐기물 억제 (자원 순환)
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">다회용기 실천</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>다회용기 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
@@ -1087,14 +951,40 @@
             </div>
           </div>
 
-          <div id="kpi-transport-card" class="hidden transition-all duration-300 mt-4">
-            <!-- Diagram 5: 친환경 이동수단 (저탄소 이동) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+          <!-- Diagram: 친환경 식음료 & 케이터링 실적 -->
+          <div id="kpi-fnb-card" class="hidden transition-all duration-300">
+            <div onclick="openFnbSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
-                <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
-                  <i data-lucide="bus" class="w-4 h-4 text-blue-600"></i> 친환경 이동수단 (저탄소 이동)
+                <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
+                  <i data-lucide="utensils" class="w-4 h-4 text-emerald-600"></i> 친환경 식음료 & 케이터링
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">대중교통 실천</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>식음료 감축 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 items-center">
+                <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
+                  <span class="text-[9px] text-emerald-600 block font-bold">감축량</span>
+                  <span id="kpi-fnb-reduced-carbon" class="text-[11px] font-black text-emerald-700">0 kgCO2e</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">총 제공 식수</span>
+                  <span id="kpi-fnb-total-meals" class="text-[11px] font-black text-slate-700">0 식</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">산정 방식</span>
+                  <span id="kpi-fnb-tier" class="text-[11px] font-black text-slate-700">식단 기반</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="kpi-transport-card" class="hidden transition-all duration-300 mt-4">
+            <!-- Diagram 5: 목적지 왕복 이동 & 친환경 교통 (NZCE Cat 4) -->
+            <div onclick="openTransportSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
+              <div class="flex justify-between items-center pb-2 border-b border-slate-50">
+                <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5 whitespace-nowrap">
+                  <i data-lucide="plane-takeoff" class="w-4 h-4 text-blue-600 shrink-0"></i> 목적지 왕복 이동 &amp; 친환경 교통 (NZCE Cat 4)
+                </span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"><span>왕복 이동 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-blue-50/50 p-2.5 rounded-xl border border-blue-100">
@@ -1115,12 +1005,12 @@
 
           <div id="kpi-energy-card" class="hidden transition-all duration-300 mt-4">
             <!-- Diagram 6: 100% 재생에너지 운영 (저탄소 에너지) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openEnergySimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-amber-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-amber-800 flex items-center gap-1.5">
                   <i data-lucide="sun" class="w-4 h-4 text-amber-500"></i> 100% 재생에너지 운영
                 </span>
-                <span class="bg-amber-50 text-[10px] text-amber-700 font-bold px-2.5 py-0.5 rounded-full">녹색프리미엄 실천</span>
+                <span class="bg-amber-50 text-[10px] text-amber-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-amber-600 group-hover:text-white transition-all flex items-center gap-1"><span>녹색프리미엄 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-amber-50/50 p-2.5 rounded-xl border border-amber-100">
@@ -1141,12 +1031,12 @@
 
           <div id="kpi-upcycle-card" class="hidden transition-all duration-300 mt-4">
             <!-- Diagram 7: 업사이클링 굿즈 제작 (플라스틱 Upcycle) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openUpcycleSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="recycle" class="w-4 h-4 text-emerald-600"></i> 업사이클링 굿즈 제작
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">플라스틱 Upcycle</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>플라스틱 Upcycle</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-4 gap-2 items-center">
                 <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
@@ -1171,12 +1061,12 @@
 
           <div id="kpi-booth-card" class="hidden transition-all duration-300 mt-4">
             <!-- Diagram 8: 친환경 종이 전시부스 도입 (자원 순환) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openPaperBoothSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="layers" class="w-4 h-4 text-emerald-600"></i> 친환경 종이 전시부스 도입
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">허니컴보드 실천</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>허니컴보드 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
@@ -1197,12 +1087,12 @@
 
           <div id="kpi-signage-card" class="hidden transition-all duration-300 mt-4">
             <!-- Diagram 7: 디지털 페이퍼리스 & 사이니지 (전환 실적) -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openSignageSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="monitor" class="w-4 h-4 text-emerald-600"></i> 디지털 페이퍼리스 & 사이니지
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">디지털 전환 실적</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>디지털 전환 실적</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
@@ -1221,14 +1111,40 @@
             </div>
           </div>
 
+          <!-- Diagram: 친환경 화물 & 물류 관리 실적 -->
+          <div id="kpi-freight-card" class="hidden transition-all duration-300 mt-4">
+            <div onclick="openFreightSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
+              <div class="flex justify-between items-center pb-2 border-b border-slate-50">
+                <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
+                  <i data-lucide="truck" class="w-4 h-4 text-emerald-600"></i> 친환경 화물 & 물류 관리
+                </span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>물류 감축 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 items-center">
+                <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
+                  <span class="text-[9px] text-emerald-600 block font-bold">감축량</span>
+                  <span id="kpi-freight-reduced-carbon" class="text-[11px] font-black text-emerald-700">0 kgCO2e</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">운송 톤·km</span>
+                  <span id="kpi-freight-tonkm" class="text-[11px] font-black text-slate-700">0 ton·km</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">운송 수단</span>
+                  <span id="kpi-freight-mode" class="text-[11px] font-black text-slate-700">1톤 전기차</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Diagram 9: 친환경 행사장 인증 및 탄소상쇄 (기대효과) -->
           <div id="kpi-venue-ecology-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openVenueEcologyModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> 친환경 행사장 인증 제출
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">인증 완료</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>인증 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="space-y-1.5">
@@ -1249,12 +1165,12 @@
 
           <!-- Diagram 10: 배리어프리 실천 가이드라인 (기대효과) -->
           <div id="kpi-barrier-free-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openBarrierFreeModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="accessibility" class="w-4 h-4 text-blue-600"></i> 무장애 행사 가이드라인 실천
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">실천 완료</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>실천 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="space-y-1.5">
@@ -1268,7 +1184,7 @@
 
           <!-- Diagram 10-2: 행사 안전 & 공정노동 표준 (기대효과) -->
           <div id="kpi-safety-labor-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openSafetyLaborModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> 행사 안전 & 공정노동 표준 실천
@@ -1291,12 +1207,12 @@
 
           <!-- Diagram 11: 지역경제 기여 파급효과 (기대효과) -->
           <div id="kpi-local-economy-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openLocalEconomyModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="trending-up" class="w-4 h-4 text-blue-600"></i> 지역경제 기여 파급효과
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">경제 가치 창출</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>경제 가치 창출</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100">
@@ -1319,12 +1235,12 @@
 
           <!-- Diagram 11-2: 로컬푸드 구매 기여 파급효과 (기대효과) -->
           <div id="kpi-local-food-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openLocalFoodModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
                   <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i> 로컬푸드 협력 탄소 감축
                 </span>
-                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full">로컬푸드 실천</span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>로컬푸드 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-emerald-50/40 p-3 rounded-xl border border-emerald-100/60">
@@ -1353,12 +1269,12 @@
 
           <!-- Diagram 12: 사회적 포용 프로그램 (기대효과) -->
           <div id="kpi-inclusion-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openInclusionModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="smile" class="w-4 h-4 text-blue-600"></i> 사회적 포용 프로그램 실천
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">사회적 포용 실천</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>사회적 포용 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100">
@@ -1381,12 +1297,12 @@
 
           <!-- Diagram 13: ESG 교육 · 멘토링 프로그램 (기대효과) -->
           <div id="kpi-esg-edu-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openEsgEducationModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> ESG 교육 · 멘토링 프로그램
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">멘토링·교육 실천</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>멘토링·교육 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100">
@@ -1407,14 +1323,14 @@
             </div>
           </div>
 
-          <!-- Diagram 14: 도민·참가자 ESG 참여 인원 집계 (정량 성과 카드) -->
+          <!-- Diagram 14: 참가자 ESG 참여 인원 집계 (정량 성과 카드) -->
           <div id="kpi-stakeholder-card" class="hidden transition-all duration-300 mt-4">
             <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-3">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-indigo-800 flex items-center gap-1.5">
-                  <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i> 도민·참가자 ESG 실천 참여 인원
+                  <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i> 참가자 ESG 실천 참여 인원
                 </span>
-                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full">시민 참여 집계</span>
+                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>참가자 참여 집계</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 flex items-center justify-between">
                 <span class="text-xs font-extrabold text-indigo-900">총 ESG 실천 참관객/스태프 인원</span>
@@ -1425,12 +1341,12 @@
 
           <!-- Diagram 14-2: 청년 서포터즈 제출 실적 (기대효과) -->
           <div id="kpi-supporters-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openStakeholderFeedbackModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-indigo-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="camera" class="w-4 h-4 text-blue-600"></i> 청년 서포터즈 제출
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">서포터즈 제출 완료</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-all flex items-center gap-1"><span>서포터즈 제출 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px]">
@@ -1450,12 +1366,12 @@
 
           <!-- Diagram 15: 기부 챌린지 및 판매 실적 (기대효과) -->
           <div id="kpi-donation-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openSupportersModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="gift" class="w-4 h-4 text-blue-600"></i> 기부 챌린지 및 판매 기부 실적
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">기부 매칭 완료</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>기부 매칭 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100">
@@ -1478,12 +1394,12 @@
 
           <!-- Diagram 16: 지식 나눔 및 재능 기부 강연 (기대효과) -->
           <div id="kpi-knowledge-sharing-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openDonationModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5">
                   <i data-lucide="heart-handshake" class="w-4 h-4 text-blue-600"></i> 지식 나눔 · 재능 기부 강연
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full">재능 기부 강연</span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>재능 기부 강연</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-blue-50/50 p-3 rounded-xl border border-blue-100">
@@ -1506,12 +1422,12 @@
 
           <!-- Diagram 17: ISO 20121 국제 인증서 제출 (기대효과) -->
           <div id="kpi-iso20121-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openKnowledgeSharingModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-indigo-850 flex items-center gap-1.5">
                   <i data-lucide="award" class="w-4 h-4 text-indigo-600"></i> ISO 20121 국제 인증서 제출
                 </span>
-                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full">인증서 제출 완료</span>
+                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1"><span>인증서 제출 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px]">
@@ -1537,12 +1453,12 @@
 
           <!-- Diagram 18: ESG 성과 보고서 제출 (기대효과) -->
           <div id="kpi-esg-report-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openIso20121Modal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-indigo-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-indigo-850 flex items-center gap-1.5">
                   <i data-lucide="file-text" class="w-4 h-4 text-indigo-600"></i> ESG 성과 보고서 공시
                 </span>
-                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full">성과공시 완료</span>
+                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-all flex items-center gap-1"><span>성과공시 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px]">
@@ -1568,12 +1484,12 @@
 
           <!-- Diagram 19: ESG 자문위원회 회의 기록 (기대효과) -->
           <div id="kpi-advisory-card" class="hidden transition-all duration-300 mt-4">
-            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4">
+            <div onclick="openEsgReportModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-indigo-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-indigo-850 flex items-center gap-1.5">
                   <i data-lucide="users-2" class="w-4 h-4 text-indigo-600"></i> ESG 자문위원회 회의 개최
                 </span>
-                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full">회의 기록 완료</span>
+                <span class="bg-indigo-50 text-[10px] text-indigo-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-indigo-600 group-hover:text-white transition-all flex items-center gap-1"><span>회의 기록 완료</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px]">
@@ -1615,7 +1531,7 @@
         </div>
 
         <!-- Right Column: Quantitative Carbon Offset Performance Dashboard (Light Themed to match the left card) -->
-        <div class="lg:col-span-5 bg-slate-50/70 rounded-2xl p-6 text-slate-800 border border-slate-200/50 flex flex-col justify-between space-y-6 shadow-md relative overflow-hidden">
+        <div class="w-full bg-slate-50/70 rounded-2xl p-6 sm:p-7 text-slate-800 border border-slate-200/50 flex flex-col justify-between space-y-6 shadow-md relative overflow-hidden">
           <!-- Background decoration -->
           <div class="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-emerald-500/5 blur-2xl"></div>
           
@@ -1635,6 +1551,36 @@
               <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Total Carbon Reduction</span>
               <span id="kpi-total-reduced-kg" class="text-3xl sm:text-4xl font-black text-emerald-600 tracking-tight block">0.00 kgCO2eq</span>
               <p class="text-[9px] text-slate-500">실시간 누적 탄소 배출 저감 효과</p>
+            </div>
+
+            <!-- Scope 1, 2, 3 Breakdown -->
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-rose-50/70 p-2.5 rounded-xl border border-rose-200/60">
+                <span class="text-[9px] font-black text-rose-700 block">Scope 1 (직접)</span>
+                <span id="kpi-scope1-kg" class="text-xs font-black text-rose-900 mt-0.5 block font-mono">0.00 kg</span>
+              </div>
+              <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200/60">
+                <span class="text-[9px] font-black text-amber-700 block">Scope 2 (간접)</span>
+                <span id="kpi-scope2-kg" class="text-xs font-black text-amber-900 mt-0.5 block font-mono">0.00 kg</span>
+              </div>
+              <div class="bg-blue-50/70 p-2.5 rounded-xl border border-blue-200/60">
+                <span class="text-[9px] font-black text-blue-700 block">Scope 3 (가치사슬)</span>
+                <span id="kpi-scope3-kg" class="text-xs font-black text-blue-900 mt-0.5 block font-mono">0.00 kg</span>
+              </div>
+            </div>
+
+            <!-- Active Emission Factor Profile Card -->
+            <div class="bg-white rounded-xl p-3 border border-slate-200/80 flex items-center justify-between shadow-xs">
+              <div class="flex items-center space-x-2.5">
+                <span id="dash-ef-icon" class="text-lg">🇰🇷</span>
+                <div>
+                  <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">적용 배출계수 기준</span>
+                  <span id="dash-ef-name" class="text-xs font-extrabold text-slate-800">한국 기본 (환경부 2024)</span>
+                </div>
+              </div>
+              <button onclick="openEmissionFactorModal()" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200 transition-all flex items-center gap-1 cursor-pointer">
+                <i data-lucide="sliders" class="w-3 h-3"></i> 변경
+              </button>
             </div>
 
             <!-- Offset Conversion Details -->
@@ -1713,7 +1659,7 @@
 
   <!-- Inline ESG Presets & PDF Report Preview Modals for 100% Reliability -->
   <div id="esgPresetsModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-5xl w-full flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
       <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between flex-shrink-0">
         <div class="flex items-center space-x-3">
           <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
@@ -1764,7 +1710,7 @@
   </div>
 
   <div id="pdfReportModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-2 sm:px-4 py-3 sm:py-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[94vh] flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[94vh] flex flex-col overflow-hidden border border-slate-100 transform transition-all duration-300 scale-95">
       
       <!-- Modal Dark Top Header -->
       <div class="px-5 py-3 bg-slate-900 text-white flex items-center justify-between flex-shrink-0 border-b border-slate-800">
@@ -1920,6 +1866,10 @@
               <div class="bg-white p-2 rounded-lg border border-slate-200/80">
                 <strong class="text-slate-900">🇰🇷 국내 기준:</strong> 산자부 K-ESG 지표 (E-6-2 등), 중대재해처벌법 (행사 안전관리 수립 산식)
               </div>
+              <div class="col-span-2 bg-blue-50/60 p-2 rounded-lg border border-blue-200/70 text-[9.5px] sm:text-[10.5px]">
+                <strong class="text-blue-900">📊 적용 배출계수 출처 및 버전:</strong>
+                <span id="pdf-ef-source-text" class="font-bold text-blue-950 ml-1">한국 기본 (환경부 온실가스 종합정보센터 2024 국가 인벤토리)</span>
+              </div>
             </div>
           </div>
 
@@ -1957,7 +1907,14 @@
 
   <div id="modal-container"></div>
 
-  <script src="js/modal-loader.js"></script>
-  <script src="js/app.js?v=1.0.4"></script>
+    <script src="js/emission_factors.js"></script>
+  <script src="js/modal-loader.js?v=2.0.0"></script>
+  <script src="js/app.js?v=2.0.0"></script>
+  <script src="js/modals/env-modals.js?v=2.0.0"></script>
+  <script src="js/modals/social-modals.js?v=2.0.0"></script>
+  <script src="js/modals/gov-modals.js?v=2.0.0"></script>
+  <script src="js/utils/pdf-exporter.js?v=2.0.0"></script>
+  <script src="js/utils/storage-sync.js?v=2.0.0"></script>
+  <script src="js/utils/presets.js?v=2.0.0"></script>
 </body>
 </html>

@@ -1,19 +1,19 @@
   <!-- ==========================================
-       MODAL POPUP FOR STAKEHOLDER PARTICIPATION (도민·참가자 ESG 참여 인원 집계)
+       MODAL POPUP FOR STAKEHOLDER PARTICIPATION (참가자 ESG 참여 인원 집계)
        ========================================== -->
   <div id="stakeholderFeedbackModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
+    <div class="bg-white rounded-3xl max-w-4xl w-full p-8 sm:p-10 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
       
       <!-- Header -->
       <div class="flex justify-between items-start pb-3 border-b border-slate-100">
         <div class="space-y-0.5">
           <div class="flex items-center gap-2">
-            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2 py-0.5 rounded-full">지배구조 (G) & 시민 참여</span>
+            <span class="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2 py-0.5 rounded-full">지배구조 (G) & 이해관계자 참여</span>
             <span class="text-[10px] text-slate-400 font-bold">GRI 2-29 참관객 집계</span>
           </div>
-          <h3 class="text-base font-extrabold text-slate-950 flex items-center gap-2 mt-1">
+          <h3 class="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2 mt-1">
             <i data-lucide="users" class="w-5 h-5 text-indigo-600"></i>
-            도민·참가자 ESG 실천 참여 인원 집계
+            참가자 ESG 실천 참여 인원 집계
           </h3>
         </div>
         <button onclick="closeStakeholderFeedbackModal()" class="text-slate-400 hover:text-slate-600 transition-colors pt-1">
@@ -26,8 +26,8 @@
         <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100 space-y-4">
           <div>
             <label class="text-[10px] font-black text-slate-600 uppercase block mb-1">참가자 구분</label>
-            <select id="pledge-role" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-bold text-slate-800">
-              <option value="도민·참관객">도민 · 참관객</option>
+            <select id="pledge-role" class="w-full text-sm sm:text-base px-4 py-3 border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-bold text-slate-800">
+              <option value="일반 참관객">일반 참관객</option>
               <option value="연사·발표자">연사 · 발표자</option>
               <option value="행사 스태프">행사 스태프</option>
               <option value="청년 서포터즈">청년 서포터즈</option>
@@ -40,7 +40,7 @@
               <input type="number" id="pledge-people-count" value="1" min="1" max="1000" class="w-full text-sm px-3 py-2.5 border border-indigo-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 font-black text-indigo-700 text-center">
               <span class="text-xs font-black text-indigo-900">명</span>
             </div>
-            <p class="text-[10px] text-slate-500 mt-1">친환경 실천 활동에 참여한 총 참관객/스태프 인원수를 기입합니다.</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">친환경 실천 활동에 참여한 총 참관객/스태프 인원수를 기입합니다.</p>
           </div>
 
           <button onclick="submitPledge()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold py-3 rounded-xl transition-all shadow-md active:scale-98 flex items-center justify-center gap-1.5 mt-2">
