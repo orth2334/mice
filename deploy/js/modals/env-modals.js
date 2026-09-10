@@ -1834,11 +1834,15 @@
         return;
       }
 
+      currentFnbState.submitted = true;
       const scope3Grams = Math.round(currentFnbState.reductionKg * 1000);
       sessionStats.items.fnb_reduction = scope3Grams;
 
       sendParticipation(username, (data) => {
         showToast('참여 완료! 친환경 식음료 & 케이터링 실천 내역이 성공적으로 반영되었습니다.');
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
       }, closeFnbSimulatorModal);
     }
 

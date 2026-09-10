@@ -1059,6 +1059,7 @@
   window.iso20121State = iso20121State;
   window.advisoryState = advisoryState;
   window.stakeholderState = stakeholderState;
+  window.pledgesState = pledgesState;
   window.esgDisclosureState = esgDisclosureState;
   window.advisoryMinutesState = advisoryMinutesState;
 

@@ -197,15 +197,21 @@
         sessionStats.signageParticipants = ((sessionStats.items.digital_signage || 0) > 0) ? sessionUsernames.size : 0;
         transportParticipantsCount = (sessionStats.items.public_transport || 0) > 0 ? sessionUsernames.size : 0;
 
-        // Update UI
-        updateDashboardUI(sessionStats);
+        // Update UI with error guard
+        try {
+          updateDashboardUI(sessionStats);
+        } catch (uiErr) {
+          console.error('Error in updateDashboardUI:', uiErr);
+        }
 
         if (callback) {
-          callback(data);
+          try { callback(data); } catch (cbErr) { console.error('Error in callback:', cbErr); }
         } else {
           showToast(`실천 내역이 성공적으로 반영되었습니다.`);
         }
-        if (modalCloseFn) modalCloseFn();
+        if (modalCloseFn) {
+          try { modalCloseFn(); } catch (closeErr) { console.error('Error closing modal:', closeErr); }
+        }
       };
 
       fetch('/api/participate', {
@@ -327,8 +333,59 @@
     }
 
     function updateDashboardUI(stats) {
-      saveAllStateToLocalStorage();
-      const hasAnyActionSubmitted = (stats.totalReducedCarbonGrams > 0 || (stats.items.reusable_cup > 0) || (stats.items.public_transport_km > 0) || (stats.items.renewable_energy > 0) || (stats.items.upcycled_keyring > 0) || (stats.items.upcycled_banner > 0) || (stats.items.paperless_booth > 0) || (stats.items.digital_signage > 0) || (stats.items.waste_recycling > 0) || (stats.items.freight_reduction > 0) || (stats.items.freight_forklift > 0) || (stats.items.fnb_reduction > 0) || (stats.items.travel_reduction > 0) || (stats.items.public_transport > 0) || (barrierFreeState && barrierFreeState.submitted) || (safetyLaborState && safetyLaborState.submitted) || (stakeholderState && stakeholderState.submitted) || venueEcologyState.submitted || localFoodState.submitted || localEconomyState.submitted || inclusionState.submitted || esgEduState.submitted || supportersState.submitted || donationState.submitted || knowledgeState.submitted || iso20121State.submitted || esgReportState.submitted || advisoryState.submitted);
+      if (typeof saveAllStateToLocalStorage === 'function') {
+        saveAllStateToLocalStorage();
+      } else if (typeof window.saveAllStateToLocalStorage === 'function') {
+        window.saveAllStateToLocalStorage();
+      }
+
+      const vEcology = window.venueEcologyState || (typeof venueEcologyState !== 'undefined' ? venueEcologyState : {});
+      const lFood = window.localFoodState || (typeof localFoodState !== 'undefined' ? localFoodState : {});
+      const lEconomy = window.localEconomyState || (typeof localEconomyState !== 'undefined' ? localEconomyState : {});
+      const incState = window.inclusionState || (typeof inclusionState !== 'undefined' ? inclusionState : { programs: [] });
+      const eduState = window.esgEduState || (typeof esgEduState !== 'undefined' ? esgEduState : { programs: [] });
+      const suppState = window.supportersState || (typeof supportersState !== 'undefined' ? supportersState : {});
+      const donState = window.donationState || (typeof donationState !== 'undefined' ? donationState : {});
+      const knowState = window.knowledgeState || (typeof knowledgeState !== 'undefined' ? knowledgeState : { programs: [] });
+      const isoState = window.iso20121State || (typeof iso20121State !== 'undefined' ? iso20121State : {});
+      const repState = window.esgReportState || (typeof esgReportState !== 'undefined' ? esgReportState : {});
+      const advState = window.advisoryState || (typeof advisoryState !== 'undefined' ? advisoryState : {});
+      const bfState = window.barrierFreeState || (typeof barrierFreeState !== 'undefined' ? barrierFreeState : { checkedItems: [] });
+      const slState = window.safetyLaborState || (typeof safetyLaborState !== 'undefined' ? safetyLaborState : { checkedItems: [] });
+      const shState = window.stakeholderState || (typeof stakeholderState !== 'undefined' ? stakeholderState : {});
+      const pState = window.pledgesState || (typeof pledgesState !== 'undefined' ? pledgesState : []);
+
+      const hasAnyActionSubmitted = (
+        (stats.totalReducedCarbonGrams > 0) ||
+        ((stats.items.reusable_cup || 0) > 0) ||
+        ((stats.items.public_transport_km || 0) > 0) ||
+        ((stats.items.renewable_energy || 0) > 0) ||
+        ((stats.items.upcycled_keyring || 0) > 0) ||
+        ((stats.items.upcycled_banner || 0) > 0) ||
+        ((stats.items.paperless_booth || 0) > 0) ||
+        ((stats.items.digital_signage || 0) > 0) ||
+        ((stats.items.waste_recycling || 0) > 0) ||
+        ((stats.items.freight_reduction || 0) > 0) ||
+        ((stats.items.freight_forklift || 0) > 0) ||
+        ((stats.items.fnb_reduction || 0) > 0) ||
+        ((stats.items.travel_reduction || 0) > 0) ||
+        ((stats.items.public_transport || 0) > 0) ||
+        (bfState && bfState.submitted) ||
+        (slState && slState.submitted) ||
+        (shState && shState.submitted) ||
+        (pState && pState.length > 0) ||
+        vEcology.submitted ||
+        lFood.submitted ||
+        lEconomy.submitted ||
+        incState.submitted ||
+        eduState.submitted ||
+        suppState.submitted ||
+        donState.submitted ||
+        knowState.submitted ||
+        isoState.submitted ||
+        repState.submitted ||
+        advState.submitted
+      );
 
       // 1. Show Floating dashboard bar
       const floatBar = document.getElementById('floatingDashboard');
@@ -348,10 +405,10 @@
       const barrierFreeCard = document.getElementById('kpi-barrier-free-card');
       const barrierFreeList = document.getElementById('kpi-barrier-free-list');
 
-      if (venueEcologyState.submitted) {
+      if (vEcology && vEcology.submitted) {
         if (venueEcologyCard) venueEcologyCard.classList.remove('hidden');
         if (venueEcologyFilename) {
-          venueEcologyFilename.textContent = venueEcologyState.fileName;
+          venueEcologyFilename.textContent = vEcology.fileName;
         }
         if (venueEcologyList) {
           venueEcologyList.innerHTML = '';
@@ -363,7 +420,7 @@
             iso20121: 'ISO 20121 (지속가능이벤트)',
             forest: '산림탄소상쇄 (행사형)'
           };
-          venueEcologyState.checkedCerts.forEach(cert => {
+          (vEcology.checkedCerts || []).forEach(cert => {
             const badge = document.createElement('span');
             badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
             const iconName = cert === 'forest' ? 'trees' : 'award';
@@ -377,7 +434,7 @@
         if (venueEcologyCard) venueEcologyCard.classList.add('hidden');
       }
 
-      if (barrierFreeState.submitted) {
+      if (bfState && bfState.submitted) {
         if (barrierFreeCard) barrierFreeCard.classList.remove('hidden');
         if (barrierFreeList) {
           barrierFreeList.innerHTML = '';
@@ -390,7 +447,7 @@
             braille: '점자/음성 QR',
             helper: '보조요원/안내견'
           };
-          barrierFreeState.checkedItems.forEach(item => {
+          (bfState.checkedItems || []).forEach(item => {
             const badge = document.createElement('span');
             badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
             badge.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-blue-500"></i> ${bfLabels[item]}`;
@@ -407,9 +464,9 @@
       const safetyLaborList = document.getElementById('kpi-safety-labor-list');
       const safetyLaborRate = document.getElementById('kpi-safety-labor-rate');
 
-      if (safetyLaborState && safetyLaborState.submitted) {
+      if (slState && slState.submitted) {
         if (safetyLaborCard) safetyLaborCard.classList.remove('hidden');
-        const scoreRate = (((safetyLaborState.checkedItems || []).length / 6) * 100).toFixed(1);
+        const scoreRate = (((slState.checkedItems || []).length / 6) * 100).toFixed(1);
         if (safetyLaborRate) safetyLaborRate.textContent = `${scoreRate}%`;
         if (safetyLaborList) {
           safetyLaborList.innerHTML = '';
@@ -421,7 +478,7 @@
             rest: '휴게시간 & 전용휴게실',
             training: '사전 안전/인권 교육'
           };
-          (safetyLaborState.checkedItems || []).forEach(item => {
+          (slState.checkedItems || []).forEach(item => {
             const badge = document.createElement('span');
             badge.className = 'bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1';
             badge.innerHTML = `<i data-lucide="shield-check" class="w-3 h-3 text-blue-500"></i> ${slLabels[item]}`;
@@ -436,16 +493,16 @@
       // Update Local Economy Outcome Card
       const localEconomyCard = document.getElementById('kpi-local-economy-card');
       if (localEconomyCard) {
-        if (localEconomyState.submitted) {
+        if (lEconomy && lEconomy.submitted) {
           localEconomyCard.classList.remove('hidden');
           const amtText = document.getElementById('kpi-local-economy-amount-text');
           const userText = document.getElementById('kpi-local-economy-username-text');
           const detailsBox = document.getElementById('kpi-local-economy-details-box');
           const detailsText = document.getElementById('kpi-local-economy-details-text');
-          if (amtText) amtText.textContent = `${localEconomyState.amount.toLocaleString()} 만원`;
-          if (userText) userText.textContent = localEconomyState.username || sessionStats.username || '익명 참관객';
-          if (detailsText && localEconomyState.details) {
-            detailsText.textContent = localEconomyState.details;
+          if (amtText) amtText.textContent = `${(lEconomy.amount || 0).toLocaleString()} 만원`;
+          if (userText) userText.textContent = lEconomy.username || sessionStats.username || '익명 참관객';
+          if (detailsText && lEconomy.details) {
+            detailsText.textContent = lEconomy.details;
             if (detailsBox) detailsBox.classList.remove('hidden');
           } else if (detailsBox) {
             detailsBox.classList.add('hidden');
@@ -458,7 +515,7 @@
       // Update Local Food Outcome Card
       const localFoodCard = document.getElementById('kpi-local-food-card');
       if (localFoodCard) {
-        if (localFoodState.submitted) {
+        if (lFood && lFood.submitted) {
           localFoodCard.classList.remove('hidden');
           const carbonText = document.getElementById('kpi-local-food-reduced-carbon');
           const amtText = document.getElementById('kpi-local-food-amount-text');
@@ -466,10 +523,10 @@
           const userText = document.getElementById('kpi-local-food-username-text');
           const detailsBox = document.getElementById('kpi-local-food-details-box');
 
-          if (carbonText) carbonText.textContent = `${(localFoodState.reductionGrams / 1000).toFixed(3)} kgCO2eq`;
-          if (amtText) amtText.textContent = `${localFoodState.amount.toLocaleString()}원`;
-          if (storeText) storeText.textContent = localFoodState.store;
-          if (userText) userText.textContent = localFoodState.username || sessionStats.username || '익명 실천자';
+          if (carbonText) carbonText.textContent = `${((lFood.reductionGrams || 0) / 1000).toFixed(3)} kgCO2eq`;
+          if (amtText) amtText.textContent = `${(lFood.amount || 0).toLocaleString()}원`;
+          if (storeText) storeText.textContent = lFood.store || '';
+          if (userText) userText.textContent = lFood.username || sessionStats.username || '익명 실천자';
           
           if (detailsBox) detailsBox.classList.remove('hidden');
         } else {
@@ -480,13 +537,13 @@
       // Update Inclusion Outcome Card
       const inclusionCard = document.getElementById('kpi-inclusion-card');
       if (inclusionCard) {
-        if (inclusionState.submitted) {
+        if (incState && incState.submitted) {
           inclusionCard.classList.remove('hidden');
           let totalP = 0;
           let count = 0;
           const tagsContainer = document.getElementById('kpi-inclusion-program-tags');
           if (tagsContainer) tagsContainer.innerHTML = '';
-          inclusionState.programs.forEach(p => {
+          (incState.programs || []).forEach(p => {
             if (p.name.trim() !== '') {
               count++;
               const pCount = parseInt(p.participants) || 0;
@@ -512,13 +569,13 @@
       // Update ESG Education Outcome Card
       const esgEduCard = document.getElementById('kpi-esg-edu-card');
       if (esgEduCard) {
-        if (esgEduState.submitted) {
+        if (eduState && eduState.submitted) {
           esgEduCard.classList.remove('hidden');
           let totalP = 0;
           let count = 0;
           const tagsContainer = document.getElementById('kpi-esg-edu-program-tags');
           if (tagsContainer) tagsContainer.innerHTML = '';
-          esgEduState.programs.forEach(p => {
+          (eduState.programs || []).forEach(p => {
             if (p.name.trim() !== '') {
               count++;
               const pCount = parseInt(p.participants) || 0;
@@ -544,11 +601,11 @@
       // Update Stakeholder Participation Outcome Card
       const stakeholderCard = document.getElementById('kpi-stakeholder-card');
       if (stakeholderCard) {
-        if ((stakeholderState && stakeholderState.submitted) || pledgesState.length > 0) {
+        if ((shState && shState.submitted) || (pState && pState.length > 0)) {
           stakeholderCard.classList.remove('hidden');
 
           let totalPeople = 0;
-          pledgesState.forEach(p => {
+          (pState || []).forEach(p => {
             totalPeople += (parseInt(p.peopleCount) || 1);
           });
 
@@ -562,16 +619,16 @@
       // Update Supporters Outcome Card
       const supportersCard = document.getElementById('kpi-supporters-card');
       if (supportersCard) {
-        if (supportersState.submitted) {
+        if (suppState && suppState.submitted) {
           supportersCard.classList.remove('hidden');
           const userText = document.getElementById('kpi-supporters-username-text');
           const fileText = document.getElementById('kpi-supporters-filename-text');
           const detailsBox = document.getElementById('kpi-supporters-details-box');
           const detailsText = document.getElementById('kpi-supporters-details-text');
-          if (userText) userText.textContent = supportersState.username || sessionStats.username || '청년 서포터즈';
-          if (fileText) fileText.textContent = supportersState.fileName ? `${supportersState.fileName} (${supportersState.fileType.toUpperCase()})` : '파일 첨부됨';
-          if (detailsText && supportersState.role) {
-            detailsText.textContent = supportersState.role;
+          if (userText) userText.textContent = suppState.username || sessionStats.username || '청년 서포터즈';
+          if (fileText) fileText.textContent = suppState.fileName ? `${suppState.fileName} (${(suppState.fileType || '').toUpperCase()})` : '파일 첨부됨';
+          if (detailsText && suppState.role) {
+            detailsText.textContent = suppState.role;
             if (detailsBox) detailsBox.classList.remove('hidden');
           } else if (detailsBox) {
             detailsBox.classList.add('hidden');
@@ -584,16 +641,16 @@
       // Update Donation Outcome Card
       const donationCard = document.getElementById('kpi-donation-card');
       if (donationCard) {
-        if (donationState.submitted) {
+        if (donState && donState.submitted) {
           donationCard.classList.remove('hidden');
           const amtText = document.getElementById('kpi-donation-amount-text');
           const targetText = document.getElementById('kpi-donation-target-text');
           const detailsBox = document.getElementById('kpi-donation-details-box');
           const detailsText = document.getElementById('kpi-donation-details-text');
-          if (amtText) amtText.textContent = `${donationState.amount.toLocaleString()} 만원`;
-          if (targetText) targetText.textContent = donationState.target || '미지정 기부처';
-          if (detailsText && donationState.details) {
-            detailsText.textContent = donationState.details;
+          if (amtText) amtText.textContent = `${(donState.amount || 0).toLocaleString()} 만원`;
+          if (targetText) targetText.textContent = donState.target || '미지정 기부처';
+          if (detailsText && donState.details) {
+            detailsText.textContent = donState.details;
             if (detailsBox) detailsBox.classList.remove('hidden');
           } else if (detailsBox) {
             detailsBox.classList.add('hidden');
@@ -606,13 +663,13 @@
       // Update Knowledge Sharing Outcome Card
       const knowledgeCard = document.getElementById('kpi-knowledge-sharing-card');
       if (knowledgeCard) {
-        if (knowledgeState.submitted) {
+        if (knowState && knowState.submitted) {
           knowledgeCard.classList.remove('hidden');
           let totalP = 0;
           let count = 0;
           const tagsContainer = document.getElementById('kpi-knowledge-program-tags');
           if (tagsContainer) tagsContainer.innerHTML = '';
-          knowledgeState.programs.forEach(p => {
+          (knowState.programs || []).forEach(p => {
             if (p.name.trim() !== '') {
               count++;
               const pCount = parseInt(p.participants) || 0;
@@ -639,17 +696,17 @@
       // Update ISO 20121 Outcome Card
       const iso20121Card = document.getElementById('kpi-iso20121-card');
       if (iso20121Card) {
-        if (iso20121State.submitted) {
+        if (isoState && isoState.submitted) {
           iso20121Card.classList.remove('hidden');
           const fileText = document.getElementById('kpi-iso20121-filename');
           const typeText = document.getElementById('kpi-iso20121-filetype');
           const detailsBox = document.getElementById('kpi-iso20121-details-box');
           const certOrgText = document.getElementById('kpi-iso20121-cert-org-text');
           const userText = document.getElementById('kpi-iso20121-username-text');
-          if (fileText) fileText.textContent = iso20121State.fileName || 'ISO_20121_Certificate.pdf';
-          if (typeText) typeText.textContent = iso20121State.fileType ? `${iso20121State.fileType.toUpperCase()} 제출 완료` : '인증서 파일 제출';
-          if (certOrgText) certOrgText.textContent = iso20121State.certOrg || '공식 인증 기관';
-          if (userText) userText.textContent = iso20121State.username || sessionStats.username || '담당자';
+          if (fileText) fileText.textContent = isoState.fileName || 'ISO_20121_Certificate.pdf';
+          if (typeText) typeText.textContent = isoState.fileType ? `${(isoState.fileType || '').toUpperCase()} 제출 완료` : '인증서 파일 제출';
+          if (certOrgText) certOrgText.textContent = isoState.certOrg || '공식 인증 기관';
+          if (userText) userText.textContent = isoState.username || sessionStats.username || '담당자';
           if (detailsBox) detailsBox.classList.remove('hidden');
         } else {
           iso20121Card.classList.add('hidden');
@@ -658,15 +715,15 @@
       // Update ESG Report Outcome Card
       const esgReportCard = document.getElementById('kpi-esg-report-card');
       if (esgReportCard) {
-        if (esgReportState.submitted) {
+        if (repState && repState.submitted) {
           esgReportCard.classList.remove('hidden');
           const fileText = document.getElementById('kpi-esg-report-filename');
           const titleText = document.getElementById('kpi-esg-report-title-text');
           const userText = document.getElementById('kpi-esg-report-username-text');
           const detailsBox = document.getElementById('kpi-esg-report-details-box');
-          if (fileText) fileText.textContent = esgReportState.fileName || 'ESG_Outcome_Report.pdf';
-          if (titleText) titleText.textContent = esgReportState.title || '연간 ESG 성과 보고서';
-          if (userText) userText.textContent = esgReportState.username || sessionStats.username || '담당자';
+          if (fileText) fileText.textContent = repState.fileName || 'ESG_Outcome_Report.pdf';
+          if (titleText) titleText.textContent = repState.title || '연간 ESG 성과 보고서';
+          if (userText) userText.textContent = repState.username || sessionStats.username || '담당자';
           if (detailsBox) detailsBox.classList.remove('hidden');
         } else {
           esgReportCard.classList.add('hidden');
@@ -676,7 +733,7 @@
       // Update Advisory Committee Outcome Card
       const advisoryCard = document.getElementById('kpi-advisory-card');
       if (advisoryCard) {
-        if (advisoryState.submitted) {
+        if (advState && advState.submitted) {
           advisoryCard.classList.remove('hidden');
           const locText = document.getElementById('kpi-advisory-location-text');
           const dtText = document.getElementById('kpi-advisory-datetime-text');
@@ -686,15 +743,15 @@
           const photoContainer = document.getElementById('kpi-advisory-photo-container');
           const photoPreview = document.getElementById('kpi-advisory-photo-preview');
 
-          if (locText) locText.textContent = advisoryState.location || '회의 장소 미입력';
-          if (dtText) dtText.textContent = advisoryState.datetime || '회의 일시 미입력';
-          if (summaryText) summaryText.textContent = advisoryState.summary || '자문 위원회 주요 안건 기록 없음';
-          if (userText) userText.textContent = advisoryState.username || sessionStats.username || '기록자';
+          if (locText) locText.textContent = advState.location || '회의 장소 미입력';
+          if (dtText) dtText.textContent = advState.datetime || '회의 일시 미입력';
+          if (summaryText) summaryText.textContent = advState.summary || '자문 위원회 주요 안건 기록 없음';
+          if (userText) userText.textContent = advState.username || sessionStats.username || '기록자';
           
           if (detailsBox) detailsBox.classList.remove('hidden');
 
-          if (advisoryState.previewUrl) {
-            if (photoPreview) photoPreview.src = advisoryState.previewUrl;
+          if (advState && advState.previewUrl) {
+            if (photoPreview) photoPreview.src = advState.previewUrl;
             if (photoContainer) photoContainer.classList.remove('hidden');
           } else {
             if (photoContainer) photoContainer.classList.add('hidden');
@@ -760,7 +817,8 @@
         const modeEl = document.getElementById('kpi-freight-mode');
         if (carbonEl) carbonEl.textContent = `${(freightTotal / 1000).toFixed(2)} kgCO2e`;
         if (tonkmEl) {
-          const tk = currentFreightState ? (currentFreightState.distance * currentFreightState.weight * (currentFreightState.allocation / 100)) : 0;
+          const frState = window.currentFreightState || (typeof currentFreightState !== 'undefined' ? currentFreightState : {});
+          const tk = frState.distance ? (frState.distance * frState.weight * ((frState.allocation || 100) / 100)) : 0;
           tonkmEl.textContent = `${tk.toFixed(1)} ton·km`;
         }
         if (modeEl) {
@@ -770,7 +828,8 @@
             'truck_heavy': '중대형 트럭',
             'rail_freight': '철도 화물'
           };
-          modeEl.textContent = modeNames[currentFreightState.mode] || '친환경 화물차';
+          const frState2 = window.currentFreightState || (typeof currentFreightState !== 'undefined' ? currentFreightState : {});
+          modeEl.textContent = modeNames[frState2.mode] || '친환경 화물차';
         }
       } else {
         if (freightCard) freightCard.classList.add('hidden');
@@ -787,7 +846,7 @@
         if (carbonEl) carbonEl.textContent = `${(fnbTotal / 1000).toFixed(2)} kgCO2e`;
         if (mealsEl) {
           const fState = window.currentFnbState || (typeof currentFnbState !== 'undefined' ? currentFnbState : null);
-          const totalMeals = fState && fState.meals ? ((fState.meals.meat || 0) + (fState.meals.lowCarbon || 0) + (fState.meals.vegan || 0)) : 0;
+          const totalMeals = fState && fState.meals ? ((fState.meals.meat || 0) + (fState.meals.low_carbon || fState.meals.lowCarbon || 0) + (fState.meals.vegan || 0)) : 0;
           mealsEl.textContent = `${totalMeals.toLocaleString()} 식`;
         }
         if (tierEl) {
@@ -928,7 +987,11 @@
 
     // Load saved state automatically on page load
     setTimeout(() => {
-      loadAllStateFromLocalStorage();
+      if (typeof loadAllStateFromLocalStorage === 'function') {
+        loadAllStateFromLocalStorage();
+      } else if (typeof window.loadAllStateFromLocalStorage === 'function') {
+        window.loadAllStateFromLocalStorage();
+      }
     }, 100);
 
     // Close modal on escape keypress
