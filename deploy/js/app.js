@@ -308,7 +308,7 @@
           element.textContent = val.toLocaleString() + "명";
         } else if (element.id === 'kpi-total-distance') {
           element.textContent = val.toLocaleString() + " km";
-        } else if (element.id === 'kpi-transport-reduced-carbon' || element.id === 'kpi-energy-reduced-carbon' || element.id === 'kpi-upcycle-reduced-carbon' || element.id === 'kpi-booth-reduced-carbon') {
+        } else if (element.id === 'kpi-waste-reduced-carbon' || element.id === 'kpi-transport-reduced-carbon' || element.id === 'kpi-energy-reduced-carbon' || element.id === 'kpi-upcycle-reduced-carbon' || element.id === 'kpi-booth-reduced-carbon' || element.id === 'kpi-signage-reduced-carbon') {
           element.textContent = val.toLocaleString() + " gCO2eq";
         } else if (element.id === 'kpi-total-booth-area') {
           const areaVal = (easeProgress * (end - start) + start) / 10;
