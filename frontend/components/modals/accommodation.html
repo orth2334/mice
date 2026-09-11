@@ -1,0 +1,295 @@
+  <!-- Accommodation Simulation Modal (HCMI Standard) -->
+  <div id="accommodationModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4 py-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5 max-h-[92vh] overflow-y-auto">
+      
+      <!-- Header -->
+      <div class="flex justify-between items-start pb-4 border-b border-slate-100">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 text-[11px] font-black px-2.5 py-0.5 rounded-full border border-emerald-200">NZCE 6장 · HCMI 표준</span>
+            <span class="text-[11px] text-slate-400 font-bold">Scope 3 가치사슬 숙박 배출량</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-2.5 mt-1">
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <i data-lucide="hotel" class="w-5 h-5 text-emerald-600"></i>
+            </div>
+            숙박 (Accommodation) 온실가스 배출량 산정
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">국제 호텔 지속가능성 표준인 HCMI(Hotel Carbon Measurement Initiative)에 따라 외지 참가자 호텔 투숙 배출량을 정밀 산정합니다.</p>
+        </div>
+        <button onclick="closeAccommodationModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition-colors flex items-center justify-center cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Measurement Boundary Info Card -->
+      <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-1">
+        <div class="flex items-center gap-1.5 font-bold text-slate-800">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+          HCMI 측정 경계 (Measurement Boundary)
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
+          <div class="flex items-start gap-1">
+            <span class="text-emerald-600 font-bold">● 포함:</span>
+            <span>외지 참가자 호텔 투숙의 전기·화석연료 소비(호텔 Scope 1·2) + 외부 위탁 세탁(호텔 Scope 3)</span>
+          </div>
+          <div class="flex items-start gap-1">
+            <span class="text-slate-400 font-bold">● 제외:</span>
+            <span>호텔 직원 통근, 호텔 원자재 구매 등 기타 호텔 Scope 3 배출량 제외</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body / Form -->
+      <div class="space-y-4">
+        
+        <!-- Calculation Method Tabs -->
+        <div>
+          <label class="text-xs font-black text-slate-700 uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+            <i data-lucide="calculator" class="w-3.5 h-3.5 text-emerald-600"></i>
+            산정 공식 선택 (사용자 수식 6.3 기준)
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Method 1 Tab -->
+            <button type="button" onclick="setAccommodationMethod('room_nights')" id="btn-tab-accom-room-nights"
+                    class="p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-emerald-500 bg-emerald-50/50 shadow-xs">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-200">방법 1</span>
+                  <i data-lucide="bed-double" class="w-4 h-4 text-emerald-600"></i>
+                </div>
+                <div class="font-extrabold text-xs sm:text-sm text-slate-900 leading-snug">객실 박수 기반 산정식</div>
+                <p class="text-[11px] text-slate-500 leading-tight mt-1">총 투숙 객실 박수(Room Nights) × 성급별 배출계수</p>
+              </div>
+            </button>
+
+            <!-- Method 2 Tab -->
+            <button type="button" onclick="setAccommodationMethod('hcmi_direct')" id="btn-tab-accom-hcmi-direct"
+                    class="p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-slate-200 bg-white hover:border-slate-300">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-black border border-slate-200">방법 2</span>
+                  <i data-lucide="file-check-2" class="w-4 h-4 text-slate-600"></i>
+                </div>
+                <div class="font-extrabold text-xs sm:text-sm text-slate-900 leading-snug">호텔 블록 직접 계약 시</div>
+                <p class="text-[11px] text-slate-500 leading-tight mt-1">∑ 호텔 발행 HCMI 검증 탄소 배출량 직접 입력</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section Method 1: Room Nights Calculation -->
+        <div id="sec-accom-room-nights" class="space-y-4">
+          
+          <!-- Participant Type Assumption Quick Presets -->
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-500"></i>
+                참가자 유형별 투숙 박수 기본 가정 (가이드라인 6.2)
+              </span>
+              <span class="text-[10px] text-slate-400">클릭 시 자동 적용</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <button type="button" onclick="setAccommodationNightPreset(1)" class="py-1.5 px-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-center">
+                전시회 방문객 (1박)
+              </button>
+              <button type="button" onclick="setAccommodationNightPreset(2)" class="py-1.5 px-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-center">
+                미팅/인센티브 (2박)
+              </button>
+              <button type="button" onclick="setAccommodationNightPreset(3)" class="py-1.5 px-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-center">
+                컨퍼런스 전체 (3박)
+              </button>
+              <button type="button" onclick="setAccommodationNightPreset(4)" class="py-1.5 px-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 text-slate-700 font-bold transition-all text-center">
+                장기 투숙 (4박)
+              </button>
+            </div>
+          </div>
+
+          <!-- Inputs: Rooms & Nights -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Rooms -->
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-black text-slate-700">투숙 객실 수 (Rooms)</label>
+                <span class="text-[10px] text-slate-400">외지 투숙객 기준</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <button type="button" onclick="changeAccomRooms(-50)" class="w-10 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">-50</button>
+                <button type="button" onclick="changeAccomRooms(-10)" class="w-9 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">-10</button>
+                <input type="number" id="input-accom-rooms" value="50" min="1" max="10000" oninput="updateAccommodationModalUI()"
+                       class="flex-1 text-center text-sm font-black text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
+                <span class="text-xs font-bold text-slate-600 px-1">실</span>
+                <button type="button" onclick="changeAccomRooms(10)" class="w-9 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">+10</button>
+                <button type="button" onclick="changeAccomRooms(50)" class="w-10 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">+50</button>
+              </div>
+            </div>
+
+            <!-- Nights -->
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-black text-slate-700">1실당 평균 투숙 일수 (Nights)</label>
+                <span class="text-[10px] text-slate-400">박수</span>
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <button type="button" onclick="changeAccomNights(-1)" class="w-10 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">-1</button>
+                <input type="number" id="input-accom-nights" value="2" min="1" max="30" oninput="updateAccommodationModalUI()"
+                       class="flex-1 text-center text-sm font-black text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
+                <span class="text-xs font-bold text-slate-600 px-1">박</span>
+                <button type="button" onclick="changeAccomNights(1)" class="w-10 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 active:scale-95 text-xs font-bold shadow-2xs cursor-pointer">+1</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Room Nights Display Bar -->
+          <div class="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200/80 flex items-center justify-between text-xs font-bold">
+            <span class="text-emerald-900 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-4 h-4 text-emerald-600"></i>
+              총 투숙 객실 박수 (Room Nights) = 객실 수 × 투숙 일수
+            </span>
+            <span id="disp-accom-total-room-nights" class="font-black text-emerald-800 font-mono text-sm">100 Room Nights</span>
+          </div>
+
+          <!-- Hotel Star Rating Selection Cards -->
+          <div class="space-y-2">
+            <label class="text-xs font-black text-slate-700 uppercase tracking-wider block">호텔 성급 선택 및 배출계수</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              
+              <!-- 5-Star Hotel -->
+              <div onclick="setAccomStarRating('hotel_5star')" id="card-star-5"
+                   class="p-3.5 rounded-2xl border-2 text-left cursor-pointer transition-all border-emerald-500 bg-emerald-50/40 shadow-xs space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-200">5성급 (특1급)</span>
+                  <span class="text-amber-500 font-black text-xs">★★★★★</span>
+                </div>
+                <div class="text-xs font-extrabold text-slate-900">특급 호텔 / 럭셔리</div>
+                <div class="text-[11px] font-mono font-bold text-emerald-700 pt-1 border-t border-slate-200/60 flex justify-between">
+                  <span>배출계수:</span>
+                  <span id="coeff-accom-5star">38.4 kg / room night</span>
+                </div>
+              </div>
+
+              <!-- 4-Star Hotel -->
+              <div onclick="setAccomStarRating('hotel_4star')" id="card-star-4"
+                   class="p-3.5 rounded-2xl border-2 text-left cursor-pointer transition-all border-slate-200 bg-white hover:border-slate-300 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">4성급 (특2급)</span>
+                  <span class="text-amber-500 font-black text-xs">★★★★</span>
+                </div>
+                <div class="text-xs font-extrabold text-slate-900">비즈니스 호텔</div>
+                <div class="text-[11px] font-mono font-bold text-slate-600 pt-1 border-t border-slate-200/60 flex justify-between">
+                  <span>배출계수:</span>
+                  <span id="coeff-accom-4star">28.2 kg / room night</span>
+                </div>
+              </div>
+
+              <!-- 3-Star Hotel -->
+              <div onclick="setAccomStarRating('hotel_3star')" id="card-star-3"
+                   class="p-3.5 rounded-2xl border-2 text-left cursor-pointer transition-all border-slate-200 bg-white hover:border-slate-300 space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">3성급 이하</span>
+                  <span class="text-amber-500 font-black text-xs">★★★</span>
+                </div>
+                <div class="text-xs font-extrabold text-slate-900">이코노미 / 부티크</div>
+                <div class="text-[11px] font-mono font-bold text-slate-600 pt-1 border-t border-slate-200/60 flex justify-between">
+                  <span>배출계수:</span>
+                  <span id="coeff-accom-3star">19.8 kg / room night</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Source Citation Footer for Method 1 -->
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-[10.5px] text-slate-500 flex items-start gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0"></i>
+            <span><strong>배출계수 공식 출처:</strong> Cornell Hotel Sustainability Benchmarking Index (CHSB / Greenview 2023-2024) 한국·서울 벤치마크 데이터 및 영국 환경식품농무부(DEFRA 2024) 호텔 온실가스 배출 가이드라인 준용</span>
+          </div>
+
+        </div>
+
+        <!-- Section Method 2: HCMI Direct Verification Input -->
+        <div id="sec-accom-hcmi-direct" class="hidden space-y-4">
+          <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+              <span class="text-xs font-black text-slate-800 flex items-center gap-1.5">
+                <i data-lucide="file-text" class="w-4 h-4 text-emerald-600"></i>
+                호텔 발행 HCMI 검증 탄소 배출량 직접 입력
+              </span>
+              <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">1차 데이터(Tier 1)</span>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1">계약 호텔명</label>
+                <input type="text" id="input-accom-hotel-name" placeholder="예: 그랜드 인터컨티넨탈 서울 파르나스"
+                       class="w-full text-xs sm:text-sm px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
+              </div>
+
+              <div>
+                <label class="text-xs font-bold text-slate-700 block mb-1">호텔 발행 HCMI 검증 탄소 배출량 (∑ kgCO₂e)</label>
+                <div class="flex items-center space-x-2">
+                  <input type="number" id="input-accom-hcmi-direct-val" value="0" min="0" step="0.1" oninput="updateAccommodationModalUI()"
+                         class="flex-1 text-sm sm:text-base font-black text-slate-900 px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 font-mono">
+                  <span class="text-xs font-black text-slate-700">kg CO₂e</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Source Citation Footer for Method 2 -->
+            <div class="p-2.5 bg-white rounded-xl border border-slate-200/70 text-[10.5px] text-slate-500 flex items-start gap-1.5">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0"></i>
+              <span><strong>산정 기준:</strong> 주최 측이 호텔 블록 계약 시 호텔로부터 공식 수령한 HCMI(Hotel Carbon Measurement Initiative) 인증 검증서 배분 배출량</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result Summary Board (High-Contrast Executive Theme) -->
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-5 sm:p-6 border border-slate-700/80 shadow-xl space-y-4 text-white">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-700/70">
+            <span class="text-xs sm:text-sm font-black text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-400"></i>
+              숙박 (Accommodation) 부문 온실가스 배출량 산정 결과
+            </span>
+            <span id="disp-accom-method-badge" class="text-xs font-bold text-emerald-300 bg-emerald-950/80 px-2.5 py-1 rounded-md border border-emerald-700/60">객실 박수 기반 산정</span>
+          </div>
+
+          <!-- Hero Big Number -->
+          <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+            <div>
+              <span class="text-xs text-slate-400 block font-medium">산정 공식 준용 배출량</span>
+              <div class="flex items-baseline gap-2 mt-1">
+                <span id="disp-accom-total-emissions" class="text-3xl sm:text-4xl font-black text-emerald-300 font-mono">0.00</span>
+                <span class="text-sm font-bold text-slate-300">kg CO₂e</span>
+                <span id="disp-accom-total-ton" class="text-xs font-mono text-slate-400 ml-2">(0.000 ton)</span>
+              </div>
+            </div>
+
+            <div class="text-right text-xs text-slate-400 space-y-0.5">
+              <div>Scope 분류: <strong class="text-white">Scope 3 (가치사슬 - Cat 6)</strong></div>
+              <div>측정 표준: <strong class="text-white">HCMI Standard</strong></div>
+            </div>
+          </div>
+
+          <!-- Applied Formula Box -->
+          <div class="p-2.5 bg-slate-900/90 rounded-xl border border-slate-700/70 text-[11px] font-mono text-slate-300 flex items-center justify-between">
+            <span class="text-slate-400">적용 산식:</span>
+            <span id="disp-accom-formula-text" class="text-emerald-300 font-bold">100 Room Nights × 38.4 kgCO2e/room night</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+        <button onclick="closeAccommodationModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all cursor-pointer">
+          닫기
+        </button>
+        <button onclick="submitAccommodationSimulation()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          숙박 데이터 대시보드 반영
+        </button>
+      </div>
+
+    </div>
+  </div>

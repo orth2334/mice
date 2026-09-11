@@ -2421,8 +2421,233 @@
     window.updateFreightModalUI = updateFreightModalUI;
     window.submitFreightSimulation = submitFreightSimulation;
 
+    // ─── 6. 숙박 (Accommodation · HCMI Standard) State & Logic ───
+    let currentAccomState = {
+      method: 'room_nights', // 'room_nights' | 'hcmi_direct'
+      rooms: 50,
+      nights: 2,
+      totalRoomNights: 100,
+      starRating: 'hotel_5star', // 'hotel_5star' | 'hotel_4star' | 'hotel_3star'
+      hotelName: '',
+      hcmiDirectEmissionsKg: 0,
+      totalEmissionsKg: 0,
+      submitted: false
+    };
+
+    function openAccommodationModal() {
+      const modal = document.getElementById('accommodationModal');
+      if (!modal) return;
+      
+      const roomsInput = document.getElementById('input-accom-rooms');
+      const nightsInput = document.getElementById('input-accom-nights');
+      const hotelNameInput = document.getElementById('input-accom-hotel-name');
+      const hcmiValInput = document.getElementById('input-accom-hcmi-direct-val');
+
+      if (roomsInput) roomsInput.value = currentAccomState.rooms;
+      if (nightsInput) nightsInput.value = currentAccomState.nights;
+      if (hotelNameInput) hotelNameInput.value = currentAccomState.hotelName;
+      if (hcmiValInput) hcmiValInput.value = currentAccomState.hcmiDirectEmissionsKg;
+
+      setAccommodationMethod(currentAccomState.method);
+      setAccomStarRating(currentAccomState.starRating);
+      updateAccommodationModalUI();
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const inner = modal.querySelector('> div');
+        if (inner) inner.classList.remove('scale-95');
+      }, 10);
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeAccommodationModal() {
+      const modal = document.getElementById('accommodationModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const inner = modal.querySelector('> div');
+      if (inner) inner.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function setAccommodationMethod(method) {
+      currentAccomState.method = method;
+
+      const btnTabRoomNights = document.getElementById('btn-tab-accom-room-nights');
+      const btnTabHcmiDirect = document.getElementById('btn-tab-accom-hcmi-direct');
+      const secRoomNights = document.getElementById('sec-accom-room-nights');
+      const secHcmiDirect = document.getElementById('sec-accom-hcmi-direct');
+
+      if (method === 'room_nights') {
+        if (btnTabRoomNights) {
+          btnTabRoomNights.className = 'p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-emerald-500 bg-emerald-50/50 shadow-xs';
+        }
+        if (btnTabHcmiDirect) {
+          btnTabHcmiDirect.className = 'p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-slate-200 bg-white hover:border-slate-300';
+        }
+        if (secRoomNights) secRoomNights.classList.remove('hidden');
+        if (secHcmiDirect) secHcmiDirect.classList.add('hidden');
+      } else {
+        if (btnTabRoomNights) {
+          btnTabRoomNights.className = 'p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-slate-200 bg-white hover:border-slate-300';
+        }
+        if (btnTabHcmiDirect) {
+          btnTabHcmiDirect.className = 'p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between border-emerald-500 bg-emerald-50/50 shadow-xs';
+        }
+        if (secRoomNights) secRoomNights.classList.add('hidden');
+        if (secHcmiDirect) secHcmiDirect.classList.remove('hidden');
+      }
+
+      updateAccommodationModalUI();
+    }
+
+    function setAccommodationNightPreset(nights) {
+      currentAccomState.nights = nights;
+      const input = document.getElementById('input-accom-nights');
+      if (input) input.value = nights;
+      updateAccommodationModalUI();
+    }
+
+    function changeAccomRooms(delta) {
+      const input = document.getElementById('input-accom-rooms');
+      let val = parseInt(input ? input.value : currentAccomState.rooms) || 0;
+      val = Math.max(1, Math.min(10000, val + delta));
+      if (input) input.value = val;
+      currentAccomState.rooms = val;
+      updateAccommodationModalUI();
+    }
+
+    function changeAccomNights(delta) {
+      const input = document.getElementById('input-accom-nights');
+      let val = parseInt(input ? input.value : currentAccomState.nights) || 0;
+      val = Math.max(1, Math.min(30, val + delta));
+      if (input) input.value = val;
+      currentAccomState.nights = val;
+      updateAccommodationModalUI();
+    }
+
+    function setAccomStarRating(key) {
+      currentAccomState.starRating = key;
+
+      const cards = {
+        hotel_5star: document.getElementById('card-star-5'),
+        hotel_4star: document.getElementById('card-star-4'),
+        hotel_3star: document.getElementById('card-star-3')
+      };
+
+      for (const [starKey, cardEl] of Object.entries(cards)) {
+        if (!cardEl) continue;
+        if (starKey === key) {
+          cardEl.className = 'p-3.5 rounded-2xl border-2 text-left cursor-pointer transition-all border-emerald-500 bg-emerald-50/40 shadow-xs space-y-1.5';
+        } else {
+          cardEl.className = 'p-3.5 rounded-2xl border-2 text-left cursor-pointer transition-all border-slate-200 bg-white hover:border-slate-300 space-y-1.5';
+        }
+      }
+
+      updateAccommodationModalUI();
+    }
+
+    function updateAccommodationModalUI() {
+      const EF = window.EmissionFactors;
+
+      const f5 = EF ? EF.get('accommodation', 'hotel_5star') : 38.4;
+      const f4 = EF ? EF.get('accommodation', 'hotel_4star') : 28.2;
+      const f3 = EF ? EF.get('accommodation', 'hotel_3star') : 19.8;
+
+      const coeff5El = document.getElementById('coeff-accom-5star');
+      const coeff4El = document.getElementById('coeff-accom-4star');
+      const coeff3El = document.getElementById('coeff-accom-3star');
+      if (coeff5El) coeff5El.textContent = `${f5} kg / room night`;
+      if (coeff4El) coeff4El.textContent = `${f4} kg / room night`;
+      if (coeff3El) coeff3El.textContent = `${f3} kg / room night`;
+
+      let totalKg = 0;
+      let formulaText = '';
+      let badgeText = '';
+
+      if (currentAccomState.method === 'room_nights') {
+        const roomsEl = document.getElementById('input-accom-rooms');
+        const nightsEl = document.getElementById('input-accom-nights');
+        const rooms = Math.max(1, parseInt(roomsEl ? roomsEl.value : currentAccomState.rooms) || 1);
+        const nights = Math.max(1, parseInt(nightsEl ? nightsEl.value : currentAccomState.nights) || 1);
+        currentAccomState.rooms = rooms;
+        currentAccomState.nights = nights;
+        
+        const totalRoomNights = rooms * nights;
+        currentAccomState.totalRoomNights = totalRoomNights;
+
+        const dispRN = document.getElementById('disp-accom-total-room-nights');
+        if (dispRN) dispRN.textContent = `${totalRoomNights.toLocaleString()} Room Nights`;
+
+        const factor = (currentAccomState.starRating === 'hotel_5star') ? f5 :
+                       (currentAccomState.starRating === 'hotel_4star') ? f4 : f3;
+
+        totalKg = totalRoomNights * factor;
+        formulaText = `${totalRoomNights.toLocaleString()} Room Nights × ${factor} kgCO2e/room night`;
+        badgeText = '객실 박수 기반 산정';
+      } else {
+        const hotelNameEl = document.getElementById('input-accom-hotel-name');
+        const hcmiValEl = document.getElementById('input-accom-hcmi-direct-val');
+        if (hotelNameEl) currentAccomState.hotelName = hotelNameEl.value.trim();
+        const hcmiVal = Math.max(0, parseFloat(hcmiValEl ? hcmiValEl.value : 0) || 0);
+        currentAccomState.hcmiDirectEmissionsKg = hcmiVal;
+        totalKg = hcmiVal;
+        formulaText = currentAccomState.hotelName ? `∑ [${currentAccomState.hotelName}] 호텔 발행 HCMI 검증 탄소 배출량 직접 합산` : '∑ 호텔 발행 HCMI 검증 탄소 배출량 직접 합산';
+        badgeText = '호텔 발행 HCMI 직접 입력';
+      }
+
+      currentAccomState.totalEmissionsKg = totalKg;
+
+      const dispEmissions = document.getElementById('disp-accom-total-emissions');
+      const dispTon = document.getElementById('disp-accom-total-ton');
+      const dispFormula = document.getElementById('disp-accom-formula-text');
+      const dispBadge = document.getElementById('disp-accom-method-badge');
+
+      if (dispEmissions) dispEmissions.textContent = totalKg.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (dispTon) dispTon.textContent = `(${(totalKg / 1000).toFixed(3)} ton)`;
+      if (dispFormula) dispFormula.textContent = formulaText;
+      if (dispBadge) dispBadge.textContent = badgeText;
+    }
+
+    function submitAccommodationSimulation() {
+      updateAccommodationModalUI();
+
+      if (currentAccomState.totalEmissionsKg <= 0) {
+        showToast('객실 수 및 투숙 일수 또는 HCMI 배출량을 입력해 주세요.', true);
+        return;
+      }
+
+      currentAccomState.submitted = true;
+
+      const accomGrams = Math.round(currentAccomState.totalEmissionsKg * 1000);
+      sessionStats.items.accommodation_emissions = accomGrams;
+      sessionStats.items.accommodation_room_nights = currentAccomState.totalRoomNights;
+      sessionStats.items.accommodation_method = currentAccomState.method;
+
+      const username = sessionStats.username || '외지 참가자';
+
+      sendParticipation(username, (data) => {
+        showToast('숙박 부문(HCMI 기준) 온실가스 배출량이 대시보드에 성공적으로 반영되었습니다.');
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
+      }, closeAccommodationModal);
+    }
+
+    window.openAccommodationModal = openAccommodationModal;
+    window.closeAccommodationModal = closeAccommodationModal;
+    window.setAccommodationMethod = setAccommodationMethod;
+    window.setAccommodationNightPreset = setAccommodationNightPreset;
+    window.changeAccomRooms = changeAccomRooms;
+    window.changeAccomNights = changeAccomNights;
+    window.setAccomStarRating = setAccomStarRating;
+    window.updateAccommodationModalUI = updateAccommodationModalUI;
+    window.submitAccommodationSimulation = submitAccommodationSimulation;
 
   // Export states and functions to window
+  window.currentAccomState = currentAccomState;
   window.venueEcologyState = venueEcologyState;
   window.currentFreightState = currentFreightState;
   window.currentFnbState = currentFnbState;

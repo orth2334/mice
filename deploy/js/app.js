@@ -83,7 +83,10 @@
         digital_signage: 0,
         freight_reduction: 0,
         freight_forklift: 0,
-        fnb_reduction: 0
+        fnb_reduction: 0,
+        accommodation_emissions: 0,
+        accommodation_room_nights: 0,
+        accommodation_method: 'room_nights'
       },
       keyringReducedCarbonGrams: 0,
       keyringParticipants: 0,
@@ -152,6 +155,9 @@
       // Zero Waste Recycling (Scope 3 Category 5 - Waste generated in operations)
       scope3 += (items.waste_recycling || 0);
 
+      // Accommodation (Scope 3 Category 6 - Business Travel / Accommodation · HCMI Standard)
+      scope3 += (items.accommodation_emissions || 0);
+
       sessionStats.scope1Grams = Math.round(scope1);
       sessionStats.scope2Grams = Math.round(scope2);
       sessionStats.scope3Grams = Math.round(scope3);
@@ -171,6 +177,7 @@
       if ((items.freight_reduction || 0) > 0 || (items.freight_forklift || 0) > 0) actionsCount += 1;
       if ((items.fnb_reduction || 0) > 0) actionsCount += 1;
       if ((items.waste_recycling || 0) > 0) actionsCount += 1;
+      if ((items.accommodation_emissions || 0) > 0) actionsCount += 1;
       sessionStats.totalActions = actionsCount;
     }
     let sessionUsernames = new Set();
@@ -383,6 +390,7 @@
         ((stats.items.public_transport || 0) > 0) ||
         ((stats.items.local_transport_km || 0) > 0) ||
         ((stats.items.local_transport_reduction || 0) > 0) ||
+        ((stats.items.accommodation_emissions || 0) > 0) ||
         (bfState && bfState.submitted) ||
         (slState && slState.submitted) ||
         (shState && shState.submitted) ||
@@ -903,6 +911,21 @@
         if (wasteRecyclingCard) wasteRecyclingCard.classList.add('hidden');
       }
 
+      // Update Accommodation KPI Card (Card 12)
+      const accomCard = document.getElementById('kpi-accommodation-card');
+      const accomTotal = stats.items.accommodation_emissions || 0;
+      if (accomTotal > 0) {
+        if (accomCard) accomCard.classList.remove('hidden');
+        const carbonEl = document.getElementById('kpi-accom-emissions');
+        const rnEl = document.getElementById('kpi-accom-room-nights');
+        const methodEl = document.getElementById('kpi-accom-method');
+        if (carbonEl) carbonEl.textContent = `${(accomTotal / 1000).toFixed(2)} kgCO2e`;
+        if (rnEl) rnEl.textContent = `${stats.items.accommodation_room_nights || 0} 박`;
+        if (methodEl) methodEl.textContent = stats.items.accommodation_method === 'hcmi_direct' ? '호텔 직접' : '객실 박수';
+      } else {
+        if (accomCard) accomCard.classList.add('hidden');
+      }
+
       // Calculate total item quantities
       const totalItemsCount = ecoTotal;
       const totalDisplayItems = totalItemsCount + (stats.items.public_transport || 0);
@@ -1077,6 +1100,7 @@
         closeEsgPresetsModal();
         if (typeof closeFreightSimulatorModal === 'function') closeFreightSimulatorModal();
         if (typeof closeFnbSimulatorModal === 'function') closeFnbSimulatorModal();
+        if (typeof closeAccommodationModal === 'function') closeAccommodationModal();
         if (typeof closeScopeBreakdownModal === 'function') closeScopeBreakdownModal();
       }
     });
@@ -1160,7 +1184,10 @@
       // Scope 3: Category 1 & 12 (Digital Operations - GRI 301)
       const signageKg = (items.digital_signage || 0) / 1000;
 
-      const scope3Kg = cat1Kg + travelKg + localTransportKg + freightKg + cat5WasteKg + signageKg;
+      // Scope 3: Category 6 (Accommodation - HCMI Standard / NZCE Cat 6)
+      const accomKg = (items.accommodation_emissions || 0) / 1000;
+
+      const scope3Kg = cat1Kg + travelKg + localTransportKg + freightKg + cat5WasteKg + signageKg + accomKg;
       const totalKg = scope1Kg + scope2Kg + scope3Kg;
 
       return {
@@ -1202,6 +1229,9 @@
           },
           cat12_signage: {
             totalKg: signageKg
+          },
+          cat6_accom: {
+            totalKg: accomKg
           }
         }
       };
@@ -1392,6 +1422,11 @@
 
       setCatBoxState('sb-cat1-digital-subtotal', 'sb-box-cat1-digital', s3.cat12_signage.totalKg);
       setItemRowState('sb-val-signage', 'sb-row-signage', s3.cat12_signage.totalKg);
+
+      // Scope 3 Category 6 Accommodation (HCMI Standard)
+      const accomCatKg = s3.cat6_accom ? s3.cat6_accom.totalKg : 0;
+      setCatBoxState('sb-cat6-subtotal', 'sb-box-cat6', accomCatKg);
+      setItemRowState('sb-val-accommodation', 'sb-row-accommodation', accomCatKg);
     }
 
     // Modal open / close handlers

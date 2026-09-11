@@ -435,6 +435,26 @@
             </div>
           </div>
 
+          <!-- Card 12: 숙박 온실가스 배출량 산정 (Accommodation · HCMI Standard) -->
+          <div onclick="openAccommodationModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
+            <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=300" alt="Accommodation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">12</span>
+            </div>
+            <div class="flex-grow flex flex-col pt-2.5">
+              <div>
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> NZCE Cat 6 · HCMI
+                  </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
+                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">참가자 숙박 탄소 산정</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">국제 HCMI 표준 기반 외지 참가자 호텔 투숙(전기·연료·외주세탁) 온실가스 배출량 산출</p>
+              </div>
+            </div>
+          </div>
+
 
 
 
@@ -1200,6 +1220,32 @@
                 <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                   <span class="text-[9px] text-slate-450 block font-bold">재활용률</span>
                   <span id="kpi-waste-recycling-rate" class="text-[11px] font-black text-slate-700">0.0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diagram: 숙박 온실가스 배출량 산정 실적 (Card 12 Accommodation) -->
+          <div id="kpi-accommodation-card" class="hidden transition-all duration-300 mt-4">
+            <div onclick="openAccommodationModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
+              <div class="flex justify-between items-center pb-2 border-b border-slate-50">
+                <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5">
+                  <i data-lucide="hotel" class="w-4 h-4 text-emerald-600"></i> 참가자 숙박 배출량 산정 (HCMI)
+                </span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1"><span>숙박 배출 산정</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 items-center">
+                <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
+                  <span class="text-[9px] text-emerald-600 block font-bold">배출량</span>
+                  <span id="kpi-accom-emissions" class="text-[11px] font-black text-emerald-700">0 kgCO2e</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">투숙 박수</span>
+                  <span id="kpi-accom-room-nights" class="text-[11px] font-black text-slate-700">0 박</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block font-bold">산정 방식</span>
+                  <span id="kpi-accom-method" class="text-[11px] font-black text-slate-700">객실 박수 기반</span>
                 </div>
               </div>
             </div>
@@ -2080,6 +2126,23 @@
               </div>
             </div>
 
+            <!-- Category 6: Accommodation (NZCE Cat.6 / HCMI Standard) -->
+            <div id="sb-box-cat6" class="p-3.5 sm:p-4 rounded-2xl bg-slate-900/90 border border-slate-700/90 space-y-2.5 transition-all">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-black text-rose-300 bg-rose-500/20 px-2 py-0.5 rounded-md border border-rose-500/40">Category 6</span>
+                  <span class="text-xs font-black text-white">참가자 숙박 (NZCE Cat.6 · HCMI)</span>
+                </div>
+                <span id="sb-cat6-subtotal" class="text-xs font-mono font-bold text-slate-500 bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700/60">0.00 kg</span>
+              </div>
+              <div class="space-y-1.5 text-xs">
+                <div id="sb-row-accommodation" class="flex justify-between items-center p-2 rounded-lg bg-slate-800/50 border border-slate-800 transition-all">
+                  <span class="text-slate-300">외지 참가자 호텔 투숙 (전기·화석연료·외주세탁)</span>
+                  <span id="sb-val-accommodation" class="font-bold font-mono text-slate-500">0.00 kg</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -2346,14 +2409,14 @@
 
   <div id="modal-container"></div>
 
-    <script src="js/emission_factors.js?v=2.0.6"></script>
-  <script src="js/modal-loader.js?v=2.0.6"></script>
-  <script src="js/app.js?v=2.0.6"></script>
-  <script src="js/modals/env-modals.js?v=2.0.6"></script>
-  <script src="js/modals/social-modals.js?v=2.0.6"></script>
-  <script src="js/modals/gov-modals.js?v=2.0.6"></script>
-  <script src="js/utils/pdf-exporter.js?v=2.0.6"></script>
-  <script src="js/utils/storage-sync.js?v=2.0.6"></script>
-  <script src="js/utils/presets.js?v=2.0.6"></script>
+    <script src="js/emission_factors.js?v=2.0.7"></script>
+  <script src="js/modal-loader.js?v=2.0.7"></script>
+  <script src="js/app.js?v=2.0.7"></script>
+  <script src="js/modals/env-modals.js?v=2.0.7"></script>
+  <script src="js/modals/social-modals.js?v=2.0.7"></script>
+  <script src="js/modals/gov-modals.js?v=2.0.7"></script>
+  <script src="js/utils/pdf-exporter.js?v=2.0.7"></script>
+  <script src="js/utils/storage-sync.js?v=2.0.7"></script>
+  <script src="js/utils/presets.js?v=2.0.7"></script>
 </body>
 </html>

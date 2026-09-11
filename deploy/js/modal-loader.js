@@ -35,7 +35,8 @@
     'esg_presets',
     'emission_factor_settings',
     'freight_simulator',
-    'fnb_simulator'
+    'fnb_simulator',
+    'accommodation'
   ];
 
   // Map modal file names to element IDs
@@ -69,7 +70,8 @@
     'esg_presets': 'esgPresetsModal',
     'emission_factor_settings': 'emissionFactorSettingsModal',
     'freight_simulator': 'freightSimulatorModal',
-    'fnb_simulator': 'fnbSimulatorModal'
+    'fnb_simulator': 'fnbSimulatorModal',
+    'accommodation': 'accommodationModal'
   };
 
   // Determine base path for components (works on both localhost and GitHub Pages)

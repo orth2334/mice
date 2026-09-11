@@ -797,6 +797,50 @@
           }
         }
       }
+    },
+
+    // ═══ NZCE Category 6: 숙박 (Accommodation · HCMI Standard) ═══
+    accommodation: {
+      label: '숙박',
+      nzceCategory: 6,
+      items: {
+        hotel_5star: {
+          label: '5성급 특급 호텔 (Luxury/Upper Upscale)',
+          scope: 3,
+          unit: 'kgCO2e/객실·박',
+          description: '5성급 호텔 1객실 1박 투숙 시 배출량 (공용부·부대시설·냉난방·외주세탁 포함, HCMI 경계)',
+          formula: 'GHG = 객실수 × 박수 × 38.4 kgCO2e/room·night',
+          values: {
+            kr_default: { value: 38.4, note: 'CHSB / Greenview 2023-2024 대한민국 서울 5성급 벤치마크 (HCMI 표준)' },
+            defra_2024: { value: 36.8, note: 'DEFRA 2024 Luxury/Upscale Hotel Korea' },
+            epa_2024:   { value: 39.5, note: 'US EPA / CHSB Upper Upscale benchmark' }
+          }
+        },
+        hotel_4star: {
+          label: '4성급 비즈니스 호텔 (Upscale/Midscale)',
+          scope: 3,
+          unit: 'kgCO2e/객실·박',
+          description: '4성급 비즈니스 호텔 1객실 1박 투숙 시 배출량 (HCMI 경계)',
+          formula: 'GHG = 객실수 × 박수 × 28.2 kgCO2e/room·night',
+          values: {
+            kr_default: { value: 28.2, note: 'CHSB / Greenview 2023-2024 대한민국 4성급 평균 (HCMI 표준)' },
+            defra_2024: { value: 27.5, note: 'DEFRA 2024 Midscale Hotel Korea' },
+            epa_2024:   { value: 29.0, note: 'US EPA / CHSB Midscale benchmark' }
+          }
+        },
+        hotel_3star: {
+          label: '3성급 이하 이코노미/비즈니스 (Economy/Budget)',
+          scope: 3,
+          unit: 'kgCO2e/객실·박',
+          description: '3성급 이하 또는 이코노미/부티크 호텔 1객실 1박 투숙 시 배출량 (HCMI 경계)',
+          formula: 'GHG = 객실수 × 박수 × 19.8 kgCO2e/room·night',
+          values: {
+            kr_default: { value: 19.8, note: 'CHSB / Greenview 2023-2024 대한민국 이코노미 벤치마크 (HCMI 표준)' },
+            defra_2024: { value: 18.9, note: 'DEFRA 2024 Economy Hotel Korea' },
+            epa_2024:   { value: 20.4, note: 'US EPA / CHSB Economy benchmark' }
+          }
+        }
+      }
     }
   };
 
