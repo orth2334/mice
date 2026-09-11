@@ -184,6 +184,7 @@
 
   window.closeModal = closeModal;
   window.closeAnyOpenModal = closeAnyOpenModal;
+  window.loadAllModals = loadAllModals;
 
   // 1. ESC Key: close active modal on ESC key press
   window.addEventListener('keydown', function(e) {

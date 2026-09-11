@@ -25,7 +25,7 @@
     modal.classList.remove('hidden');
     setTimeout(() => {
       modal.classList.remove('opacity-0');
-      const content = modal.querySelector('> div');
+      const content = modal.firstElementChild || modal.querySelector('div');
       if (content) content.classList.remove('scale-95');
     }, 10);
   }
@@ -35,7 +35,7 @@
     if (!modal) return;
     modal.style.pointerEvents = 'none';
     modal.classList.add('opacity-0');
-    const content = modal.querySelector('> div');
+    const content = modal.firstElementChild || modal.querySelector('div');
     if (content) content.classList.add('scale-95');
     setTimeout(() => {
       modal.style.display = 'none';

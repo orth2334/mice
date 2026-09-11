@@ -2179,7 +2179,7 @@
       modal.classList.remove('hidden');
       setTimeout(() => {
         modal.classList.remove('opacity-0');
-        const content = modal.querySelector('> div');
+        const content = modal.firstElementChild || modal.querySelector('div');
         if (content) content.classList.remove('scale-95');
       }, 10);
 
@@ -2191,7 +2191,7 @@
       if (!modal) return;
       modal.style.pointerEvents = 'none';
       modal.classList.add('opacity-0');
-      const content = modal.querySelector('> div');
+      const content = modal.firstElementChild || modal.querySelector('div');
       if (content) content.classList.add('scale-95');
       setTimeout(() => {
         modal.style.display = 'none';
@@ -2435,39 +2435,55 @@
     };
 
     function openAccommodationModal() {
-      const modal = document.getElementById('accommodationModal');
-      if (!modal) return;
+      let modal = document.getElementById('accommodationModal');
+      if (!modal) {
+        console.warn('[Accommodation] #accommodationModal not found in DOM. Attempting load...');
+        if (typeof window.loadAllModals === 'function') {
+          window.loadAllModals().then(() => {
+            const loadedModal = document.getElementById('accommodationModal');
+            if (loadedModal) openAccommodationModal();
+          });
+          return;
+        }
+        return;
+      }
       
       const roomsInput = document.getElementById('input-accom-rooms');
       const nightsInput = document.getElementById('input-accom-nights');
       const hotelNameInput = document.getElementById('input-accom-hotel-name');
       const hcmiValInput = document.getElementById('input-accom-hcmi-direct-val');
 
-      if (roomsInput) roomsInput.value = currentAccomState.rooms;
-      if (nightsInput) nightsInput.value = currentAccomState.nights;
-      if (hotelNameInput) hotelNameInput.value = currentAccomState.hotelName;
-      if (hcmiValInput) hcmiValInput.value = currentAccomState.hcmiDirectEmissionsKg;
+      if (roomsInput) roomsInput.value = currentAccomState.rooms || 50;
+      if (nightsInput) nightsInput.value = currentAccomState.nights || 2;
+      if (hotelNameInput) hotelNameInput.value = currentAccomState.hotelName || '';
+      if (hcmiValInput) hcmiValInput.value = currentAccomState.hcmiDirectEmissionsKg || 0;
 
-      setAccommodationMethod(currentAccomState.method);
-      setAccomStarRating(currentAccomState.starRating);
+      setAccommodationMethod(currentAccomState.method || 'room_nights');
+      setAccomStarRating(currentAccomState.starRating || 'hotel_5star');
       updateAccommodationModalUI();
 
+      // Ensure modal is completely unhidden and interactive
+      modal.style.display = 'flex';
+      modal.style.pointerEvents = 'auto';
       modal.classList.remove('hidden');
+
       setTimeout(() => {
         modal.classList.remove('opacity-0');
-        const inner = modal.querySelector('> div');
+        const inner = modal.querySelector('.bg-white') || modal.firstElementChild;
         if (inner) inner.classList.remove('scale-95');
       }, 10);
-      if (window.lucide) window.lucide.createIcons();
+      if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
     }
 
     function closeAccommodationModal() {
       const modal = document.getElementById('accommodationModal');
       if (!modal) return;
+      modal.style.pointerEvents = 'none';
       modal.classList.add('opacity-0');
-      const inner = modal.querySelector('> div');
+      const inner = modal.querySelector('.bg-white') || modal.firstElementChild;
       if (inner) inner.classList.add('scale-95');
       setTimeout(() => {
+        modal.style.display = 'none';
         modal.classList.add('hidden');
       }, 300);
     }

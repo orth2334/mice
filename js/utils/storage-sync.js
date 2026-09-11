@@ -31,6 +31,7 @@
           currentFreightState: currentFreightState,
           currentTravelState: window.currentTravelState || (typeof currentTravelState !== 'undefined' ? currentTravelState : {}),
           currentFnbState: window.currentFnbState || (typeof currentFnbState !== 'undefined' ? currentFnbState : {}),
+          currentAccomState: window.currentAccomState || (typeof currentAccomState !== 'undefined' ? currentAccomState : {}),
           updatedTimestamp: Date.now(),
           savedAt: new Date().toISOString()
         };
@@ -75,6 +76,14 @@
             window.currentFnbState = currentFnbState;
           } else {
             window.currentFnbState = fullState.currentFnbState;
+          }
+        }
+        if (fullState.currentAccomState) {
+          if (typeof currentAccomState !== 'undefined') {
+            currentAccomState = Object.assign(currentAccomState, fullState.currentAccomState);
+            window.currentAccomState = currentAccomState;
+          } else {
+            window.currentAccomState = fullState.currentAccomState;
           }
         }
         if (fullState.currentTravelState) {
