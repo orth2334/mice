@@ -104,12 +104,15 @@
       scope3 += (items.reusable_bowl || 0) * ecoCoeffs.bowl;
       scope3 += (items.reusable_fork || 0) * ecoCoeffs.fork;
       
-      // Transport & Destination Travel (Scope 3 Category 4/5 & NZCE Cat 4)
+      // Transport & Destination Travel (Scope 3 Category 4/5 & NZCE Cat 4 & Cat 5 Local)
       if (items.travel_reduction !== undefined && items.travel_reduction !== null) {
         scope3 += (items.travel_reduction || 0);
       } else {
         const transportCoeff = getTransportCoefficient();
         scope3 += (items.public_transport || 0) * transportCoeff;
+      }
+      if (items.local_transport_reduction) {
+        scope3 += (items.local_transport_reduction || 0);
       }
       
       // Energy (Scope 1 - 디젤 발전기 무공해 대체)
@@ -146,6 +149,9 @@
       // Food & Beverage Catering (Scope 3 Category 1 - Purchased goods & services)
       scope3 += (items.fnb_reduction || 0);
 
+      // Zero Waste Recycling (Scope 3 Category 5 - Waste generated in operations)
+      scope3 += (items.waste_recycling || 0);
+
       sessionStats.scope1Grams = Math.round(scope1);
       sessionStats.scope2Grams = Math.round(scope2);
       sessionStats.scope3Grams = Math.round(scope3);
@@ -156,7 +162,7 @@
       if ((items.reusable_cup || 0) > 0 || (items.reusable_plate || 0) > 0 || (items.reusable_bowl || 0) > 0 || (items.reusable_fork || 0) > 0) {
         actionsCount += 1;
       }
-      if ((items.public_transport || 0) > 0 || (items.travel_reduction || 0) > 0) actionsCount += 1;
+      if ((items.public_transport || 0) > 0 || (items.travel_reduction || 0) > 0 || (items.local_transport_reduction || 0) > 0 || (items.local_transport_km || 0) > 0) actionsCount += 1;
       if ((items.renewable_energy || 0) > 0 || (items.diesel_generator || 0) > 0) actionsCount += 1;
       if ((items.upcycled_keyring || 0) > 0) actionsCount += 1;
       if ((items.upcycled_banner || 0) > 0) actionsCount += 1;
@@ -164,6 +170,7 @@
       if ((items.digital_signage || 0) > 0) actionsCount += 1;
       if ((items.freight_reduction || 0) > 0 || (items.freight_forklift || 0) > 0) actionsCount += 1;
       if ((items.fnb_reduction || 0) > 0) actionsCount += 1;
+      if ((items.waste_recycling || 0) > 0) actionsCount += 1;
       sessionStats.totalActions = actionsCount;
     }
     let sessionUsernames = new Set();
@@ -308,7 +315,9 @@
           element.textContent = val.toLocaleString() + "명";
         } else if (element.id === 'kpi-total-distance') {
           element.textContent = val.toLocaleString() + " km";
-        } else if (element.id === 'kpi-waste-reduced-carbon' || element.id === 'kpi-transport-reduced-carbon' || element.id === 'kpi-energy-reduced-carbon' || element.id === 'kpi-upcycle-reduced-carbon' || element.id === 'kpi-booth-reduced-carbon' || element.id === 'kpi-signage-reduced-carbon') {
+        } else if (element.id === 'kpi-local-transport-distance') {
+          element.textContent = val.toLocaleString() + " p·km";
+        } else if (element.id === 'kpi-waste-reduced-carbon' || element.id === 'kpi-transport-reduced-carbon' || element.id === 'kpi-local-transport-reduced-carbon' || element.id === 'kpi-energy-reduced-carbon' || element.id === 'kpi-upcycle-reduced-carbon' || element.id === 'kpi-booth-reduced-carbon' || element.id === 'kpi-signage-reduced-carbon') {
           element.textContent = val.toLocaleString() + " gCO2eq";
         } else if (element.id === 'kpi-total-booth-area') {
           const areaVal = (easeProgress * (end - start) + start) / 10;
@@ -360,8 +369,10 @@
         ((stats.items.reusable_cup || 0) > 0) ||
         ((stats.items.public_transport_km || 0) > 0) ||
         ((stats.items.renewable_energy || 0) > 0) ||
+        ((stats.items.diesel_generator || 0) > 0) ||
         ((stats.items.upcycled_keyring || 0) > 0) ||
         ((stats.items.upcycled_banner || 0) > 0) ||
+        ((stats.items.paper_booth || 0) > 0) ||
         ((stats.items.paperless_booth || 0) > 0) ||
         ((stats.items.digital_signage || 0) > 0) ||
         ((stats.items.waste_recycling || 0) > 0) ||
@@ -370,6 +381,8 @@
         ((stats.items.fnb_reduction || 0) > 0) ||
         ((stats.items.travel_reduction || 0) > 0) ||
         ((stats.items.public_transport || 0) > 0) ||
+        ((stats.items.local_transport_km || 0) > 0) ||
+        ((stats.items.local_transport_reduction || 0) > 0) ||
         (bfState && bfState.submitted) ||
         (slState && slState.submitted) ||
         (shState && shState.submitted) ||
@@ -775,10 +788,17 @@
         if (wasteCard) wasteCard.classList.add('hidden');
       }
 
-      if ((stats.items.public_transport || 0) > 0) {
+      if ((stats.items.public_transport || 0) > 0 || (stats.items.travel_reduction || 0) > 0) {
         if (transportCard) transportCard.classList.remove('hidden');
       } else {
         if (transportCard) transportCard.classList.add('hidden');
+      }
+
+      const localTransportCard = document.getElementById('kpi-local-transport-card');
+      if ((stats.items.local_transport_reduction || 0) > 0 || (stats.items.local_transport_km || 0) > 0) {
+        if (localTransportCard) localTransportCard.classList.remove('hidden');
+      } else {
+        if (localTransportCard) localTransportCard.classList.add('hidden');
       }
 
       if ((stats.items.renewable_energy || 0) > 0 || (stats.items.diesel_generator || 0) > 0) {
@@ -862,6 +882,27 @@
         if (fnbCard) fnbCard.classList.add('hidden');
       }
 
+      // Update Waste Recycling KPI Card (Card 10)
+      const wasteRecyclingCard = document.getElementById('kpi-waste-recycling-card');
+      const wasteRecyclingTotal = stats.items.waste_recycling || 0;
+      if (wasteRecyclingTotal > 0) {
+        if (wasteRecyclingCard) wasteRecyclingCard.classList.remove('hidden');
+        const carbonEl = document.getElementById('kpi-waste-recycling-reduced-carbon');
+        const totalKgEl = document.getElementById('kpi-waste-recycling-total-kg');
+        const rateEl = document.getElementById('kpi-waste-recycling-rate');
+        if (carbonEl) carbonEl.textContent = `${(wasteRecyclingTotal / 1000).toFixed(2)} kgCO2e`;
+        const wState = window.currentWasteQuantities || stats.wasteQuantities || { paper: 0, plastic: 0, food: 0, general: 0 };
+        const totalDiverted = (wState.paper || 0) + (wState.plastic || 0) + (wState.food || 0);
+        const totalAll = totalDiverted + (wState.general || 0);
+        if (totalKgEl) totalKgEl.textContent = `${totalDiverted.toLocaleString()} kg`;
+        if (rateEl) {
+          const rate = totalAll > 0 ? ((totalDiverted / totalAll) * 100).toFixed(1) : '100.0';
+          rateEl.textContent = `${rate}%`;
+        }
+      } else {
+        if (wasteRecyclingCard) wasteRecyclingCard.classList.add('hidden');
+      }
+
       // Calculate total item quantities
       const totalItemsCount = ecoTotal;
       const totalDisplayItems = totalItemsCount + (stats.items.public_transport || 0);
@@ -910,6 +951,12 @@
       animateValue(document.getElementById('kpi-transport-participants'), ((stats.items.public_transport || 0) > 0 || (stats.items.travel_reduction || 0) > 0) ? 1 : 0, transportParticipantsCount, 800);
       animateValue(document.getElementById('kpi-transport-reduced-carbon'), lastTransportReducedCarbon, transportReducedCarbon, 800);
 
+      // 7-B. Animate Local Transport details (NZCE Cat 5)
+      const localTransportReducedCarbon = stats.items.local_transport_reduction || 0;
+      const lastLocalTransportReducedCarbon = lastStats.local_transport_reduction || 0;
+      animateValue(document.getElementById('kpi-local-transport-reduced-carbon'), lastLocalTransportReducedCarbon, localTransportReducedCarbon, 800);
+      animateValue(document.getElementById('kpi-local-transport-distance'), lastStats.local_transport_km || 0, stats.items.local_transport_km || 0, 800);
+
       // 8. Animate Energy details
       const energyCoeff = getEnergyCoefficient();
       const energyReducedCarbon = Math.round((stats.items.renewable_energy || 0) * energyCoeff);
@@ -922,6 +969,12 @@
       if (s1El) s1El.textContent = ((stats.scope1Grams || 0) / 1000).toFixed(2) + ' kg';
       if (s2El) s2El.textContent = ((stats.scope2Grams || 0) / 1000).toFixed(2) + ' kg';
       if (s3El) s3El.textContent = ((stats.scope3Grams || 0) / 1000).toFixed(2) + ' kg';
+
+      // Update Scope 1, 2, 3 Donut Chart & Category Breakdown
+      if (typeof updateScopeDonutChart === 'function') {
+        updateScopeDonutChart(stats);
+      }
+
       animateValue(document.getElementById('kpi-total-energy'), lastStats.renewable_energy || 0, stats.items.renewable_energy || 0, 800);
       animateValue(document.getElementById('kpi-energy-reduced-carbon'), lastEnergyReducedCarbon, energyReducedCarbon, 800);
       animateValue(document.getElementById('kpi-total-energy-cost'), lastStats.renewable_energy || 0, stats.items.renewable_energy || 0, 800);
@@ -1024,6 +1077,7 @@
         closeEsgPresetsModal();
         if (typeof closeFreightSimulatorModal === 'function') closeFreightSimulatorModal();
         if (typeof closeFnbSimulatorModal === 'function') closeFnbSimulatorModal();
+        if (typeof closeScopeBreakdownModal === 'function') closeScopeBreakdownModal();
       }
     });
     // Listen for emission factor profile changes and recalculate all KPIs live
@@ -1037,6 +1091,342 @@
       if (typeof updateEnergyModalUI === 'function') updateEnergyModalUI();
     });
 
+    // ----------------------------------------------------
+    // Scope 1, 2, 3 & Category Breakdown Calculation
+    // ----------------------------------------------------
+    function calculateScopeCategoryBreakdown(stats) {
+      const s = stats || sessionStats || { items: {} };
+      const items = s.items || {};
+      const ecoCoeffs = (typeof getEcoCoefficients === 'function') ? getEcoCoefficients() : { cup: 23, plate: 55, bowl: 45, fork: 9 };
+
+      // Scope 1 (Direct - diesel generator & electric forklift)
+      const dieselCoeffG = (window.EmissionFactors && typeof window.EmissionFactors.get === 'function')
+        ? (window.EmissionFactors.get('energy', 'diesel_generator') * 1000)
+        : 2605.8;
+      const dieselKg = ((items.diesel_generator || 0) * dieselCoeffG) / 1000;
+      const forkliftKg = (items.freight_forklift || 0) / 1000;
+      const scope1Kg = dieselKg + forkliftKg;
+
+      // Scope 2 (Indirect - renewable electricity)
+      const energyCoeffG = (typeof getEnergyCoefficient === 'function') ? getEnergyCoefficient() : 459.4;
+      const energyKg = ((items.renewable_energy || 0) * energyCoeffG) / 1000;
+      const scope2Kg = energyKg;
+
+      // Scope 3: Category 1 (Purchased goods & services)
+      const fnbKg = (items.fnb_reduction || 0) / 1000;
+      const keyrings = items.upcycled_keyring || 0;
+      let keyringKg = 0;
+      if (keyrings > 0) {
+        const keyringUpcycle = (window.EmissionFactors && typeof window.EmissionFactors.get === 'function')
+          ? window.EmissionFactors.get('production', 'keyring_upcycle') : 16;
+        const keyringNew = (window.EmissionFactors && typeof window.EmissionFactors.get === 'function')
+          ? window.EmissionFactors.get('production', 'keyring_new') : 50;
+        const keyringGrams = (keyrings * keyringUpcycle) - keyringNew;
+        keyringKg = keyringGrams > 0 ? (keyringGrams / 1000) : 0;
+      }
+      const bannerCoeff = (window.EmissionFactors && typeof window.EmissionFactors.get === 'function')
+        ? window.EmissionFactors.get('production', 'banner_upcycle') : 6280;
+      const bannerKg = ((items.upcycled_banner || 0) * bannerCoeff) / 1000;
+
+      const boothCoeff = (window.EmissionFactors && typeof window.EmissionFactors.get === 'function')
+        ? window.EmissionFactors.get('production', 'paper_booth') : 10125;
+      const boothKg = ((items.paper_booth || 0) * boothCoeff) / 1000;
+      const cat1Kg = fnbKg + keyringKg + bannerKg + boothKg;
+
+      // Scope 3: Category 4 (Participant destination travel - NZCE Cat 4 / GLEC)
+      let travelKg = 0;
+      if (items.travel_reduction !== undefined && items.travel_reduction !== null) {
+        travelKg = (items.travel_reduction || 0) / 1000;
+      } else {
+        const transportCoeff = (typeof getTransportCoefficient === 'function') ? getTransportCoefficient() : 120;
+        travelKg = ((items.public_transport || 0) * transportCoeff) / 1000;
+      }
+
+      // Scope 3: Category 5 (Local transportation - NZCE Cat 5)
+      const localTransportKg = (items.local_transport_reduction || 0) / 1000;
+
+      // Scope 3: Category 4/2 (Upstream freight logistics - GLEC)
+      const freightKg = (items.freight_reduction || 0) / 1000;
+
+      // Scope 3: Category 5 (Waste generated in operations - GRI 306)
+      const reusableGrams = (items.reusable_cup || 0) * ecoCoeffs.cup +
+                            (items.reusable_plate || 0) * ecoCoeffs.plate +
+                            (items.reusable_bowl || 0) * ecoCoeffs.bowl +
+                            (items.reusable_fork || 0) * ecoCoeffs.fork;
+      const reusableKg = reusableGrams / 1000;
+      const wasteRecyclingKg = (items.waste_recycling || 0) / 1000;
+      const cat5WasteKg = reusableKg + wasteRecyclingKg;
+
+      // Scope 3: Category 1 & 12 (Digital Operations - GRI 301)
+      const signageKg = (items.digital_signage || 0) / 1000;
+
+      const scope3Kg = cat1Kg + travelKg + localTransportKg + freightKg + cat5WasteKg + signageKg;
+      const totalKg = scope1Kg + scope2Kg + scope3Kg;
+
+      return {
+        totalKg,
+        scope1: {
+          totalKg: scope1Kg,
+          pct: totalKg > 0 ? (scope1Kg / totalKg) * 100 : 0,
+          dieselKg,
+          forkliftKg
+        },
+        scope2: {
+          totalKg: scope2Kg,
+          pct: totalKg > 0 ? (scope2Kg / totalKg) * 100 : 0,
+          energyKg
+        },
+        scope3: {
+          totalKg: scope3Kg,
+          pct: totalKg > 0 ? (scope3Kg / totalKg) * 100 : 0,
+          cat1: {
+            totalKg: cat1Kg,
+            fnbKg,
+            keyringKg,
+            bannerKg,
+            boothKg
+          },
+          cat4_travel: {
+            totalKg: travelKg
+          },
+          cat5_local: {
+            totalKg: localTransportKg
+          },
+          cat4_freight: {
+            totalKg: freightKg
+          },
+          cat5_waste: {
+            totalKg: cat5WasteKg,
+            reusableKg,
+            wasteRecyclingKg
+          },
+          cat12_signage: {
+            totalKg: signageKg
+          }
+        }
+      };
+    }
+
+    // ----------------------------------------------------
+    // Update Scope Donut Chart & Detailed Modal Elements
+    // ----------------------------------------------------
+    function updateScopeDonutChart(stats) {
+      const breakdown = calculateScopeCategoryBreakdown(stats || sessionStats);
+      const totalKg = breakdown.totalKg;
+      const s1 = breakdown.scope1;
+      const s2 = breakdown.scope2;
+      const s3 = breakdown.scope3;
+
+      // SVG Donut circumference for r=40: 2 * PI * 40 ≈ 251.327
+      const C = 251.327;
+
+      let len1 = 0;
+      let len2 = 0;
+      let len3 = 0;
+
+      if (totalKg > 0) {
+        len1 = (s1.totalKg / totalKg) * C;
+        len2 = (s2.totalKg / totalKg) * C;
+        len3 = (s3.totalKg / totalKg) * C;
+      }
+
+      // Update Arcs
+      const arc1 = document.getElementById('donut-arc-scope1');
+      const arc2 = document.getElementById('donut-arc-scope2');
+      const arc3 = document.getElementById('donut-arc-scope3');
+
+      if (arc1) {
+        arc1.setAttribute('stroke-dasharray', `${len1.toFixed(3)} ${(C - len1).toFixed(3)}`);
+        arc1.setAttribute('stroke-dashoffset', '0');
+      }
+      if (arc2) {
+        arc2.setAttribute('stroke-dasharray', `${len2.toFixed(3)} ${(C - len2).toFixed(3)}`);
+        arc2.setAttribute('stroke-dashoffset', `-${len1.toFixed(3)}`);
+      }
+      if (arc3) {
+        arc3.setAttribute('stroke-dasharray', `${len3.toFixed(3)} ${(C - len3).toFixed(3)}`);
+        arc3.setAttribute('stroke-dashoffset', `-${(len1 + len2).toFixed(3)}`);
+      }
+
+      // Center text
+      const centerTop = document.getElementById('donut-center-top');
+      const centerMain = document.getElementById('donut-center-main');
+      if (centerTop && centerMain) {
+        if (totalKg > 0) {
+          if (s3.pct >= s1.pct && s3.pct >= s2.pct) {
+            centerTop.textContent = 'Scope 3 비중';
+            centerMain.textContent = `${s3.pct.toFixed(1)}%`;
+          } else if (s2.pct >= s1.pct) {
+            centerTop.textContent = 'Scope 2 비중';
+            centerMain.textContent = `${s2.pct.toFixed(1)}%`;
+          } else {
+            centerTop.textContent = 'Scope 1 비중';
+            centerMain.textContent = `${s1.pct.toFixed(1)}%`;
+          }
+        } else {
+          centerTop.textContent = '실천 대기';
+          centerMain.textContent = '0.0%';
+        }
+      }
+
+      // Dashboard Legend Percentages & kg
+      const pct1 = document.getElementById('donut-pct-scope1');
+      const pct2 = document.getElementById('donut-pct-scope2');
+      const pct3 = document.getElementById('donut-pct-scope3');
+      const kg1 = document.getElementById('donut-kg-scope1');
+      const kg2 = document.getElementById('donut-kg-scope2');
+      const kg3 = document.getElementById('donut-kg-scope3');
+
+      if (pct1) pct1.textContent = `${s1.pct.toFixed(1)}%`;
+      if (pct2) pct2.textContent = `${s2.pct.toFixed(1)}%`;
+      if (pct3) pct3.textContent = `${s3.pct.toFixed(1)}%`;
+      if (kg1) kg1.textContent = `${s1.totalKg.toFixed(2)} kg`;
+      if (kg2) kg2.textContent = `${s2.totalKg.toFixed(2)} kg`;
+      if (kg3) kg3.textContent = `${s3.totalKg.toFixed(2)} kg`;
+
+      // Update Breakdown Modal Elements (if rendered in DOM)
+      const sbTotalKg = document.getElementById('sb-total-kg');
+      const sbS1Kg = document.getElementById('sb-scope1-kg');
+      const sbS1Pct = document.getElementById('sb-scope1-pct');
+      const sbS2Kg = document.getElementById('sb-scope2-kg');
+      const sbS2Pct = document.getElementById('sb-scope2-pct');
+      const sbS3Kg = document.getElementById('sb-scope3-kg');
+      const sbS3Pct = document.getElementById('sb-scope3-pct');
+
+      if (sbTotalKg) sbTotalKg.textContent = totalKg.toFixed(2);
+      if (sbS1Kg) sbS1Kg.textContent = s1.totalKg.toFixed(2);
+      if (sbS1Pct) sbS1Pct.textContent = `${s1.pct.toFixed(1)}%`;
+      if (sbS2Kg) sbS2Kg.textContent = s2.totalKg.toFixed(2);
+      if (sbS2Pct) sbS2Pct.textContent = `${s2.pct.toFixed(1)}%`;
+      if (sbS3Kg) sbS3Kg.textContent = s3.totalKg.toFixed(2);
+      if (sbS3Pct) sbS3Pct.textContent = `${s3.pct.toFixed(1)}%`;
+
+      // Top KPI Progress Bars
+      const bar1 = document.getElementById('sb-scope1-bar');
+      const bar2 = document.getElementById('sb-scope2-bar');
+      const bar3 = document.getElementById('sb-scope3-bar');
+      if (bar1) bar1.style.width = `${Math.min(100, Math.max(0, s1.pct)).toFixed(1)}%`;
+      if (bar2) bar2.style.width = `${Math.min(100, Math.max(0, s2.pct)).toFixed(1)}%`;
+      if (bar3) bar3.style.width = `${Math.min(100, Math.max(0, s3.pct)).toFixed(1)}%`;
+
+      // Subtotals
+      const subS1 = document.getElementById('sb-subtotal-scope1');
+      const subS2 = document.getElementById('sb-subtotal-scope2');
+      const subS3 = document.getElementById('sb-subtotal-scope3');
+      if (subS1) subS1.textContent = `${s1.totalKg.toFixed(2)} kg CO₂e`;
+      if (subS2) subS2.textContent = `${s2.totalKg.toFixed(2)} kg CO₂e`;
+      if (subS3) subS3.textContent = `${s3.totalKg.toFixed(2)} kg CO₂e`;
+
+      // Helper function for active highlighting
+      function setItemRowState(valElId, rowElId, kgVal) {
+        const valEl = document.getElementById(valElId);
+        const rowEl = document.getElementById(rowElId);
+        if (valEl) {
+          if (kgVal > 0) {
+            valEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> ${kgVal.toFixed(2)} kg`;
+            valEl.className = 'font-black font-mono shrink-0 ml-2 text-xs text-emerald-300 bg-emerald-500/25 px-2.5 py-0.5 rounded-md border border-emerald-400/50 shadow-xs flex items-center gap-1.5';
+          } else {
+            valEl.textContent = '0.00 kg';
+            valEl.className = 'font-bold font-mono shrink-0 ml-2 text-xs text-slate-500';
+          }
+        }
+        if (rowEl) {
+          if (kgVal > 0) {
+            rowEl.classList.add('border-emerald-500/60', 'bg-emerald-950/40');
+            rowEl.classList.remove('border-slate-800', 'bg-slate-800/50', 'bg-slate-900/80', 'border-slate-700/80');
+          } else {
+            rowEl.classList.remove('border-emerald-500/60', 'bg-emerald-950/40');
+            rowEl.classList.add('border-slate-700/80');
+          }
+        }
+      }
+
+      function setCatBoxState(subtotalElId, boxElId, catKg) {
+        const subtotalEl = document.getElementById(subtotalElId);
+        const boxEl = document.getElementById(boxElId);
+        if (subtotalEl) {
+          if (catKg > 0) {
+            subtotalEl.textContent = `${catKg.toFixed(2)} kg`;
+            subtotalEl.className = 'text-xs font-mono font-black text-emerald-300 bg-emerald-500/30 px-2.5 py-0.5 rounded-full border border-emerald-400/60 shadow-xs';
+          } else {
+            subtotalEl.textContent = '0.00 kg';
+            subtotalEl.className = 'text-xs font-mono font-bold text-slate-500 bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700/60';
+          }
+        }
+        if (boxEl) {
+          if (catKg > 0) {
+            boxEl.classList.add('border-emerald-500/60', 'ring-1', 'ring-emerald-500/30');
+            boxEl.classList.remove('border-slate-700/90');
+          } else {
+            boxEl.classList.remove('border-emerald-500/60', 'ring-1', 'ring-emerald-500/30');
+            boxEl.classList.add('border-slate-700/90');
+          }
+        }
+      }
+
+      // Scope 1 items
+      setItemRowState('sb-val-diesel', 'sb-row-diesel', s1.dieselKg);
+      setItemRowState('sb-val-forklift', 'sb-row-forklift', s1.forkliftKg);
+
+      // Scope 2 item
+      setItemRowState('sb-val-energy', 'sb-row-energy', s2.energyKg);
+
+      // Scope 3 Category subtotals and items
+      setCatBoxState('sb-cat1-subtotal', 'sb-box-cat1', s3.cat1.totalKg);
+      setItemRowState('sb-val-fnb', 'sb-row-fnb', s3.cat1.fnbKg);
+      setItemRowState('sb-val-upcycle', 'sb-row-upcycle', s3.cat1.keyringKg + s3.cat1.bannerKg);
+      setItemRowState('sb-val-booth', 'sb-row-booth', s3.cat1.boothKg);
+
+      setCatBoxState('sb-cat4-subtotal', 'sb-box-cat4', s3.cat4_travel.totalKg);
+      setItemRowState('sb-val-travel', 'sb-row-travel', s3.cat4_travel.totalKg);
+
+      setCatBoxState('sb-cat5-local-subtotal', 'sb-box-cat5-local', s3.cat5_local.totalKg);
+      setItemRowState('sb-val-local-transport', 'sb-row-local-transport', s3.cat5_local.totalKg);
+
+      setCatBoxState('sb-cat4-freight-subtotal', 'sb-box-cat4-freight', s3.cat4_freight.totalKg);
+      setItemRowState('sb-val-freight', 'sb-row-freight', s3.cat4_freight.totalKg);
+
+      setCatBoxState('sb-cat5-waste-subtotal', 'sb-box-cat5-waste', s3.cat5_waste.totalKg);
+      setItemRowState('sb-val-reusable', 'sb-row-reusable', s3.cat5_waste.reusableKg);
+      setItemRowState('sb-val-waste-recycling', 'sb-row-waste-recycling', s3.cat5_waste.wasteRecyclingKg);
+
+      setCatBoxState('sb-cat1-digital-subtotal', 'sb-box-cat1-digital', s3.cat12_signage.totalKg);
+      setItemRowState('sb-val-signage', 'sb-row-signage', s3.cat12_signage.totalKg);
+    }
+
+    // Modal open / close handlers
+    function openScopeBreakdownModal() {
+      const modal = document.getElementById('scopeBreakdownModal');
+      if (!modal) return;
+      if (typeof updateScopeDonutChart === 'function') {
+        updateScopeDonutChart(sessionStats);
+      }
+      modal.style.display = 'flex';
+      modal.style.pointerEvents = 'auto';
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const content = modal.querySelector('> div');
+        if (content) content.classList.remove('scale-95');
+      }, 10);
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    function closeScopeBreakdownModal() {
+      const modal = document.getElementById('scopeBreakdownModal');
+      if (!modal) return;
+      modal.style.pointerEvents = 'none';
+      modal.classList.add('opacity-0');
+      const content = modal.querySelector('> div');
+      if (content) content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
 // Window Global Exports for Core
 window.sessionStats = sessionStats;
 window.sendParticipation = sendParticipation;
@@ -1044,3 +1434,7 @@ window.recalculateSessionTotalCarbon = recalculateSessionTotalCarbon;
 window.updateDashboardUI = updateDashboardUI;
 window.animateValue = animateValue;
 window.showToast = showToast;
+window.calculateScopeCategoryBreakdown = calculateScopeCategoryBreakdown;
+window.updateScopeDonutChart = updateScopeDonutChart;
+window.openScopeBreakdownModal = openScopeBreakdownModal;
+window.closeScopeBreakdownModal = closeScopeBreakdownModal;

@@ -13,7 +13,7 @@
             <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
               <i data-lucide="plane-takeoff" class="w-5 h-5 text-blue-600"></i>
             </div>
-            목적지 왕복 이동 &amp; 친환경 교통 (Travel Simulator)
+            참가자 장거리 이동 (항공·KTX)
           </h3>
           <p class="text-sm sm:text-base text-slate-600 font-medium">참가자 거주지·출발지로부터 행사 도시까지의 왕복 온실가스 산정 및 KTX·친환경 전환 감축 관리</p>
         </div>
@@ -24,12 +24,18 @@
 
       <!-- Body -->
       <div class="space-y-6">
+
         <!-- Nickname Input -->
         <div>
           <label class="text-sm font-black text-slate-700 uppercase tracking-wider block mb-1.5">참여자 / 기관·업체명 (선택)</label>
           <input type="text" id="transport-username" placeholder="성명 또는 기관명을 입력하세요 (선택)" 
                  class="w-full text-sm sm:text-base px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all font-medium">
         </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- TAB 1: 4. 목적지 왕복 이동 (Destination Travel)       -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div id="section-dest-travel" class="space-y-6">
 
         <!-- 1. 3-Tier Mode Selection -->
         <div>
@@ -270,36 +276,44 @@
           </div>
         </div>
 
-        <!-- 4. Real-time Carbon Calculation Summary Card -->
-        <div class="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-800 space-y-4">
-          <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-            <span class="text-xs sm:text-sm font-black text-blue-400 uppercase tracking-wider flex items-center gap-2">
-              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+        <!-- 4. Real-time Carbon Calculation Summary Card (High-Contrast Executive Theme) -->
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-5 sm:p-6 border border-slate-700/80 shadow-xl space-y-4 text-white">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-700/70">
+            <span class="text-xs sm:text-sm font-black text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-blue-400"></i>
               목적지 왕복 이동 온실가스 배출 및 KTX 전환 감축량
             </span>
-            <span class="text-xs font-bold text-slate-300 bg-slate-900 px-3 py-1 rounded-md border border-slate-800">Scope 3 Cat 6/7</span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded-md border border-slate-700">NZCE Cat 4 &amp; GLEC</span>
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-center">
-            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-              <span class="text-xs text-slate-400 block font-bold">총 여객 이동량 (p·km)</span>
-              <span id="travel-summary-pkm" class="text-base sm:text-xl font-black text-slate-100 mt-1 block font-mono">0 p·km</span>
-              <span id="travel-summary-trip-type" class="text-xs text-slate-500">왕복 이동 기준</span>
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-xs text-slate-400 block font-bold uppercase tracking-wider">총 여객 수송량</span>
+              <span id="travel-summary-pkm" class="text-lg sm:text-2xl font-black text-white mt-1 block font-mono">0 p·km</span>
+              <span id="travel-summary-trip-type" class="text-[11px] text-slate-400 mt-0.5 block">왕복 이동 기준</span>
             </div>
-            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-              <span class="text-xs text-slate-400 block font-bold">기존 기준 배출량 (Baseline)</span>
-              <span id="travel-summary-baseline" class="text-base sm:text-xl font-black text-amber-300 mt-1 block font-mono">0.00 kg</span>
-              <span class="text-xs text-slate-500">항공/자가용 유발량</span>
+            <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-xs text-slate-400 block font-bold uppercase tracking-wider">기준 배출량 (자가용/항공)</span>
+              <span id="travel-summary-baseline" class="text-lg sm:text-2xl font-black text-slate-200 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-[11px] text-slate-400 mt-0.5 block">전환 전 기준치</span>
             </div>
-            <div class="col-span-2 bg-blue-950/40 p-3.5 rounded-xl border border-blue-500/30 flex flex-col justify-center">
-              <div class="flex justify-between items-center px-2">
-                <span class="text-xs sm:text-sm font-black text-blue-400">🚄 친환경 고속철도(KTX) 전환 감축량</span>
-                <span id="travel-summary-percent" class="text-xs font-black text-blue-300 bg-blue-900/70 px-2.5 py-0.5 rounded-full border border-blue-700/50">0.0% 감축</span>
+          </div>
+
+          <!-- Hero Net Reduction Benefit Card -->
+          <div class="bg-gradient-to-r from-blue-950/90 via-blue-900/80 to-slate-900 border-2 border-blue-500/60 p-4 sm:p-5 rounded-xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-black text-blue-200 flex items-center gap-1.5">
+                  <i data-lucide="train" class="w-4 h-4 text-blue-400"></i>
+                  저탄소 철도(KTX)·대중교통 전환 감축 효과
+                </span>
+                <span id="travel-summary-percent" class="text-xs font-black text-blue-200 bg-blue-500/30 px-2.5 py-0.5 rounded-full border border-blue-400/40">0.0% 감축</span>
               </div>
-              <div class="flex items-baseline justify-center gap-1.5 mt-1.5">
-                <span id="travel-summary-reduction" class="text-3xl sm:text-4xl font-black text-blue-400 font-mono">0.00</span>
-                <span class="text-xs sm:text-sm font-bold text-blue-200">kgCO2eq</span>
-              </div>
+              <span class="text-xs text-blue-100/70 block mt-1">자가용 또는 항공 이동 대비 KTX·고속버스 전환으로 감축된 순 온실가스</span>
+            </div>
+            <div class="flex items-baseline gap-1.5 shrink-0">
+              <span id="travel-summary-reduction" class="text-3xl sm:text-4xl font-black text-blue-300 font-mono tracking-tight drop-shadow">0.00</span>
+              <span class="text-xs sm:text-sm font-bold text-blue-200">kgCO2eq</span>
             </div>
           </div>
         </div>
@@ -313,9 +327,10 @@
         </button>
         <button type="button" onclick="submitTransportSimulation()" class="px-7 py-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold rounded-xl text-sm sm:text-base shadow-md transition-all flex items-center gap-2 cursor-pointer">
           <i data-lucide="check-circle" class="w-5 h-5"></i>
-          실천 적용 및 참여 완료
+          <span>실천 적용 및 참여 완료</span>
         </button>
       </div>
 
     </div>
   </div>
+</div>

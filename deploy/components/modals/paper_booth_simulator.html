@@ -1,4 +1,4 @@
-﻿  <div id="paperBoothSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+  <div id="paperBoothSimulatorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
     <div class="bg-white rounded-3xl max-w-4xl w-full p-8 sm:p-10 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-5">
       
       <!-- Header -->
@@ -57,14 +57,24 @@
           </ul>
         </div>
 
-        <!-- Result Summary Board -->
-        <div id="booth-result-container" class="bg-slate-50 rounded-2xl p-4 border border-slate-200/70 flex justify-between items-center transition-all duration-300">
-          <div>
-            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest block">Expected CO2 Reduction</span>
-            <span id="booth-result-label" class="text-[10px] text-slate-450 font-medium">실시간 예상 탄소 감축 결과</span>
+        <!-- Result Summary Board (High-Contrast Executive Theme) -->
+        <div id="booth-result-container" class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-5 border border-slate-700/80 shadow-xl space-y-3 text-white">
+          <div class="flex justify-between items-center pb-2.5 border-b border-slate-700/70">
+            <span class="text-xs sm:text-sm font-black text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+              친환경 종이부스 전환 감축 실적
+            </span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded-md border border-slate-700">GRI 306 · K-ESG E-2-1</span>
           </div>
-          <div class="text-right">
-            <span id="booth-carbon-summary" class="text-lg font-black text-slate-500 leading-none">0 gCO2eq</span>
+
+          <div class="bg-gradient-to-r from-emerald-950/90 via-emerald-900/80 to-slate-900 border-2 border-emerald-500/60 p-4 rounded-xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
+            <div>
+              <span id="booth-result-label" class="text-xs sm:text-sm font-black text-emerald-200 block">실시간 예상 탄소 감축 결과</span>
+              <span class="text-xs text-emerald-100/70 block mt-0.5">MDF 목재 부스 대비 허니컴보드 10.125 kgCO2eq/㎡ 감축</span>
+            </div>
+            <div class="flex items-baseline gap-1.5 shrink-0">
+              <span id="booth-carbon-summary" class="text-2xl sm:text-3xl font-black text-emerald-300 font-mono tracking-tight drop-shadow">0 gCO2eq</span>
+            </div>
           </div>
         </div>
       </div>

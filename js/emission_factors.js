@@ -281,6 +281,168 @@
             defra_2024: { value: 0.115, note: 'DEFRA passenger ferry' },
             epa_2024:   { value: 0.120, note: 'EPA ferry passenger·km' }
           }
+        },
+
+        // ─── 5. 현지 교통 (Local Transportation - 가이드라인 5.2/5.3) ───
+        local_taxi: {
+          label: '현지 택시 (차량·거리 기반, 공식 1)',
+          scope: 3,
+          unit: 'kgCO2e/km',
+          description: '행사 도시 내 택시 1km 주행 시 배출량',
+          formula: 'GHG = 이동거리(km) × 배출계수(kgCO2e/km)',
+          values: {
+            kr_default: { value: 0.190, note: '국내 택시/중형 승용차 평균' },
+            defra_2024: { value: 0.203, note: 'DEFRA regular taxi' },
+            epa_2024:   { value: 0.210, note: 'EPA passenger taxi' }
+          }
+        },
+        local_taxi_carpool: {
+          label: '현지 택시 (카풀 1.5인 기본 계수, 가이드라인 5.2)',
+          scope: 3,
+          unit: 'kgCO2e/passenger·km',
+          description: '동승자 정보 부재 시 1.5인 탑승 간주 배출량 (0.190 / 1.5)',
+          formula: 'GHG = 이동거리(km) × 탑승객수 × (0.190 / 1.5)',
+          values: {
+            kr_default: { value: 0.1267, note: '0.190 kg / 1.5명 = 0.1267 kgCO2e/p·km' },
+            defra_2024: { value: 0.1353, note: 'DEFRA taxi / 1.5' },
+            epa_2024:   { value: 0.1400, note: 'EPA taxi / 1.5' }
+          }
+        },
+        local_shuttle_pkm: {
+          label: '행사 전용 셔틀버스 (승객·거리 기반, 공식 2)',
+          scope: 3,
+          unit: 'kgCO2e/passenger·km',
+          description: '45인승 대형 셔틀버스 평균 25인 탑승 시 1인당 배출량',
+          formula: 'GHG = 이동거리(km) × 탑승객수 × 배출계수',
+          values: {
+            kr_default: { value: 0.034, note: '대형버스 0.85kg / 25명 기준' },
+            defra_2024: { value: 0.035, note: 'DEFRA local chartered coach' },
+            epa_2024:   { value: 0.037, note: 'EPA chartered transit' }
+          }
+        },
+        local_transit_pkm: {
+          label: '현지 대중교통 (시내버스/지하철 가중평균)',
+          scope: 3,
+          unit: 'kgCO2e/passenger·km',
+          description: '행사 도시 내 시내버스(50%) 및 지하철(50%) 복합 배출량',
+          formula: 'GHG = 이동거리(km) × 탑승객수 × 배출계수',
+          values: {
+            kr_default: { value: 0.0275, note: '(버스 0.040 + 지하철 0.015) / 2' },
+            defra_2024: { value: 0.0315, note: 'DEFRA local transit mix' },
+            epa_2024:   { value: 0.0400, note: 'EPA local transit' }
+          }
+        },
+
+        // ─── 5.3 직영/임차 차량 연료 소비 기반 (공식 3) ───
+        fuel_diesel_liter: {
+          label: '경유 (디젤 연료 소비량 기반, 공식 3)',
+          scope: 1,
+          unit: 'kgCO2e/L',
+          description: '경유 1리터 연소 배출량',
+          formula: 'GHG = 연료 소비량(L) × 2.670 kgCO2e/L',
+          values: {
+            kr_default: { value: 2.670, note: '환경부 온실가스 배출계수 (경유)' },
+            defra_2024: { value: 2.705, note: 'DEFRA 2024 100% mineral diesel' },
+            epa_2024:   { value: 2.680, note: 'EPA diesel fuel' }
+          }
+        },
+        fuel_gasoline_liter: {
+          label: '휘발유 (가솔린 연료 소비량 기반, 공식 3)',
+          scope: 1,
+          unit: 'kgCO2e/L',
+          description: '휘발유 1리터 연소 배출량',
+          formula: 'GHG = 연료 소비량(L) × 2.320 kgCO2e/L',
+          values: {
+            kr_default: { value: 2.320, note: '환경부 온실가스 배출계수 (휘발유)' },
+            defra_2024: { value: 2.339, note: 'DEFRA 2024 petrol' },
+            epa_2024:   { value: 2.310, note: 'EPA motor gasoline' }
+          }
+        },
+        fuel_lpg_liter: {
+          label: 'LPG (액화석유가스 연료 소비량 기반, 공식 3)',
+          scope: 1,
+          unit: 'kgCO2e/L',
+          description: 'LPG 1리터 연소 배출량',
+          formula: 'GHG = 연료 소비량(L) × 1.860 kgCO2e/L',
+          values: {
+            kr_default: { value: 1.860, note: '환경부 온실가스 배출계수 (LPG)' },
+            defra_2024: { value: 1.870, note: 'DEFRA 2024 LPG' },
+            epa_2024:   { value: 1.850, note: 'EPA LPG' }
+          }
+        },
+
+        // ─── 5.3 상류(WTT: Well-to-Tank) 배출계수 ───
+        wtt_taxi_km: {
+          label: 'WTT 택시 상류 배출계수 (WTT 공식 1)',
+          scope: 3,
+          unit: 'kgCO2e/km',
+          description: '택시 주행에 따른 연료 채굴·정제·수송 상류 배출',
+          formula: 'GHG = 이동거리(km) × 0.045 kgCO2e/km',
+          values: {
+            kr_default: { value: 0.045, note: 'DEFRA/환경부 승용차 WTT' },
+            defra_2024: { value: 0.047, note: 'DEFRA 2024 car WTT' },
+            epa_2024:   { value: 0.048, note: 'EPA upstream fuel factor' }
+          }
+        },
+        wtt_shuttle_pkm: {
+          label: 'WTT 셔틀 상류 배출계수 (WTT 공식 2)',
+          scope: 3,
+          unit: 'kgCO2e/passenger·km',
+          description: '셔틀버스 탑승객·거리당 연료 상류 배출량',
+          formula: 'GHG = 이동거리(km) × 인원 × 0.007 kgCO2e/p·km',
+          values: {
+            kr_default: { value: 0.007, note: 'DEFRA 2024 bus WTT' },
+            defra_2024: { value: 0.007, note: 'DEFRA 2024 bus WTT' },
+            epa_2024:   { value: 0.008, note: 'EPA transit WTT' }
+          }
+        },
+        wtt_transit_pkm: {
+          label: 'WTT 대중교통 상류 배출계수 (WTT 공식 2)',
+          scope: 3,
+          unit: 'kgCO2e/passenger·km',
+          description: '시내버스/지하철 승객당 연료·발전 상류 배출량',
+          formula: 'GHG = 이동거리(km) × 인원 × 0.005 kgCO2e/p·km',
+          values: {
+            kr_default: { value: 0.005, note: '대중교통 WTT 평균' },
+            defra_2024: { value: 0.0055, note: 'DEFRA local public transit WTT' },
+            epa_2024:   { value: 0.006, note: 'EPA public transit WTT' }
+          }
+        },
+        wtt_fuel_diesel_liter: {
+          label: 'WTT 경유 상류 배출계수 (WTT 공식 3)',
+          scope: 3,
+          unit: 'kgCO2e/L',
+          description: '경유 1리터 제조·정제·유통 상류 배출량',
+          formula: 'GHG = 연료 소비량(L) × 0.610 kgCO2e/L',
+          values: {
+            kr_default: { value: 0.610, note: 'DEFRA 2024 diesel WTT' },
+            defra_2024: { value: 0.610, note: 'DEFRA 2024 diesel WTT' },
+            epa_2024:   { value: 0.620, note: 'EPA diesel WTT' }
+          }
+        },
+        wtt_fuel_gasoline_liter: {
+          label: 'WTT 휘발유 상류 배출계수 (WTT 공식 3)',
+          scope: 3,
+          unit: 'kgCO2e/L',
+          description: '휘발유 1리터 제조·정제·유통 상류 배출량',
+          formula: 'GHG = 연료 소비량(L) × 0.580 kgCO2e/L',
+          values: {
+            kr_default: { value: 0.580, note: 'DEFRA 2024 petrol WTT' },
+            defra_2024: { value: 0.580, note: 'DEFRA 2024 petrol WTT' },
+            epa_2024:   { value: 0.590, note: 'EPA gasoline WTT' }
+          }
+        },
+        wtt_fuel_lpg_liter: {
+          label: 'WTT LPG 상류 배출계수 (WTT 공식 3)',
+          scope: 3,
+          unit: 'kgCO2e/L',
+          description: 'LPG 1리터 제조·정제·유통 상류 배출량',
+          formula: 'GHG = 연료 소비량(L) × 0.350 kgCO2e/L',
+          values: {
+            kr_default: { value: 0.350, note: 'DEFRA 2024 LPG WTT' },
+            defra_2024: { value: 0.350, note: 'DEFRA 2024 LPG WTT' },
+            epa_2024:   { value: 0.360, note: 'EPA LPG WTT' }
+          }
         }
       }
     },

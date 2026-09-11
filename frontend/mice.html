@@ -274,10 +274,10 @@
             </div>
           </div>
 
-          <!-- Card 04: 목적지 왕복 이동 & 친환경 교통 (NZCE Cat 4 · GLEC) -->
+          <!-- Card 04: 참가자 장거리 이동 (항공·KTX) -->
           <div onclick="openTransportSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
-              <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=300" alt="Travel and Transport" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=300" alt="Destination Travel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">04</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
@@ -288,17 +288,37 @@
                   </span>
                   <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug whitespace-nowrap truncate">목적지 왕복 이동 &amp; 친환경 교통</h3>
-                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">항공·KTX·고속버스 왕복 이동 탄소 산정, 복사강제력(RF) 및 철도 전환 감축</p>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug whitespace-nowrap truncate">참가자 장거리 이동 (항공·KTX)</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">거주지·출발지에서 행사 도시까지의 항공·KTX 왕복 탄소 산정 및 철도 전환 감축</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 05: 업사이클링 굿즈(ESG 기념품) 제작 -->
+          <!-- Card 05: 현지 교통 & 셔틀버스 운행 -->
+          <div onclick="openLocalTransportModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
+            <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
+              <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80&w=300" alt="Local Shuttle Transport" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
+            </div>
+            <div class="flex-grow flex flex-col pt-2.5">
+              <div>
+                <div class="mb-2 flex items-center gap-1.5 flex-wrap">
+                  <span class="bg-emerald-50 text-emerald-900 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0"></i> NZCE Cat 5 · 가이드라인 5장
+                  </span>
+                  <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
+                </div>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug whitespace-nowrap truncate">현지 교통 &amp; 셔틀버스 운행</h3>
+                <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">공항/호텔/행사장 간 셔틀버스 운행, 25km 결측치 표준 및 친환경 대중교통 감축 산정</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 06: 업사이클링 굿즈(ESG 기념품) 제작 -->
           <div onclick="openUpcycleSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=300" alt="Upcycling Goods" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">05</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -314,11 +334,11 @@
             </div>
           </div>
 
-          <!-- Card 06: 친환경 행사장 조성 · 관리 -->
+          <!-- Card 07: 친환경 행사장 조성 · 관리 -->
           <div onclick="openVenueEcologyModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=300" alt="Jeju Ecology" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">06</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -335,11 +355,11 @@
             </div>
           </div>
 
-          <!-- Card 07: 디지털 페이퍼리스 및 사이니지 시스템 -->
+          <!-- Card 08: 디지털 페이퍼리스 및 사이니지 시스템 -->
           <div onclick="openSignageSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=300" alt="Digital Signage & Card" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">07</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -349,17 +369,17 @@
                   </span>
                   <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">디지털 페이퍼리스 & 사이니지</h3>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">디지털 페이퍼리스 &amp; 사이니지</h3>
                 <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">종이 인쇄물 및 일회성 안내판을 전면 폐지하고 NFC/QR 플랫폼 및 디지털 사이니지 도입</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 08: 친환경 부스 자재 의무화 -->
+          <!-- Card 09: 친환경 부스 자재 의무화 -->
           <div onclick="openPaperBoothSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=300" alt="Eco Booth" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">08</span>
+              <span class="absolute top-2.5 left-2.5 bg-white text-slate-850 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">09</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -375,11 +395,11 @@
             </div>
           </div>
 
-          <!-- Card 09: 자원순환 & 폐기물 재활용률 (Zero Waste Tracker) -->
+          <!-- Card 10: 자원순환 & 폐기물 재활용률 (Zero Waste Tracker) -->
           <div onclick="openWasteRecyclingModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=300" alt="Zero Waste Recycling" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">09</span>
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">10</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -389,17 +409,17 @@
                   </span>
                   <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">자원순환 & 폐기물 재활용률</h3>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">자원순환 &amp; 폐기물 재활용률</h3>
                 <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">GRI 306 및 TRUE Zero Waste 기준 폐기물 분리배출 자원재활용률(%) 측정</p>
               </div>
             </div>
           </div>
 
-          <!-- Card 10: 친환경 화물 & 물류 관리 (Freight & Logistics) -->
+          <!-- Card 11: 친환경 화물 & 물류 관리 (Freight & Logistics) -->
           <div onclick="openFreightSimulatorModal()" class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(20%-0.8rem)] snap-center flex-shrink-0 group cursor-pointer bg-white rounded-[24px] p-3 shadow-sm border border-slate-200/80 hover:border-emerald-300 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-[265px]">
             <div class="relative w-full h-[115px] rounded-[18px] overflow-hidden bg-slate-50">
               <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=300" alt="Freight & Logistics" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">10</span>
+              <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-sm">11</span>
             </div>
             <div class="flex-grow flex flex-col pt-2.5">
               <div>
@@ -410,7 +430,7 @@
                   <span class="bg-rose-50 text-rose-700 text-[10px] font-black px-1.5 py-0.5 rounded-md border border-rose-200 whitespace-nowrap">Scope 1</span>
                   <span class="bg-blue-50 text-blue-700 text-[10px] font-black px-2 py-0.5 rounded-md border border-blue-200 whitespace-nowrap">Scope 3</span>
                 </div>
-                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 화물 & 물류 관리</h3>
+                <h3 class="font-black text-[15px] sm:text-[15.5px] text-emerald-900 tracking-tight leading-snug">친환경 화물 &amp; 물류 관리</h3>
                 <p class="text-[12px] sm:text-[12.5px] text-slate-600 leading-snug line-clamp-2 mt-1.5 font-medium">행사 자재·전시품 수송 톤·km 산정, 전기 화물차 전환 및 혼적 안분 관리</p>
               </div>
             </div>
@@ -981,13 +1001,13 @@
           </div>
 
           <div id="kpi-transport-card" class="hidden transition-all duration-300 mt-4">
-            <!-- Diagram 5: 목적지 왕복 이동 & 친환경 교통 (NZCE Cat 4) -->
+            <!-- Diagram 5: 참가자 장거리 이동 (항공·KTX) -->
             <div onclick="openTransportSimulatorModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-blue-300 active:scale-[0.99] transition-all group relative overflow-hidden">
               <div class="flex justify-between items-center pb-2 border-b border-slate-50">
                 <span class="text-xs font-extrabold text-blue-800 flex items-center gap-1.5 whitespace-nowrap">
-                  <i data-lucide="plane-takeoff" class="w-4 h-4 text-blue-600 shrink-0"></i> 목적지 왕복 이동 &amp; 친환경 교통 (NZCE Cat 4)
+                  <i data-lucide="plane-takeoff" class="w-4 h-4 text-blue-600 shrink-0"></i> 참가자 장거리 이동 (항공·KTX)
                 </span>
-                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"><span>왕복 이동 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
+                <span class="bg-blue-50 text-[10px] text-blue-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"><span>장거리 이동 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
               </div>
               <div class="grid grid-cols-3 gap-2 items-center">
                 <div class="text-center bg-blue-50/50 p-2.5 rounded-xl border border-blue-100">
@@ -1001,6 +1021,28 @@
                 <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                   <span class="text-[9px] text-slate-450 block">이동 거리</span>
                   <span id="kpi-total-distance" class="text-[11px] font-black text-slate-700">0 km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="kpi-local-transport-card" class="hidden transition-all duration-300 mt-4">
+            <!-- Diagram 5-B: 현지 교통 & 셔틀버스 운행 (NZCE Cat 5) -->
+            <div onclick="openLocalTransportModal()" title="클릭하여 실천 내용 확인 및 수정" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-md space-y-4 cursor-pointer hover:shadow-xl hover:border-emerald-300 active:scale-[0.99] transition-all group relative overflow-hidden">
+              <div class="flex justify-between items-center pb-2 border-b border-slate-50">
+                <span class="text-xs font-extrabold text-emerald-800 flex items-center gap-1.5 whitespace-nowrap">
+                  <i data-lucide="bus" class="w-4 h-4 text-emerald-600 shrink-0"></i> 현지 교통 &amp; 셔틀버스 운행 (NZCE Cat 5)
+                </span>
+                <span class="bg-emerald-50 text-[10px] text-emerald-700 font-bold px-2.5 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"><span>셔틀 실천</span><i data-lucide="arrow-up-right" class="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i></span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 items-center">
+                <div class="text-center bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
+                  <span class="text-[9px] text-emerald-600 block font-bold">감축량</span>
+                  <span id="kpi-local-transport-reduced-carbon" class="text-[11px] font-black text-emerald-700">0 gCO2eq</span>
+                </div>
+                <div class="text-center bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                  <span class="text-[9px] text-slate-450 block">현지 이동량</span>
+                  <span id="kpi-local-transport-distance" class="text-[11px] font-black text-slate-700">0 p·km</span>
                 </div>
               </div>
             </div>

@@ -236,34 +236,34 @@
           </div>
         </div>
 
-        <!-- 4. Real-time Carbon Calculation Summary Card -->
-        <div class="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-800 space-y-4">
-          <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-            <span class="text-xs sm:text-sm font-black text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+        <!-- 4. Real-time Carbon Calculation Summary Card (High-Contrast Executive Theme) -->
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-5 sm:p-6 border border-slate-700/80 shadow-xl space-y-4 text-white">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-700/70">
+            <span class="text-xs sm:text-sm font-black text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i>
               F&amp;B 온실가스 배출 및 감축량 산출 결과
             </span>
-            <span class="text-xs font-bold text-slate-300 bg-slate-900 px-3 py-1 rounded-md border border-slate-800">Scope 3 Cat 1</span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded-md border border-slate-700">Scope 3 Cat 1</span>
           </div>
 
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 text-center">
-            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-              <span class="text-xs text-slate-400 block font-bold">기존 육류 만찬 기준 (Baseline)</span>
-              <span id="fnb-baseline-carbon" class="text-base sm:text-xl font-black text-slate-100 mt-1 block font-mono">0.00 kg</span>
-              <span class="text-xs text-slate-500">7.20 kgCO2e/식 기준</span>
+            <div class="bg-slate-800/90 p-3.5 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-xs text-slate-400 block font-bold uppercase tracking-wider">기존 육류 만찬 기준</span>
+              <span id="fnb-baseline-carbon" class="text-base sm:text-xl font-black text-slate-200 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-xs text-slate-400 mt-0.5 block">7.20 kgCO2e/식</span>
             </div>
-            <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
-              <span class="text-xs text-slate-400 block font-bold">실제 케이터링 배출량</span>
-              <span id="fnb-actual-carbon" class="text-base sm:text-xl font-black text-amber-300 mt-1 block font-mono">0.00 kg</span>
-              <span class="text-xs text-slate-500">원재료 상류 내재탄소</span>
+            <div class="bg-slate-800/90 p-3.5 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-xs text-slate-400 block font-bold uppercase tracking-wider">실제 케이터링 배출량</span>
+              <span id="fnb-actual-carbon" class="text-base sm:text-xl font-black text-slate-200 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-xs text-slate-400 mt-0.5 block">원재료 상류 내재탄소</span>
             </div>
-            <div class="col-span-2 bg-emerald-950/40 p-3.5 rounded-xl border border-emerald-500/30 flex flex-col justify-center">
+            <div class="col-span-2 bg-gradient-to-r from-emerald-950/90 via-emerald-900/80 to-slate-900 border-2 border-emerald-500/60 p-4 rounded-xl shadow-lg flex flex-col justify-center text-white">
               <div class="flex justify-between items-center px-2">
-                <span class="text-xs sm:text-sm font-black text-emerald-400">🌿 저탄소 메뉴 전환 감축량</span>
-                <span id="fnb-reduction-percent" class="text-xs font-black text-emerald-300 bg-emerald-900/70 px-2.5 py-0.5 rounded-full border border-emerald-700/50">0.0% 감축</span>
+                <span class="text-xs sm:text-sm font-black text-emerald-200">🌿 저탄소 메뉴 전환 감축량</span>
+                <span id="fnb-reduction-percent" class="text-xs font-black text-emerald-200 bg-emerald-500/30 px-2.5 py-0.5 rounded-full border border-emerald-400/40">0.0% 감축</span>
               </div>
               <div class="flex items-baseline justify-center gap-1.5 mt-1.5">
-                <span id="fnb-total-reduction-kg" class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">0.00</span>
+                <span id="fnb-total-reduction-kg" class="text-3xl sm:text-4xl font-black text-emerald-300 font-mono tracking-tight drop-shadow">0.00</span>
                 <span class="text-xs sm:text-sm font-bold text-emerald-200">kgCO2eq</span>
               </div>
             </div>

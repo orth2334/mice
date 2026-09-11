@@ -172,34 +172,43 @@
           </div>
         </div>
 
-        <!-- Result Summary Board -->
-        <div class="bg-gradient-to-br from-amber-50/70 via-slate-50 to-emerald-50/70 rounded-2xl p-5 sm:p-6 border border-amber-200/80 space-y-3.5">
+        <!-- Result Summary Board (High-Contrast Executive Theme) -->
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-5 sm:p-6 border border-slate-700/80 shadow-xl space-y-4 text-white">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-700/70">
+            <span class="text-xs sm:text-sm font-black text-white tracking-tight flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-amber-400"></i>
+              재생에너지 및 디젤 대체 온실가스 감축량
+            </span>
+            <span class="text-xs font-bold text-slate-300 bg-slate-800/90 px-2.5 py-1 rounded-md border border-slate-700">RE100 · Scope 1 &amp; 2</span>
+          </div>
+
           <!-- Breakdown Mini Badges -->
-          <div class="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200/70">
-            <div class="bg-white/80 p-3 rounded-xl border border-rose-100 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] font-black text-rose-700 uppercase block">Scope 1 (직접 감축)</span>
-                <span class="text-[11px] text-slate-500">디젤 발전기 대체</span>
-              </div>
-              <span id="summary-scope1-carbon" class="text-sm sm:text-base font-black text-rose-700 font-mono">0.00 kg</span>
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-slate-800/90 p-3.5 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-[11px] text-rose-300 block font-bold uppercase tracking-wider">Scope 1 (디젤 발전기 대체)</span>
+              <span id="summary-scope1-carbon" class="text-base sm:text-xl font-black text-rose-300 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-[10px] text-slate-400 mt-0.5 block">현장 직접 연소 감축</span>
             </div>
-            <div class="bg-white/80 p-3 rounded-xl border border-amber-100 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] font-black text-amber-700 uppercase block">Scope 2 (간접 감축)</span>
-                <span class="text-[11px] text-slate-500">계통 전력 전환</span>
-              </div>
-              <span id="summary-scope2-carbon" class="text-sm sm:text-base font-black text-amber-700 font-mono">0.00 kg</span>
+            <div class="bg-slate-800/90 p-3.5 rounded-xl border border-slate-700/80 shadow-inner">
+              <span class="text-[11px] text-amber-300 block font-bold uppercase tracking-wider">Scope 2 (재생에너지 전환)</span>
+              <span id="summary-scope2-carbon" class="text-base sm:text-xl font-black text-amber-300 mt-1 block font-mono">0.00 kg</span>
+              <span class="text-[10px] text-slate-400 mt-0.5 block">전시장 계통 전력 감축</span>
             </div>
           </div>
 
-          <!-- Total Result -->
-          <div class="flex justify-between items-center">
+          <!-- Hero Net Reduction Box -->
+          <div class="bg-gradient-to-r from-emerald-950/90 via-emerald-900/80 to-slate-900 border-2 border-emerald-500/60 p-4 sm:p-5 rounded-xl shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
             <div>
-              <span class="text-xs font-extrabold text-emerald-900 uppercase tracking-wider block">총 예상 탄소 감축량</span>
-              <span class="text-xs text-slate-500 font-medium">Scope 1 + Scope 2 합산 실천 효과</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-black text-emerald-200 flex items-center gap-1.5">
+                  <i data-lucide="zap" class="w-4 h-4 text-emerald-400"></i>
+                  총 예상 온실가스 감축량
+                </span>
+              </div>
+              <span class="text-xs text-emerald-100/70 block mt-1">Scope 1 + Scope 2 합산 실천 효과</span>
             </div>
-            <div class="text-right">
-              <span id="energy-carbon-summary" class="text-2xl sm:text-3xl font-black text-emerald-700 leading-none">0 kgCO2e</span>
+            <div class="flex items-baseline gap-1.5 shrink-0">
+              <span id="energy-carbon-summary" class="text-3xl sm:text-4xl font-black text-emerald-300 font-mono tracking-tight drop-shadow">0 kgCO2e</span>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-﻿  <div id="wasteRecyclingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
+  <div id="wasteRecyclingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center hidden transition-opacity duration-300 opacity-0 px-4">
     <div class="bg-white rounded-3xl max-w-4xl w-full p-8 sm:p-10 shadow-2xl border border-slate-100 transform scale-95 transition-transform duration-300 flex flex-col space-y-4">
       
       <!-- Header -->
@@ -84,32 +84,34 @@
           </div>
         </div>
 
-        <!-- Key Metrics Board -->
-        <div class="grid grid-cols-2 gap-2 pt-1">
-          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-            <span class="text-[9px] text-slate-400 font-bold block">총 발생 폐기물 (GRI 306)</span>
-            <span id="waste-total-kg" class="text-sm font-black text-slate-800">0 kg</span>
+        <!-- Key Metrics & Result Board (High-Contrast Theme) -->
+        <div class="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-xl space-y-3.5 text-white">
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="bg-slate-800/90 p-3 rounded-xl border border-slate-700/80 shadow-inner text-center">
+              <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">총 발생 폐기물</span>
+              <span id="waste-total-kg" class="text-base sm:text-lg font-black text-white mt-0.5 block font-mono">0 kg</span>
+            </div>
+            <div class="bg-slate-800/90 p-3 rounded-xl border border-slate-700/80 shadow-inner text-center">
+              <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">자원 재활용률</span>
+              <span id="waste-recycling-rate" class="text-base sm:text-lg font-black text-emerald-400 mt-0.5 block font-mono">0.0 %</span>
+            </div>
           </div>
-          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-center">
-            <span class="text-[9px] text-slate-400 font-bold block">자원 재활용률 (Diversion)</span>
-            <span id="waste-recycling-rate" class="text-sm font-black text-emerald-600">0.0 %</span>
-          </div>
-        </div>
 
-        <!-- TRUE Zero Waste Badge Status -->
-        <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-100 flex items-center justify-between">
-          <span class="text-[10px] font-bold text-emerald-800">TRUE Zero Waste (90% 이상)</span>
-          <span id="waste-zero-badge" class="text-[10px] font-black px-2 py-0.5 rounded-full bg-slate-200 text-slate-600">기준 미달</span>
-        </div>
-
-        <!-- Result Board -->
-        <div id="waste-result-container" class="bg-emerald-50/50 rounded-2xl p-3 border border-emerald-100/70 flex justify-between items-center">
-          <div>
-            <span class="text-[9px] font-bold text-emerald-700 uppercase tracking-widest block">Expected CO2 Reduction</span>
-            <span class="text-[10px] text-emerald-700 font-bold">온실가스 회피 감축량</span>
+          <!-- TRUE Zero Waste Badge Status -->
+          <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60 flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-300">TRUE Zero Waste (90% 이상 목표)</span>
+            <span id="waste-zero-badge" class="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-slate-700 text-slate-300">기준 미달</span>
           </div>
-          <div class="text-right">
-            <span id="waste-carbon-summary" class="text-lg font-black text-emerald-700 leading-none">0 gCO2eq</span>
+
+          <!-- Hero Result Board -->
+          <div id="waste-result-container" class="bg-gradient-to-r from-emerald-950/90 via-emerald-900/80 to-slate-900 rounded-xl p-3.5 border-2 border-emerald-500/60 flex justify-between items-center shadow-lg">
+            <div>
+              <span class="text-[9px] font-black text-emerald-300 uppercase tracking-widest block">Expected CO2 Reduction</span>
+              <span class="text-xs sm:text-sm text-emerald-100 font-black">온실가스 회피 감축량</span>
+            </div>
+            <div class="text-right">
+              <span id="waste-carbon-summary" class="text-xl sm:text-2xl font-black text-emerald-300 font-mono tracking-tight leading-none drop-shadow">0 gCO2eq</span>
+            </div>
           </div>
         </div>
       </div>

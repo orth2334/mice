@@ -25,6 +25,35 @@
     totalPkm: 0
   };
 
+  // 5. 현지 교통 (Local Transportation - 가이드라인 5.1/5.2/5.3) State
+  let activeTransportTab = 'dest'; // 'dest' | 'local'
+  let currentLocalTransportState = {
+    mode: 'proxy', // 'proxy' | 'direct' | 'fuel'
+    eventType: 'exhibition', // 'exhibition' (1일) | 'conference' (전체 기간)
+    eventDays: 1,
+    attendees: 0, // No mock data
+    dailyKm: 25, // 5.2 숙소 결측 표준 25km
+    carpoolPax: 1.5, // 5.2 카풀 기본 계수 1.5명
+    hasShuttle: true, // true: 셔틀 50%, 택시 30%, 대중교통 20% / false: 택시 50%, 대중교통 50%
+    wtt: true, // 5.3 WTT 상류 배출 포함
+    // Direct mode fields
+    directVehicle: 'shuttle', // 'shuttle' | 'taxi' | 'transit' | 'car'
+    directDistanceKm: 0,
+    directPax: 0,
+    directCarpool: true,
+    // Fuel mode fields (공식 3)
+    fuelType: 'diesel', // 'diesel' | 'gasoline' | 'lpg' | 'electricity'
+    fuelLiters: 0,
+    // Calculation outputs
+    totalPkm: 0,
+    combustionKg: 0,
+    wttKg: 0,
+    totalKg: 0,
+    baselineKg: 0,
+    reductionKg: 0,
+    reductionPercent: 0
+  };
+
   const TRAVEL_CITY_PRESETS = {
     busan_ktx: { name: '부산권', distance: 400, mode: 'ktx' },
     daegu_ktx: { name: '대구권', distance: 300, mode: 'ktx' },
@@ -383,6 +412,34 @@
       }, 300);
     }
 
+    function openLocalTransportModal() {
+      const modal = document.getElementById('localTransportModal');
+      if (!modal) return;
+      
+      const usernameInput = document.getElementById('local-transport-username') || document.getElementById('transport-username');
+      if (usernameInput) usernameInput.value = (window.sessionStats && sessionStats.username) || '';
+
+      updateLocalTransportModalUI();
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        const card = modal.querySelector('div');
+        if (card) card.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeLocalTransportModal() {
+      const modal = document.getElementById('localTransportModal');
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      const card = modal.querySelector('div');
+      if (card) card.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
     function setTravelTier(tier) {
       currentTravelState.tier = tier;
       
@@ -597,6 +654,509 @@
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
         window.lucide.createIcons();
       }
+    }
+
+    // ==========================================
+    // 5. 현지 교통 (Local Transportation - 가이드라인 5.1/5.2/5.3)
+    // ==========================================
+
+    function switchTransportTab(tab) {
+      activeTransportTab = tab;
+      const btnDest = document.getElementById('tab-btn-dest-travel');
+      const btnLocal = document.getElementById('tab-btn-local-transport');
+      const secDest = document.getElementById('section-dest-travel');
+      const secLocal = document.getElementById('section-local-transport');
+      const submitBtn = document.getElementById('btn-submit-transport-active');
+      const submitLabel = document.getElementById('label-submit-transport-btn');
+
+      if (tab === 'local') {
+        if (btnDest) {
+          btnDest.classList.remove('bg-white', 'text-blue-900', 'shadow-sm', 'border', 'border-slate-200/80');
+          btnDest.classList.add('text-slate-600');
+        }
+        if (btnLocal) {
+          btnLocal.classList.add('bg-white', 'text-emerald-950', 'shadow-sm', 'border', 'border-slate-200/80');
+          btnLocal.classList.remove('text-slate-600');
+        }
+        if (secDest) secDest.classList.add('hidden');
+        if (secLocal) secLocal.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          submitBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+        }
+        if (submitLabel) submitLabel.textContent = '현지 교통 & 셔틀 실천 적용';
+        updateLocalTransportModalUI();
+      } else {
+        if (btnLocal) {
+          btnLocal.classList.remove('bg-white', 'text-emerald-950', 'shadow-sm', 'border', 'border-slate-200/80');
+          btnLocal.classList.add('text-slate-600');
+        }
+        if (btnDest) {
+          btnDest.classList.add('bg-white', 'text-blue-900', 'shadow-sm', 'border', 'border-slate-200/80');
+          btnDest.classList.remove('text-slate-600');
+        }
+        if (secLocal) secLocal.classList.add('hidden');
+        if (secDest) secDest.classList.remove('hidden');
+        if (submitBtn) {
+          submitBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+          submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+        }
+        if (submitLabel) submitLabel.textContent = '목적지 이동 실천 적용';
+        updateTravelModalUI();
+      }
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    function calculateLocalTransportEmissions() {
+      const state = currentLocalTransportState;
+      const wtt = !!state.wtt;
+
+      if (state.mode === 'proxy') {
+        // 가이드라인 5.2 기본 가정 기반 자동 추정
+        const days = state.eventType === 'exhibition' ? 1 : Math.max(1, state.eventDays || 1);
+        const attendees = Math.max(0, state.attendees || 0);
+        const dailyKm = Math.max(0, state.dailyKm || 25);
+        const totalPkm = attendees * dailyKm * days;
+        state.totalPkm = totalPkm;
+
+        if (totalPkm <= 0) {
+          state.combustionKg = 0;
+          state.wttKg = 0;
+          state.totalKg = 0;
+          state.baselineKg = 0;
+          state.reductionKg = 0;
+          state.reductionPercent = 0;
+          return;
+        }
+
+        // 수단 배분율 (셔틀 제공 시 50/30/20 vs 미제공 시 0/50/50)
+        let shuttleRatio = state.hasShuttle ? 0.50 : 0.00;
+        let taxiRatio = state.hasShuttle ? 0.30 : 0.50;
+        let transitRatio = state.hasShuttle ? 0.20 : 0.50;
+
+        const pkmShuttle = totalPkm * shuttleRatio;
+        const pkmTaxi = totalPkm * taxiRatio;
+        const pkmTransit = totalPkm * transitRatio;
+
+        // 배출계수 적용 (공식 2 승객·거리 기반)
+        // 셔틀버스: 0.034 kg/p·km, WTT 0.007
+        const shuttleCombustion = pkmShuttle * 0.034;
+        const shuttleWtt = pkmShuttle * 0.007;
+
+        // 택시: 1대당 1.5인 카풀 가정 -> 0.190 / 1.5 = 0.1267 kg/p·km, WTT 0.045 / 1.5 = 0.030 kg/p·km
+        const taxiCombustion = pkmTaxi * 0.1267;
+        const taxiWtt = pkmTaxi * 0.030;
+
+        // 대중교통: 버스/전철 평균 0.0275 kg/p·km, WTT 0.005
+        const transitCombustion = pkmTransit * 0.0275;
+        const transitWtt = pkmTransit * 0.005;
+
+        const combustionKg = shuttleCombustion + taxiCombustion + transitCombustion;
+        const wttKg = wtt ? (shuttleWtt + taxiWtt + transitWtt) : 0;
+        const totalKg = combustionKg + wttKg;
+
+        // Baseline: 전원 택시(1.5인 카풀) 이용 시 유발량
+        const baselineKg = (totalPkm * 0.1267) + (wtt ? (totalPkm * 0.030) : 0);
+        const reductionKg = Math.max(0, baselineKg - totalKg);
+        const reductionPercent = baselineKg > 0 ? (reductionKg / baselineKg * 100) : 0;
+
+        state.combustionKg = combustionKg;
+        state.wttKg = wttKg;
+        state.totalKg = totalKg;
+        state.baselineKg = baselineKg;
+        state.reductionKg = reductionKg;
+        state.reductionPercent = reductionPercent;
+
+      } else if (state.mode === 'direct') {
+        // 공식 1 & 2: 실측 거리 및 승객 입력 기반
+        const dist = Math.max(0, state.directDistanceKm || 0);
+        const pax = Math.max(0, state.directPax || 0);
+        const totalPkm = dist * pax;
+        state.totalPkm = totalPkm;
+
+        if (totalPkm <= 0) {
+          state.combustionKg = 0;
+          state.wttKg = 0;
+          state.totalKg = 0;
+          state.baselineKg = 0;
+          state.reductionKg = 0;
+          state.reductionPercent = 0;
+          return;
+        }
+
+        const carpoolPax = state.directCarpool ? 1.5 : 1.0;
+        let efCombustion = 0.034;
+        let efWtt = 0.007;
+
+        if (state.directVehicle === 'shuttle') {
+          efCombustion = 0.034;
+          efWtt = 0.007;
+        } else if (state.directVehicle === 'taxi') {
+          efCombustion = 0.190 / carpoolPax;
+          efWtt = 0.045 / carpoolPax;
+        } else if (state.directVehicle === 'transit') {
+          efCombustion = 0.0275;
+          efWtt = 0.005;
+        } else if (state.directVehicle === 'car') {
+          efCombustion = 0.160 / carpoolPax;
+          efWtt = 0.045 / carpoolPax;
+        }
+
+        const combustionKg = totalPkm * efCombustion;
+        const wttKg = wtt ? totalPkm * efWtt : 0;
+        const totalKg = combustionKg + wttKg;
+
+        // Baseline: 단독 택시 이용 가정
+        const baselineKg = (totalPkm * 0.190) + (wtt ? (totalPkm * 0.045) : 0);
+        const reductionKg = Math.max(0, baselineKg - totalKg);
+        const reductionPercent = baselineKg > 0 ? (reductionKg / baselineKg * 100) : 0;
+
+        state.combustionKg = combustionKg;
+        state.wttKg = wttKg;
+        state.totalKg = totalKg;
+        state.baselineKg = baselineKg;
+        state.reductionKg = reductionKg;
+        state.reductionPercent = reductionPercent;
+
+      } else if (state.mode === 'fuel') {
+        // 공식 3: 직영/임차 셔틀 연료 소비 기반
+        const liters = Math.max(0, state.fuelLiters || 0);
+        if (liters <= 0) {
+          state.totalPkm = 0;
+          state.combustionKg = 0;
+          state.wttKg = 0;
+          state.totalKg = 0;
+          state.baselineKg = 0;
+          state.reductionKg = 0;
+          state.reductionPercent = 0;
+          return;
+        }
+        let efCombustion = 2.670; // diesel default
+        let efWtt = 0.610;
+
+        if (state.fuelType === 'diesel') {
+          efCombustion = 2.670;
+          efWtt = 0.610;
+        } else if (state.fuelType === 'gasoline') {
+          efCombustion = 2.320;
+          efWtt = 0.580;
+        } else if (state.fuelType === 'lpg') {
+          efCombustion = 1.860;
+          efWtt = 0.350;
+        } else if (state.fuelType === 'electricity') {
+          efCombustion = 0.4781;
+          efWtt = 0.055;
+        }
+
+        const combustionKg = liters * efCombustion;
+        const wttKg = wtt ? liters * efWtt : 0;
+        const totalKg = combustionKg + wttKg;
+
+        // 셔틀버스 연비(평균 3.5km/L) 및 평균 탑승객 25명 기준 여객 수송량 환산
+        const estimatedPkm = liters * 3.5 * 25;
+        state.totalPkm = estimatedPkm;
+
+        // Baseline: 이 승객들이 개별 승용차/택시로 분산 이동했을 때의 배출량
+        const baselineKg = estimatedPkm * 0.1267 + (wtt ? (estimatedPkm * 0.030) : 0);
+        const reductionKg = Math.max(0, baselineKg - totalKg);
+        const reductionPercent = baselineKg > 0 ? (reductionKg / baselineKg * 100) : 0;
+
+        state.combustionKg = combustionKg;
+        state.wttKg = wttKg;
+        state.totalKg = totalKg;
+        state.baselineKg = baselineKg;
+        state.reductionKg = reductionKg;
+        state.reductionPercent = reductionPercent;
+      }
+    }
+
+    function updateLocalTransportModalUI() {
+      calculateLocalTransportEmissions();
+      const state = currentLocalTransportState;
+
+      // Mode container visibility
+      const cProxy = document.getElementById('local-mode-proxy-container');
+      const cDirect = document.getElementById('local-mode-direct-container');
+      const cFuel = document.getElementById('local-mode-fuel-container');
+      if (cProxy) { if (state.mode === 'proxy') cProxy.classList.remove('hidden'); else cProxy.classList.add('hidden'); }
+      if (cDirect) { if (state.mode === 'direct') cDirect.classList.remove('hidden'); else cDirect.classList.add('hidden'); }
+      if (cFuel) { if (state.mode === 'fuel') cFuel.classList.remove('hidden'); else cFuel.classList.add('hidden'); }
+
+      // Mode buttons active style
+      ['proxy', 'direct', 'fuel'].forEach(m => {
+        const btn = document.getElementById(`btn-local-mode-${m}`);
+        if (!btn) return;
+        if (state.mode === m) {
+          btn.classList.add('border-emerald-500', 'bg-emerald-50/50', 'shadow-xs');
+          btn.classList.remove('border-slate-200', 'bg-white');
+        } else {
+          btn.classList.remove('border-emerald-500', 'bg-emerald-50/50', 'shadow-xs');
+          btn.classList.add('border-slate-200', 'bg-white');
+        }
+      });
+
+      // Mode A UI inputs sync
+      const days = state.eventType === 'exhibition' ? 1 : Math.max(1, state.eventDays || 1);
+      const daysInput = document.getElementById('qty-local-event-days');
+      if (daysInput && document.activeElement !== daysInput) {
+        daysInput.value = state.eventDays;
+        daysInput.disabled = state.eventType === 'exhibition';
+      }
+      const labelDays = document.getElementById('label-local-attendance-days');
+      if (labelDays) {
+        labelDays.textContent = state.eventType === 'exhibition' ? '적용 참관일: 1일 (일반 참관객)' : `적용 참관일: ${days}일 (전체 일정)`;
+      }
+
+      const btnExh = document.getElementById('btn-event-type-exhibition');
+      const btnConf = document.getElementById('btn-event-type-conference');
+      if (btnExh && btnConf) {
+        if (state.eventType === 'exhibition') {
+          btnExh.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          btnExh.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+          btnConf.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          btnConf.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        } else {
+          btnConf.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          btnConf.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+          btnExh.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          btnExh.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      }
+
+      const attendeesInput = document.getElementById('qty-local-attendees');
+      if (attendeesInput && document.activeElement !== attendeesInput) {
+        attendeesInput.value = state.attendees > 0 ? state.attendees : '';
+      }
+      const kmInput = document.getElementById('qty-local-daily-km');
+      if (kmInput && document.activeElement !== kmInput) {
+        kmInput.value = state.dailyKm || 25;
+      }
+
+      // Shuttle buttons & split bars
+      const btnShutYes = document.getElementById('btn-shuttle-yes');
+      const btnShutNo = document.getElementById('btn-shuttle-no');
+      const splitDesc = document.getElementById('label-modal-split-desc');
+      const barShuttle = document.getElementById('bar-split-shuttle');
+      const barTaxi = document.getElementById('bar-split-taxi');
+      const barTransit = document.getElementById('bar-split-transit');
+      const txtShuttle = document.getElementById('text-split-shuttle');
+      const txtTaxi = document.getElementById('text-split-taxi');
+      const txtTransit = document.getElementById('text-split-transit');
+      const totalPkmLabel = document.getElementById('local-proxy-total-pkm');
+
+      if (totalPkmLabel) totalPkmLabel.textContent = `총 ${Math.round(state.totalPkm).toLocaleString()} p·km`;
+
+      if (state.hasShuttle) {
+        if (btnShutYes) { btnShutYes.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900'); btnShutYes.classList.remove('border-slate-200', 'bg-white', 'text-slate-700'); }
+        if (btnShutNo) { btnShutNo.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-900'); btnShutNo.classList.add('border-slate-200', 'bg-white', 'text-slate-700'); }
+        if (splitDesc) splitDesc.textContent = '• 셔틀 50% / 택시 30% / 대중교통 20% 자동 안분 (가이드라인 5.2)';
+      } else {
+        if (btnShutNo) { btnShutNo.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900'); btnShutNo.classList.remove('border-slate-200', 'bg-white', 'text-slate-700'); }
+        if (btnShutYes) { btnShutYes.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-900'); btnShutYes.classList.add('border-slate-200', 'bg-white', 'text-slate-700'); }
+        if (splitDesc) splitDesc.textContent = '• 택시 50% / 대중교통 50% 자동 안분 (셔틀 미제공 행사 표준)';
+      }
+
+      if (state.totalPkm <= 0) {
+        if (barShuttle) barShuttle.style.width = '0%';
+        if (barTaxi) barTaxi.style.width = '0%';
+        if (barTransit) barTransit.style.width = '0%';
+        if (txtShuttle) txtShuttle.textContent = `● 셔틀: 0 p·km (${state.hasShuttle ? 50 : 0}%)`;
+        if (txtTaxi) txtTaxi.textContent = `● 택시(1.5인): 0 p·km (${state.hasShuttle ? 30 : 50}%)`;
+        if (txtTransit) txtTransit.textContent = `● 대중교통: 0 p·km (${state.hasShuttle ? 20 : 50}%)`;
+      } else if (state.hasShuttle) {
+        if (barShuttle) barShuttle.style.width = '50%';
+        if (barTaxi) barTaxi.style.width = '30%';
+        if (barTransit) barTransit.style.width = '20%';
+        if (txtShuttle) txtShuttle.textContent = `● 셔틀: ${Math.round(state.totalPkm * 0.5).toLocaleString()} p·km (50%)`;
+        if (txtTaxi) txtTaxi.textContent = `● 택시(1.5인): ${Math.round(state.totalPkm * 0.3).toLocaleString()} p·km (30%)`;
+        if (txtTransit) txtTransit.textContent = `● 대중교통: ${Math.round(state.totalPkm * 0.2).toLocaleString()} p·km (20%)`;
+      } else {
+        if (barShuttle) barShuttle.style.width = '0%';
+        if (barTaxi) barTaxi.style.width = '50%';
+        if (barTransit) barTransit.style.width = '50%';
+        if (txtShuttle) txtShuttle.textContent = '● 셔틀: 0 p·km (0%)';
+        if (txtTaxi) txtTaxi.textContent = `● 택시(1.5인): ${Math.round(state.totalPkm * 0.5).toLocaleString()} p·km (50%)`;
+        if (txtTransit) txtTransit.textContent = `● 대중교통: ${Math.round(state.totalPkm * 0.5).toLocaleString()} p·km (50%)`;
+      }
+
+      // Mode B UI sync
+      ['shuttle', 'taxi', 'transit', 'car'].forEach(v => {
+        const b = document.getElementById(`btn-local-veh-${v}`);
+        if (!b) return;
+        if (state.directVehicle === v) {
+          b.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          b.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        } else {
+          b.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-950');
+          b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      });
+      const dDistInput = document.getElementById('qty-local-direct-distance');
+      if (dDistInput && document.activeElement !== dDistInput) dDistInput.value = state.directDistanceKm > 0 ? state.directDistanceKm : '';
+      const dPaxInput = document.getElementById('qty-local-direct-pax');
+      if (dPaxInput && document.activeElement !== dPaxInput) dPaxInput.value = state.directPax > 0 ? state.directPax : '';
+      const btnCarpool = document.getElementById('btn-toggle-direct-carpool');
+      if (btnCarpool) {
+        if (state.directCarpool) {
+          btnCarpool.textContent = '1.5인 카풀 계수 적용 중 (표준)';
+          btnCarpool.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+          btnCarpool.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        } else {
+          btnCarpool.textContent = '단독 탑승 (1.0인) 적용 중';
+          btnCarpool.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+          btnCarpool.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      }
+
+      // Mode C UI sync
+      ['diesel', 'gasoline', 'lpg', 'electricity'].forEach(f => {
+        const b = document.getElementById(`btn-fuel-${f}`);
+        if (!b) return;
+        if (state.fuelType === f) {
+          b.classList.add('border-amber-500', 'bg-amber-50', 'text-amber-950');
+          b.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        } else {
+          b.classList.remove('border-amber-500', 'bg-amber-50', 'text-amber-950');
+          b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      });
+      const fuelInput = document.getElementById('qty-local-fuel-liters');
+      if (fuelInput && document.activeElement !== fuelInput) fuelInput.value = state.fuelLiters > 0 ? state.fuelLiters : '';
+      const fuelUnit = document.getElementById('unit-fuel-amount');
+      const fuelLabel = document.getElementById('label-fuel-amount');
+      if (fuelUnit && fuelLabel) {
+        if (state.fuelType === 'electricity') {
+          fuelUnit.textContent = 'kWh';
+          fuelLabel.textContent = '총 충전 전력량 (kWh)';
+        } else {
+          fuelUnit.textContent = 'Liters';
+          fuelLabel.textContent = '총 연료 소비량 (L)';
+        }
+      }
+
+      // WTT Checkbox sync
+      const wttChk = document.getElementById('chk-local-wtt');
+      if (wttChk) wttChk.checked = !!state.wtt;
+
+      // Summary Card KPI sync
+      const sPkm = document.getElementById('local-summary-pkm');
+      if (sPkm) sPkm.textContent = `${Math.round(state.totalPkm).toLocaleString()} p·km`;
+      const sModeLabel = document.getElementById('local-summary-mode-label');
+      if (sModeLabel) {
+        if (state.mode === 'proxy') sModeLabel.textContent = '25km 표준 모델';
+        else if (state.mode === 'direct') sModeLabel.textContent = '실측 거리 모델';
+        else sModeLabel.textContent = '연료 소비 모델';
+      }
+      const sComb = document.getElementById('local-summary-combustion');
+      if (sComb) sComb.textContent = `${state.combustionKg.toFixed(2)} kg`;
+      const sWtt = document.getElementById('local-summary-wtt');
+      if (sWtt) sWtt.textContent = `${state.wttKg.toFixed(2)} kg`;
+      const sTotal = document.getElementById('local-summary-total');
+      if (sTotal) sTotal.textContent = `${state.totalKg.toFixed(2)} kg`;
+      const sRed = document.getElementById('local-summary-reduction');
+      if (sRed) sRed.textContent = state.reductionKg.toFixed(2);
+      const sRedPct = document.getElementById('local-summary-reduction-percent');
+      if (sRedPct) sRedPct.textContent = `${state.reductionPercent.toFixed(1)}% 절감`;
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    function setLocalTransportMode(mode) {
+      currentLocalTransportState.mode = mode;
+      updateLocalTransportModalUI();
+    }
+
+    function setLocalEventType(type) {
+      currentLocalTransportState.eventType = type;
+      updateLocalTransportModalUI();
+    }
+
+    function setLocalShuttleProvision(hasShuttle) {
+      currentLocalTransportState.hasShuttle = hasShuttle;
+      updateLocalTransportModalUI();
+    }
+
+    function setLocalDirectVehicle(vehicle) {
+      currentLocalTransportState.directVehicle = vehicle;
+      updateLocalTransportModalUI();
+    }
+
+    function toggleLocalDirectCarpool() {
+      currentLocalTransportState.directCarpool = !currentLocalTransportState.directCarpool;
+      updateLocalTransportModalUI();
+    }
+
+    function setLocalFuelType(type) {
+      currentLocalTransportState.fuelType = type;
+      updateLocalTransportModalUI();
+    }
+
+    function onLocalTransportParamChange() {
+      const daysInput = document.getElementById('qty-local-event-days');
+      if (daysInput && !daysInput.disabled) {
+        currentLocalTransportState.eventDays = parseInt(daysInput.value) || 1;
+      }
+      const attendeesInput = document.getElementById('qty-local-attendees');
+      if (attendeesInput) {
+        currentLocalTransportState.attendees = parseInt(attendeesInput.value) || 0;
+      }
+      const kmInput = document.getElementById('qty-local-daily-km');
+      if (kmInput) {
+        currentLocalTransportState.dailyKm = parseFloat(kmInput.value) || 25;
+      }
+      const dDistInput = document.getElementById('qty-local-direct-distance');
+      if (dDistInput) {
+        currentLocalTransportState.directDistanceKm = parseFloat(dDistInput.value) || 0;
+      }
+      const dPaxInput = document.getElementById('qty-local-direct-pax');
+      if (dPaxInput) {
+        currentLocalTransportState.directPax = parseInt(dPaxInput.value) || 0;
+      }
+      const fuelInput = document.getElementById('qty-local-fuel-liters');
+      if (fuelInput) {
+        currentLocalTransportState.fuelLiters = parseFloat(fuelInput.value) || 0;
+      }
+      const wttChk = document.getElementById('chk-local-wtt');
+      if (wttChk) {
+        currentLocalTransportState.wtt = wttChk.checked;
+      }
+      updateLocalTransportModalUI();
+    }
+
+    function submitActiveTransportTab() {
+      if (activeTransportTab === 'local') {
+        submitLocalTransportSimulation();
+      } else {
+        submitTransportSimulation();
+      }
+    }
+
+    function submitLocalTransportSimulation() {
+      const usernameInput = document.getElementById('local-transport-username') || document.getElementById('transport-username');
+      const username = (usernameInput ? usernameInput.value.trim() : '') || '익명 참여자';
+
+      calculateLocalTransportEmissions();
+
+      if (currentLocalTransportState.totalPkm <= 0 && currentLocalTransportState.combustionKg <= 0) {
+        showToast('유효한 현지 교통 인원 또는 연료 소비량을 입력해 주세요.', true);
+        return;
+      }
+
+      // Sync with sessionStats (accumulate or set)
+      sessionStats.items.local_transport_km = Math.round(currentLocalTransportState.totalPkm);
+      sessionStats.items.local_transport_reduction = Math.round(currentLocalTransportState.reductionKg * 1000); // grams
+
+      sendParticipation(username, (data) => {
+        showToast(`참여 완료! 현지 교통 & 셔틀버스 실천 내역(${currentLocalTransportState.reductionKg.toFixed(2)} kgCO2eq 감축)이 성공적으로 반영되었습니다.`);
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
+      }, closeLocalTransportModal);
     }
 
     // Backward compatibility aliases
@@ -854,12 +1414,9 @@
  
         if (val <= 0) {
           btnSubmit.disabled = true;
-          btnSubmit.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+          btnSubmit.className = "bg-slate-700 text-slate-400 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
           
-          resultContainer.className = "bg-slate-50 rounded-2xl p-4 border border-slate-200/70 flex justify-between items-center transition-all duration-300";
-          resultLabel.className = "text-[10px] text-slate-455 font-medium";
           resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-          carbonSummary.className = "text-lg font-black text-slate-500 leading-none";
           carbonSummary.textContent = "0 gCO2eq";
           return;
         }
@@ -871,16 +1428,10 @@
         const netReductionGrams = val * 16 - 50;
  
         if (netReductionGrams < 0) {
-          resultContainer.className = "bg-red-50 rounded-2xl p-4 border border-red-100/70 flex justify-between items-center transition-all duration-300";
-          resultLabel.className = "text-[10px] text-red-700 font-bold";
           resultLabel.textContent = "물류 배출량(50g)이 더 커서 탄소가 늘어남";
-          carbonSummary.className = "text-lg font-black text-red-600 leading-none";
           carbonSummary.textContent = netReductionGrams.toLocaleString() + ' gCO2eq';
         } else {
-          resultContainer.className = "bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/70 flex justify-between items-center transition-all duration-300";
-          resultLabel.className = "text-[10px] text-emerald-700 font-bold";
           resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-          carbonSummary.className = "text-lg font-black text-emerald-700 leading-none";
           carbonSummary.textContent = '+' + netReductionGrams.toLocaleString() + ' gCO2eq';
         }
       } else if (category === 'banner') {
@@ -895,12 +1446,9 @@
  
         if (nVal <= 0 || yVal <= 0) {
           btnSubmit.disabled = true;
-          btnSubmit.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+          btnSubmit.className = "bg-slate-700 text-slate-400 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
           
-          resultContainer.className = "bg-slate-50 rounded-2xl p-4 border border-slate-200/70 flex justify-between items-center transition-all duration-300";
-          resultLabel.className = "text-[10px] text-slate-455 font-medium";
           resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-          carbonSummary.className = "text-lg font-black text-slate-500 leading-none";
           carbonSummary.textContent = "0 gCO2eq";
           return;
         }
@@ -911,10 +1459,7 @@
         // Formula: Q * 6.28 kg CO2eq = Q * 6280 g CO2eq
         const netReductionGrams = Math.round(qVal * 6280);
  
-        resultContainer.className = "bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/70 flex justify-between items-center transition-all duration-300";
-        resultLabel.className = "text-[10px] text-emerald-700 font-bold";
         resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-        carbonSummary.className = "text-lg font-black text-emerald-700 leading-none";
         carbonSummary.textContent = '+' + netReductionGrams.toLocaleString() + ' gCO2eq';
       }
     }
@@ -947,6 +1492,9 @@
 
       sendParticipation(username, (data) => {
         showToast(`참여 완료! 업사이클링 실천 내역이 성공적으로 반영되었습니다.`);
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
       }, closeUpcycleSimulatorModal);
     }
 
@@ -1004,12 +1552,9 @@
 
       if (val <= 0) {
         btnSubmit.disabled = true;
-        btnSubmit.className = "bg-slate-300 text-slate-500 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
+        btnSubmit.className = "bg-slate-700 text-slate-400 cursor-not-allowed text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5 active:scale-98";
         
-        resultContainer.className = "bg-slate-50 rounded-2xl p-4 border border-slate-200/70 flex justify-between items-center transition-all duration-300";
-        resultLabel.className = "text-[10px] text-slate-455 font-medium";
         resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-        carbonSummary.className = "text-lg font-black text-slate-500 leading-none";
         carbonSummary.textContent = "0 gCO2eq";
         return;
       }
@@ -1020,10 +1565,7 @@
       // Net reduction in grams: val * 10125
       const netReductionGrams = val * 10125;
 
-      resultContainer.className = "bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/70 flex justify-between items-center transition-all duration-300";
-      resultLabel.className = "text-[10px] text-emerald-700 font-bold";
       resultLabel.textContent = "실시간 예상 탄소 감축 결과";
-      carbonSummary.className = "text-lg font-black text-emerald-700 leading-none";
       carbonSummary.textContent = '+' + netReductionGrams.toLocaleString() + ' gCO2eq';
     }
 
@@ -1041,6 +1583,9 @@
 
       sendParticipation(username, (data) => {
         showToast(`참여 완료! 종이 전시부스 실천 내역이 성공적으로 반영되었습니다.`);
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
       }, closePaperBoothSimulatorModal);
     }
 
@@ -1192,6 +1737,9 @@
       
       sendParticipation(username, (data) => {
         showToast('참여 완료! 페이퍼리스 & 사이니지 실천 내역이 성공적으로 반영되었습니다.');
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
       }, closeSignageSimulatorModal);
     }
 
@@ -1279,6 +1827,7 @@
       const paper = parseInt(document.getElementById('qty-waste-paper').value || 0);
       const plastic = parseInt(document.getElementById('qty-waste-plastic').value || 0);
       const food = parseInt(document.getElementById('qty-waste-food').value || 0);
+      const general = parseInt(document.getElementById('qty-waste-general').value || 0);
       
       const net_reduction_g = Math.round(paper * 1120 + plastic * 1850 + food * 850);
       if (net_reduction_g <= 0) {
@@ -1287,9 +1836,14 @@
       }
       
       sessionStats.items.waste_recycling = net_reduction_g;
+      window.currentWasteQuantities = { paper, plastic, food, general };
+      sessionStats.wasteQuantities = { paper, plastic, food, general };
       
       sendParticipation(username, (data) => {
         showToast('참여 완료! 자원순환 & 폐기물 재활용 실천 내역이 성공적으로 반영되었습니다.');
+        if (typeof recalculateSessionTotalCarbon === 'function') recalculateSessionTotalCarbon();
+        if (typeof updateDashboardUI === 'function') updateDashboardUI(sessionStats);
+        if (typeof saveAllStateToLocalStorage === 'function') saveAllStateToLocalStorage();
       }, closeWasteRecyclingModal);
     }
 
@@ -1929,4 +2483,21 @@
   window.submitSignageSimulation = submitSignageSimulation;
   window.submitEcoSimulation = submitEcoSimulation;
   window.submitTransportSimulation = submitTransportSimulation;
+
+  // 5. 현지 교통 (Local Transport) Exports
+  window.currentLocalTransportState = currentLocalTransportState;
+  window.switchTransportTab = switchTransportTab;
+  window.calculateLocalTransportEmissions = calculateLocalTransportEmissions;
+  window.updateLocalTransportModalUI = updateLocalTransportModalUI;
+  window.setLocalTransportMode = setLocalTransportMode;
+  window.setLocalEventType = setLocalEventType;
+  window.setLocalShuttleProvision = setLocalShuttleProvision;
+  window.setLocalDirectVehicle = setLocalDirectVehicle;
+  window.toggleLocalDirectCarpool = toggleLocalDirectCarpool;
+  window.setLocalFuelType = setLocalFuelType;
+  window.onLocalTransportParamChange = onLocalTransportParamChange;
+  window.submitActiveTransportTab = submitActiveTransportTab;
+  window.submitLocalTransportSimulation = submitLocalTransportSimulation;
+  window.openLocalTransportModal = openLocalTransportModal;
+  window.closeLocalTransportModal = closeLocalTransportModal;
 })();
